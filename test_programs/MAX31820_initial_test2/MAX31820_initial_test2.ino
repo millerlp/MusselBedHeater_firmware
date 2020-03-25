@@ -5,10 +5,10 @@
  * 
  */
 
-#include <OneWire.h>  // For MAX31820 temperature sensor
-#include <DallasTemperature.h>
+#include <OneWire.h>  // For MAX31820 temperature sensor https://github.com/PaulStoffregen/OneWire
+#include <DallasTemperature.h> // For MAX31820 sensors https://github.com/milesburton/Arduino-Temperature-Control-Library
 
-#define ONE_WIRE_BUS 8  // Data pin for MAX31829s is D8 on MusselBedHeater RevC
+#define ONE_WIRE_BUS 8  // Data pin for MAX31820s is D8 on MusselBedHeater RevC
 #define TEMPERATURE_PRECISION 11 // 11-bit = 0.125C resolution
 // Shut off alarm functions on MAX31820 sensors in the DallasTemperature library
 #define REQUIRESALARMS false 
@@ -90,7 +90,7 @@ void loop() {
   // in the loop to determine when you've waited long enough to query 
   // the sensors. In this case we'll just wait using the delay() 
   // function, which is simple, but doesn't let you do other useful things
-  delay(1000); // wait 1000 milliseconds
+  delay(400); // wait >375 milliseconds for 11-bit setting, >750ms for 12-bit
 
   // Cycle through all MAX31820s and show their temps
   unsigned long tic = micros(); // start timing the query loop
@@ -107,7 +107,7 @@ void loop() {
   }
   unsigned long tock = micros(); // finish timing the query loop
   for (int i = 0; i < numRefSensors; i++){
-    Serial.print(myTemps[i],3);
+    Serial.print(myTemps[i],3); // print with 3 digit precision
     Serial.print("C ");
   }
   Serial.print(" Elapsed micros: ");
