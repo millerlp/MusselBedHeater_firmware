@@ -11,9 +11,9 @@
  */
 
 #include <SPI.h>
-#include "MusselBedHeaterlib.h"
-#include "NTC_Thermistor.h"
-#include "AverageThermistor.h"
+#include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
+#include "NTC_Thermistor.h"  // https://github.com/YuriiSalimov/NTC_Thermistor
+#include "AverageThermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
 
 #define CS_MUX 7 // Arduino pin D7 connected to ADG725 SYNC pin
 #define CS_SD 10 // Pin used for SD card
