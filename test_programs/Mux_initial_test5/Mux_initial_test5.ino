@@ -60,15 +60,18 @@ void setup() {
 
 void loop() {
   delay(100);
+//  uint32_t tick = micros();
   for (byte i = 0; i < NUM_THERMS; i++){
     mux.setADG725channel(ADGchannel | i);
     thermTemps[i] = thermistor->readCelsius();
-    delay(10);
   }
+//  uint32_t tock = micros();
   for (byte i = 0; i < NUM_THERMS; i++){
     Serial.print(thermTemps[i]);
     Serial.print(F(","));
   }
+//  Serial.print(F("Read time, ms: "));
+//  Serial.print( (tock - tick) / 1000);
   Serial.println();
   
 
