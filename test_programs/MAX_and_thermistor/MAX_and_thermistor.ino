@@ -1,6 +1,10 @@
 /*
- * Not working currently, sensorAddr and myTemps both empty 
+ * Basic working example, initializing multiple MAX31820s
+ * and reading them back using MusselBedHeaterlib library
  * 
+ * TODO: Implement thermistor reading via multiplexer
+ * TODO: Implement PID routine
+ * TODO: Implement PWM chip control
  */
 
 
@@ -23,11 +27,16 @@ uint8_t numRefSensors; // store number of available MAX31820 temperature sensors
 uint8_t sensorAddr[4][8] = {}; // Up to 4 MAX31820 sensors on MusselBedHeater RevC boards
 uint8_t addr[8] = {};  // Address array for MAX31820
 
-void setup() {
-  Serial.begin(57600);
-  // Start up the DallasTemperature library object
-  refSensorsBegin(max31820, refSensors, numRefSensors, sensorAddr);
+void setup() {  
 
+  Serial.begin(57600);
+  
+  // Start up the DallasTemperature library object
+  refSensors.begin();
+  numRefSensors = refSensors.getDeviceCount();
+  getRefSensorAddresses(max31820, refSensors, numRefSensors, sensorAddr);
+  Serial.print(F("Number of sensors detected: "));
+  Serial.println(numRefSensors);
   Serial.println("Addresses:");
   for (byte i = 0; i < numRefSensors; i++){
     for (byte j = 0; j < 8; j++){
@@ -67,3 +76,31 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 }
+
+
+//void getRefSensorAddresses(OneWire& max31820, 
+//                            DallasTemperature& refSensors, 
+//                            uint8_t numRefSensors, 
+//                            uint8_t sensorAddr[][8]){
+//    uint8_t addr[8]; // OneWire address array, 8 bytes long
+//    max31820.reset_search();
+//    for (uint8_t i = 0; i < numRefSensors; i++){
+//        max31820.search(addr); // read next sensor address into addr
+//        // Copy address values to sensorAddr array
+//        for (uint8_t j = 0; j < 8; j++){
+//            sensorAddr[i][j] = addr[j];
+//        }
+//        // Set sensor resolution to 11 bits, approx 400ms conversion time
+//        refSensors.setResolution(addr, 11);   
+//    }
+//    max31820.reset_search();
+//    
+//    // Tell the DallasTemperature library to not wait for the
+//    // temperature reading to complete after telling devices
+//    // to take a new temperature reading (so we can do other things
+//    // while the temperature reading is being taken by the devices).
+//    // You will have to arrange your code so that an appropriate
+//    // amount of time passes before you try to use getTempC() after
+//    // requestTemperatures() is used
+//    refSensors.setWaitForConversion(false);
+//}
