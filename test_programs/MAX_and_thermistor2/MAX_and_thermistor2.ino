@@ -74,7 +74,7 @@ PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 // PCA9685 pulse width modulation driver chip
 // Called this way, uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
-
+byte pwmnum = 0; // Channel on PWM driver (0-15)
 
 void setup() {
   Serial.begin(57600);
@@ -108,7 +108,11 @@ void setup() {
     }
     Serial.println();
   }
-  // Tell all MAX31820s to begin taking a temperature reading
+  // Set library to not wait for a conversion to complete after requesting temperatures
+  // (Allows the program to do other things while MAX31820s are taking ~400ms to 
+  // generate new temperature values)
+  refSensors.setWaitForConversion(false);
+  // Tell all MAX31820s to begin taking the first temperature readings
   refSensors.requestTemperatures();
   //------------ PWM chip initialization ----------------------------------
   pwm.begin();
@@ -116,20 +120,21 @@ void setup() {
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
   // Set all PWM channels off initially
   for (byte i = 0; i < 16; i++){
-    pwm.setPWM(i, 0, 0); // Channel, on, off (relative to start end of 4096-part cycle)  
+    pwm.setPWM(i, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
   }
   
   //--------- PID start -------------------------------------
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0,4095);
-  myPID.SetSampleTime(SampleTime);
+  myPID.SetOutputLimits(0,4095); // PWM chip takes a value from 0 to 4095
+  myPID.SetSampleTime(SampleTime); // Tell PID routine how long to wait between updates
 
   
   // Initialize the timing for sampling MAX31820s
   prevMaxTime = millis();
 
-}                                         // end of setup loop
+}         // end of setup loop
 
+//----------------------------------------------------------------
 //----- Main loop ------------------------------------------------
 void loop() {
     // Array to hold temperature results
@@ -159,14 +164,15 @@ void loop() {
         }
         
       }
-      refSensors.requestTemperatures(); // Start the next temperature reading
+      // Start the next temperature reading
+      refSensors.requestTemperatures(); 
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
       
       //------------ Thermistor readings --------------
-      // Now read the thermistor(s)
+      // Read the thermistor(s)
       for (byte i = 0; i < NUM_THERMS; i++){
-        mux.setADG725channel(ADGchannel | i); // Activate channel  
+        mux.setADG725channel(ADGchannel | i); // Activate channel i 
         // Take a reading from thermistor1
         thermTemps[i] = thermistor1 -> readCelsius();
       }
@@ -191,9 +197,18 @@ void loop() {
       Serial.print(Setpoint);
       Serial.println();
     }
+
+    //------PID update-----------------
+    // The PID Compute() function updates whenever SampleTime has
+    // been exceeded (checked inside the Compute() function). 
     // Calculate PWM output for 1st thermistor channel [0]
     Input = thermTemps[0];
     Setpoint = avgMAXtemp;
     myPID.Compute(); // Will update when SampleTime is exceeded
-    
+    // Update PWM output values
+    for (byte i = 0; i < NUM_THERMS; i++){
+      // Send the channel, start value (0), and end value (0-4095)
+      pwm.setPWM(i, 0, (uint16_t)Output);
+    }
+    //---------------------------------
 } // end of main loop
