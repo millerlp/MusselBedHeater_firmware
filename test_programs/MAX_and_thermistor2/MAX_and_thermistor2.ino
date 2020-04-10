@@ -32,7 +32,8 @@ Thermistor* thermistor1;
 // Create multiplexer object
 ADG725 mux; 
 uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
-#define NUM_THERMS 16 // Number of thermistor channels
+#define NUM_THERMS 2 // Number of thermistor channels
+double thermTemps[NUM_THERMS] = {}; // Thermistor temperature array
 //--------------------------------------------------
 // NTC_Thermistor library constants - specific to my chosen thermistor model
 #define REFERENCE_RESISTANCE  4700
@@ -57,6 +58,7 @@ uint8_t sensorAddr[4][8] = {}; // Up to 4 MAX31820 sensors on MusselBedHeater Re
 uint8_t addr[8] = {};  // Address array for MAX31820
 int MAXSampleTime = 500; // units milliseconds, time between MAX31820 readings
 unsigned long prevMaxTime; 
+double avgMAXtemp = 0; // Average of MAX31820 sensors
 //---------------------------------------
 // PID variables + timing
 unsigned long lastTime; // units milliseconds
@@ -132,8 +134,6 @@ void setup() {
 void loop() {
     // Array to hold temperature results
     double MAXTemps[numRefSensors] = {}; // MAX31820 temperature array
-    double thermTemps[NUM_THERMS] = {}; // Thermistor temperature array
-    double avgMAXtemp = 0;                  // Average of MAX31820 temperatures
     byte goodReadings = 0;              // Number of good MAX31820 readings in a cycle
     
     unsigned long newMillis = millis();
@@ -141,6 +141,7 @@ void loop() {
     // Check if enough time has elapsed to check MAX31820s
     if ( (newMillis - prevMaxTime) >= MAXSampleTime){
       prevMaxTime = newMillis; // update prevMaxTime
+      avgMAXtemp = 0; // reset average value
       //------- MAX31820 readings -----------
 
       // Cycle through all MAX31820s and read their temps
@@ -158,6 +159,7 @@ void loop() {
         }
         
       }
+      refSensors.requestTemperatures(); // Start the next temperature reading
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
       
@@ -170,20 +172,28 @@ void loop() {
       }
       // Turn off all multiplexer channels (shuts off thermistor circuits)
       mux.disableADG725(); 
-      
-      Serial.print(F("Avg ref temp: "));
+
+      Serial.print(F("Ref1: "));
+      Serial.print(MAXTemps[0],2);
+      Serial.print(F("\t Ref2: "));
+      Serial.print(MAXTemps[1],2);
+      Serial.print(F(" Avg ref temp: "));
       Serial.print(avgMAXtemp,2);
       Serial.print(F("\t Therm1: "));
       Serial.print(thermTemps[0]);
-      Serial.print(F("\t Output: "));
-      Serial.print(Output);
+//      Serial.print(F("\t Therm2: "));
+//      Serial.print(thermTemps[1]);
+      Serial.print(F(" Input: "));
+      Serial.print(Input);
+      Serial.print(F("\t PID Output: "));
+      Serial.print((uint16_t)Output);
+      Serial.print(F("\t setpoint: "));
+      Serial.print(Setpoint);
       Serial.println();
     }
-
+    // Calculate PWM output for 1st thermistor channel [0]
     Input = thermTemps[0];
+    Setpoint = avgMAXtemp;
     myPID.Compute(); // Will update when SampleTime is exceeded
-
-  
-
-
-}
+    
+} // end of main loop
