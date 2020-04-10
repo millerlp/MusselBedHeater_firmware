@@ -20,6 +20,10 @@
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h> // https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
+
+double tempIncrease = 1.0; // Celsius, target temperature increase for heated 
+                           // mussels relative to reference mussels
+
 //----------------------------------------------
 // Multiplexer macros for use in reading thermistors in heated mussels
 #define CS_MUX 7 // Arduino pin D7 connected to ADG725 SYNC pin
@@ -32,7 +36,7 @@ Thermistor* thermistor1;
 ADG725 mux; 
 uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
 #define NUM_THERMS 2 // Number of thermistor channels
-double thermTemps[NUM_THERMS] = {}; // Thermistor temperature array
+
 //--------------------------------------------------
 // NTC_Thermistor library constants - specific to my chosen thermistor model
 #define REFERENCE_RESISTANCE  4700
@@ -61,13 +65,20 @@ double avgMAXtemp = 0; // Average of MAX31820 sensors
 //---------------------------------------
 // PID variables + timing
 //unsigned long lastTime; // units milliseconds
-double Input1, Output1, Setpoint1;
-double Input2, Output2, Setpoint2;
+//double Input1, Output1, Setpoint1;
+//double Input2, Output2, Setpoint2;
+
+double Input[16] = {}; // 16 position array of Input values for PID, this
+                       // also serves as the current thermistor temperature
+                       // readings array if you want to write these to disk
+double Output[16] = {}; // 16 position array of Output values for PID (0-4095)
+double Setpoint; // All heated mussels use the same target Setpoint temperature
+
 int SampleTime = 1000; // units milliseconds, time between PID updates 
 // Specify initial tuning parameters
 double Kp = 2, Ki = 5, Kd = 1;
-PID myPID1(&Input1, &Output1, &Setpoint1, Kp, Ki, Kd, DIRECT);
-PID myPID2(&Input2, &Output2, &Setpoint2, Kp, Ki, Kd, DIRECT);
+PID myPID1(&Input[0], &Output[0], &Setpoint, Kp, Ki, Kd, DIRECT);
+PID myPID2(&Input[1], &Output[1], &Setpoint, Kp, Ki, Kd, DIRECT);
 //-------------------------------------------------------------
 // PCA9685 pulse width modulation driver chip
 // Called this way, uses the default address 0x40
@@ -174,7 +185,7 @@ void loop() {
       for (byte i = 0; i < NUM_THERMS; i++){
         mux.setADG725channel(ADGchannel | i); // Activate channel i 
         // Take a reading from thermistor1
-        thermTemps[i] = thermistor1 -> readCelsius();
+        Input[i] = thermistor1 -> readCelsius();
       }
       // Turn off all multiplexer channels (shuts off thermistor circuits)
       mux.disableADG725(); 
@@ -190,35 +201,33 @@ void loop() {
 //      Serial.print(F("\t Therm2: "));
 //      Serial.print(thermTemps[1]);
       Serial.print(F(" Input1: "));
-      Serial.print(Input1);
-      Serial.print(F("\t Setpoint1: "));
-      Serial.print(Setpoint1);
+      Serial.print(Input[0]);
+      Serial.print(F("\t Setpoint: "));
+      Serial.print(Setpoint);
       Serial.print(F("\t Output1: "));
-      Serial.print((uint16_t)Output1);
+      Serial.print((uint16_t)Output[0]);
 
       Serial.print(F("\t Input2: "));
-      Serial.print(Input2);
-      Serial.print(F("\t Setpoint2: "));
-      Serial.print(Setpoint2);
+      Serial.print(Input[1]);
+      Serial.print(F("\t Setpoint: "));
+      Serial.print(Setpoint);
       Serial.print(F("\t Output2: "));
-      Serial.print((uint16_t)Output2);
+      Serial.print((uint16_t)Output[1]);
 
       Serial.println();
     }
 
     //------PID update-----------------
+    // Update the target temperature Setpoint for the heated mussels
+    Setpoint = avgMAXtemp + tempIncrease;
     // The PID Compute() function updates whenever SampleTime has
-    // been exceeded (checked inside the Compute() function). 
-    // Calculate PWM output for 1st thermistor channel [0]
-    Input1 = thermTemps[0];
-    Setpoint1 = Setpoint2 = avgMAXtemp;
+    // been exceeded (checked inside the Compute() function).
     myPID1.Compute(); // Will update when SampleTime is exceeded
-    Input2 = thermTemps[1];
     myPID2.Compute(); // Will update when SampleTime is exceeded
     // Update PWM output values
     // Send the channel, start value (0), and end value (0-4095)
-    pwm.setPWM(0, 0, (uint16_t)Output1);
-    pwm.setPWM(1, 0, (uint16_t)Output2);
+    pwm.setPWM(0, 0, (uint16_t)Output[0]);
+    pwm.setPWM(1, 0, (uint16_t)Output[1]);
     
     //---------------------------------
 } // end of main loop
