@@ -12,18 +12,19 @@
  * TODO: Implement tide prediction routine
  * TODO: Set up state machine to only run heaters at low tide
  */
-
-#include <OneWire.h>  // For MAX31820 temperature sensor https://github.com/PaulStoffregen/OneWire
-#include <DallasTemperature.h> // For MAX31820 sensors https://github.com/milesburton/Arduino-Temperature-Control-Library
+#include "SdFat.h" // https://github.com/greiman/SdFat
+#include "OneWire.h"  // For MAX31820 temperature sensor https://github.com/PaulStoffregen/OneWire
+#include "DallasTemperature.h" // For MAX31820 sensors https://github.com/milesburton/Arduino-Temperature-Control-Library
 #include "NTC_Thermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
-#include "PID_v1.h" // https://github.com/br3ttb/Arduino-PID-Library/
+//#include "PID_v1.h" // https://github.com/br3ttb/Arduino-PID-Library/
 #include <Wire.h>
-#include <Adafruit_PWMServoDriver.h> // https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
+#include "RTClib.h" // https://github.com/millerlp/RTClib
+#include "Adafruit_PWMServoDriver.h" // https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
 
 double tempIncrease = 1.0; // Celsius, target temperature increase for heated 
                            // mussels relative to reference mussels
-
+#define NUM_THERMISTORS 16 // Number of thermistor channels
 //----------------------------------------------
 // Multiplexer macros for use in reading thermistors in heated mussels
 #define CS_MUX 7 // Arduino pin D7 connected to ADG725 SYNC pin
@@ -35,7 +36,7 @@ Thermistor* thermistor1;
 // Create multiplexer object
 ADG725 mux; 
 uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
-#define NUM_THERMS 2 // Number of thermistor channels
+
 
 //--------------------------------------------------
 // NTC_Thermistor library constants - specific to my chosen thermistor model
@@ -49,7 +50,7 @@ uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
 #define ONE_WIRE_BUS 8  // Data pin for MAX31820s is D8 on MusselBedHeater RevC
 #define TEMPERATURE_PRECISION 11 // 11-bit = 0.125C resolution
 // Shut off alarm functions on MAX31820 sensors in the DallasTemperature library
-#define REQUIRESALARMS false 
+//#define REQUIRESALARMS false // Better to set this false in DallasTemperature.h
 // Create a OneWire object called max31820 that we will use to communicate
 OneWire max31820(ONE_WIRE_BUS); 
 // Pass our OneWire reference to DallasTemperature library object.
@@ -64,29 +65,61 @@ unsigned long prevMaxTime;
 double avgMAXtemp = 0; // Average of MAX31820 sensors
 //---------------------------------------
 // PID variables + timing
-//unsigned long lastTime; // units milliseconds
-//double Input1, Output1, Setpoint1;
-//double Input2, Output2, Setpoint2;
 
-double Input[16] = {}; // 16 position array of Input values for PID, this
+double pidInput[16] = {}; // 16 position array of Input values for PID, this
                        // also serves as the current thermistor temperature
                        // readings array if you want to write these to disk
-double Output[16] = {}; // 16 position array of Output values for PID (0-4095)
-double Setpoint; // All heated mussels use the same target Setpoint temperature
-
-int SampleTime = 1000; // units milliseconds, time between PID updates 
+double pidOutput[16] = {}; // 16 position array of Output values for PID (0-4095)
+double pidOutputSum[16] = {}; // Used to store PID ongoing calculations
+double pidLastInput[16] = {}; // Used to store PID ongoing calculations
+double pidSetpoint; // All heated mussels use the same target Setpoint temperature
+int pidSampleTime = 1000; // units milliseconds, time between PID updates 
+unsigned long lastTime; // units milliseconds, used for PID timekeeping
 // Specify initial tuning parameters
-double Kp = 2, Ki = 5, Kd = 1;
-PID myPID1(&Input[0], &Output[0], &Setpoint, Kp, Ki, Kd, DIRECT);
-PID myPID2(&Input[1], &Output[1], &Setpoint, Kp, Ki, Kd, DIRECT);
+double kp = 2, ki = 5, kd = 1;
+PID myPID; // Creates a PID object that will update 16 PID values
+
 //-------------------------------------------------------------
 // PCA9685 pulse width modulation driver chip
 // Called this way, uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 byte pwmnum = 0; // Channel on PWM driver (0-15)
 
+//-------------------------------------------------------------
+// SD card
+#define CS_SD 10 // Chip select pin for SD card pin PB2
+SdFat sd;
+SdFile logfile; // This is the file object that will be written to
+// Declare initial name for output files written to SD card
+char filename[] = "YYYYMMDD_HHMM_00_SN00.csv";
+// Placeholder serialNumber
+char serialNumber[] = "SN00";
+
+//-------------------------------------------------------------
+// Real Time Clock DS3231M  
+// Create real time clock object
+RTC_DS3231 rtc;
+char buf[20]; // declare a string buffer to hold the time result
+//**************** Time variables
+DateTime newtime;
+DateTime oldtime; // used to track time in main loop
+byte oldday;     // used to keep track of midnight transition
+
+//------------------------------------------------------------
+//  Battery monitor 
+float dividerRatio = 2.5; // TODO put in proper ratio // Ratio of voltage divider (15k + 10k) / 10k = 2.5
+// The refVoltage needs to be measured individually for each board (use a 
+// voltmeter and measure at the AREF and GND pins on the board). Enter the 
+// voltage value here. 
+float refVoltage = 3.22; // Voltage at AREF pin on ATmega microcontroller, measured per board
+float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
+
+
+//-----------------------------------------------------------------------
+//------- Setup loop ----------------------------------------------------
 void setup() {
   Serial.begin(57600);
+
   pinMode(CS_SD, OUTPUT); // declare as output so that SPI library plays nice
   pinMode(CS_MUX, OUTPUT); // Set CS_MUX pin as output for ADG725 SYNC
   pinMode(THERM, INPUT); // Analog input from ADG725
@@ -133,12 +166,24 @@ void setup() {
   }
   
   //--------- PID start -------------------------------------
-  myPID1.SetMode(AUTOMATIC);
-  myPID1.SetOutputLimits(0,4095); // PWM chip takes a value from 0 to 4095
-  myPID1.SetSampleTime(SampleTime); // Tell PID routine how long to wait between updates
-  myPID2.SetMode(AUTOMATIC);
-  myPID2.SetOutputLimits(0,4095); // PWM chip takes a value from 0 to 4095
-  myPID2.SetSampleTime(SampleTime); // Tell PID routine how long to wait between updates
+//  for (byte i = 0; i < 16; i++){
+//    PID16[i].SetMode(AUTOMATIC);  
+//    PID16[i].SetOutputLimits(0,4095);
+//    PID16[i].SetSampleTime(SampleTime);
+//  }
+    myPID.begin(&kp, &ki, &kd, pidSampleTime);
+    Serial.print("kp: ");
+    Serial.print(kp, 5);
+    Serial.print(" ki: ");
+    Serial.print(ki, 5);
+    Serial.print(" kd: ");
+    Serial.println(kd, 5);
+//  myPID1.SetMode(AUTOMATIC);
+//  myPID1.SetOutputLimits(0,4095); // PWM chip takes a value from 0 to 4095
+//  myPID1.SetSampleTime(SampleTime); // Tell PID routine how long to wait between updates
+//  myPID2.SetMode(AUTOMATIC);
+//  myPID2.SetOutputLimits(0,4095); // PWM chip takes a value from 0 to 4095
+//  myPID2.SetSampleTime(SampleTime); // Tell PID routine how long to wait between updates
   
   // Initialize the timing for sampling MAX31820s
   prevMaxTime = millis();
@@ -182,10 +227,10 @@ void loop() {
       
       //------------ Thermistor readings --------------
       // Read the thermistor(s)
-      for (byte i = 0; i < NUM_THERMS; i++){
+      for (byte i = 0; i < NUM_THERMISTORS; i++){
         mux.setADG725channel(ADGchannel | i); // Activate channel i 
         // Take a reading from thermistor1
-        Input[i] = thermistor1 -> readCelsius();
+        pidInput[i] = thermistor1 -> readCelsius();
       }
       // Turn off all multiplexer channels (shuts off thermistor circuits)
       mux.disableADG725(); 
@@ -201,33 +246,46 @@ void loop() {
 //      Serial.print(F("\t Therm2: "));
 //      Serial.print(thermTemps[1]);
       Serial.print(F(" Input1: "));
-      Serial.print(Input[0]);
+      Serial.print(pidInput[0]);
       Serial.print(F("\t Setpoint: "));
-      Serial.print(Setpoint);
+      Serial.print(pidSetpoint);
       Serial.print(F("\t Output1: "));
-      Serial.print((uint16_t)Output[0]);
+      Serial.print((uint16_t)pidOutput[0]);
 
       Serial.print(F("\t Input2: "));
-      Serial.print(Input[1]);
+      Serial.print(pidInput[1]);
       Serial.print(F("\t Setpoint: "));
-      Serial.print(Setpoint);
+      Serial.print(pidSetpoint);
       Serial.print(F("\t Output2: "));
-      Serial.print((uint16_t)Output[1]);
+      Serial.print((uint16_t)pidOutput[1]);
+
+      Serial.print(F(" Disabled: "));
+      Serial.print(pidInput[2]);
+      Serial.print(F(" Output3: "));
+      Serial.print((uint16_t)pidOutput[2]);
 
       Serial.println();
     }
 
     //------PID update-----------------
     // Update the target temperature Setpoint for the heated mussels
-    Setpoint = avgMAXtemp + tempIncrease;
+    pidSetpoint = avgMAXtemp + tempIncrease;
     // The PID Compute() function updates whenever SampleTime has
     // been exceeded (checked inside the Compute() function).
-    myPID1.Compute(); // Will update when SampleTime is exceeded
-    myPID2.Compute(); // Will update when SampleTime is exceeded
+    myPID.Compute(pidInput, 
+                  pidOutput, 
+                  pidOutputSum, 
+                  pidLastInput, 
+                  pidSetpoint, 
+                  pidSampleTime,
+                  lastTime,
+                  kp, ki, kd,
+                  NUM_THERMISTORS);
+    //------PWM update----------------
     // Update PWM output values
     // Send the channel, start value (0), and end value (0-4095)
-    pwm.setPWM(0, 0, (uint16_t)Output[0]);
-    pwm.setPWM(1, 0, (uint16_t)Output[1]);
-    
+    for (byte i = 0; i < NUM_THERMISTORS; i++){
+      pwm.setPWM(i, 0, (uint16_t)pidOutput[i]);  
+    }
     //---------------------------------
 } // end of main loop
