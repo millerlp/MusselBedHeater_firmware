@@ -7,8 +7,7 @@
  * non-functional or unplugged thermistor
  * 
  * TODO: Tune PID
- * TODO: Implement battery monitoring
- * TODO: Flash LEDs to show status (heating, idling, battery dead)
+ * TODO: Implement temperature filtering from the tuning version of this sketch
  */
 #include <EEPROM.h> // built in library, for reading the serial number stored in EEPROM
 #include "SdFat.h" // https://github.com/greiman/SdFat
