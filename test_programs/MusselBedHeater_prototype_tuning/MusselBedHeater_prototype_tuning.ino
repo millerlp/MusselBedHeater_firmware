@@ -1,4 +1,6 @@
 /*
+ * PID tuning version, set up to output to Serial Plotter only
+ * 
  * Basic working example, initializing multiple MAX31820s
  * and reading them back using MusselBedHeaterlib library,
  * along with reading thermistors and doing multiple PID calculations 
@@ -7,8 +9,6 @@
  * non-functional or unplugged thermistor
  * 
  * TODO: Tune PID
- * TODO: Implement battery monitoring
- * TODO: Flash LEDs to show status (heating, idling, battery dead)
  */
 #include <EEPROM.h> // built in library, for reading the serial number stored in EEPROM
 #include "SdFat.h" // https://github.com/greiman/SdFat
@@ -23,13 +23,17 @@
 #include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
 //-----------------------------------------------------------------------------------
 // User-settable values
-float tideHeightThreshold = -1.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
+float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
 double tempIncrease = 1.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
+// Specify initial PID tuning parameters
+double kp = 300, ki = 0.05, kd = 0.3;  
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 #define SUNRISE_HOUR 6 // Hour of day when sun rises 
-#define SUNSET_HOUR 19 // Hour of day when sun sets
-#define NUM_THERMISTORS 16 // Number of thermistor channels
+#define SUNSET_HOUR 23 // Hour of day when sun sets
+#define NUM_THERMISTORS 2 // Number of thermistor channels (and heaters)
+#define THERM_AVG 4 // Number of readings per thermistor channel to average together
+#define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
@@ -45,7 +49,6 @@ Thermistor* thermistor1;
 // Create multiplexer object
 ADG725 mux; 
 uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
-
 
 //--------------------------------------------------
 // NTC_Thermistor library constants - specific to my chosen thermistor model
@@ -83,7 +86,7 @@ double pidSetpoint; // All heated mussels use the same target Setpoint temperatu
 int pidSampleTime = 1000; // units milliseconds, time between PID updates 
 unsigned long lastTime; // units milliseconds, used for PID timekeeping
 // Specify initial tuning parameters
-double kp = 2, ki = 5, kd = 1;
+//double kp = 2, ki = 0, kd = 0;
 PID myPID; // Creates a PID object that will update 16 PID values
 
 //-------------------------------------------------------------
@@ -172,7 +175,10 @@ volatile debounceState_t debounceState;
 //------- Setup loop ----------------------------------------------------
 void setup() {
   Serial.begin(57600);
-  Serial.println(F("Hello"));
+//  Serial.println(F("Hello"));
+//  Serial.println(F("Setpoint\tThermistor"));  // Labels for serial plotter
+//    Serial.println(F("Setpoint\tThermistor\tPIDoutput")); // Labels for serial plotter
+        Serial.println(F("Setpoint\tThermistor1\tThermistor2\tPIDoutput1/100\tPIDoutput2/100")); // Labels for serial plotter
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BATT_MONITOR, INPUT);
@@ -197,10 +203,10 @@ void setup() {
     serialValid = true; // set flag   
   }  
   if (serialValid){
-    Serial.print(F("Read serial number: "));
-    Serial.println(serialNumber);
+//    Serial.print(F("Read serial number: "));
+//    Serial.println(serialNumber);
   } else {
-    Serial.println(F("No valid serial number"));
+//    Serial.println(F("No valid serial number"));
   }
 
   //--------- Thermistor setup ------------------------------------------
@@ -214,6 +220,7 @@ void setup() {
   // Initialize multiplexer object
   mux.begin(CS_MUX, SPI_SPEED);
   SPI.begin();
+  // Get an initial reading of the thermistor(s)
   for (byte i = 0; i < NUM_THERMISTORS; i++){
     mux.setADG725channel(ADGchannel | i); // Activate channel i 
     // Take an initial reading and throw it away (gives ADC time to settle)
@@ -230,15 +237,15 @@ void setup() {
   numRefSensors = refSensors.getDeviceCount();
   // Call function from MusselBedHeaterlib library
   getRefSensorAddresses(max31820, refSensors, numRefSensors, sensorAddr); 
-  Serial.print(F("Number of MAX31820 sensors detected: "));
-  Serial.println(numRefSensors);
-  Serial.println(F("Addresses:"));
+//  Serial.print(F("Number of MAX31820 sensors detected: "));
+//  Serial.println(numRefSensors);
+//  Serial.println(F("Addresses:"));
   for (byte i = 0; i < numRefSensors; i++){
     for (byte j = 0; j < 8; j++){
-        Serial.write(' ');
-        Serial.print(sensorAddr[i][j], HEX);
+//        Serial.write(' ');
+//        Serial.print(sensorAddr[i][j], HEX);
     }
-    Serial.println();
+//    Serial.println();
   }
   // Set library to not wait for a conversion to complete after requesting temperatures
   // (Allows the program to do other things while MAX31820s are taking ~400ms to 
@@ -253,8 +260,8 @@ void setup() {
   Wire.begin(); // Start the I2C library with default options
   Wire.setClock(400000L); // Set speed to 400kHz
   rtc.begin();  // Start the rtc object with default options
-  printTimeSerial(rtc.now()); // print time to serial monitor
-  Serial.println();
+//  printTimeSerial(rtc.now()); // print time to serial monitor
+//  Serial.println();
   newtime = rtc.now(); // read a time from the real time clock
   //-----------------------
   // Check that real time clock has a reasonable time value
@@ -276,9 +283,9 @@ void setup() {
 
   // Calculate new tide height based on current time
   tideHeightft = myTideCalc.currentTide(newtime);
-  Serial.println(myTideCalc.returnStationID());
-  Serial.print(F("Tide height, ft: "));
-  Serial.println(tideHeightft,3);
+//  Serial.println(myTideCalc.returnStationID());
+//  Serial.print(F("Tide height, ft: "));
+//  Serial.println(tideHeightft,3);
   
   //--------- SD card startup -------------------------------
   if (!sd.begin(CS_SD, SPI_FULL_SPEED)) {
@@ -292,7 +299,7 @@ void setup() {
 //    oled1.println();
 //    oled1.println(F("Continue?"));
 //    oled1.println(F("Press 1"));
-    Serial.println(F("SD error, press BUTTON1 on board to continue"));
+//    Serial.println(F("SD error, press BUTTON1 on board to continue"));
 
     sdErrorFlag = true;
     bool stallFlag = true; // set true when there is an error
@@ -314,7 +321,7 @@ void setup() {
       }              
     }
   }  else {
-    Serial.println(F("SD OKAY"));
+//    Serial.println(F("SD OKAY"));
   }  // end of (!sd.begin(chipSelect, SPI_FULL_SPEED))
   delay(1000);
   // If the clock and sd card are both working, we can save data
@@ -328,7 +335,7 @@ void setup() {
     // If both error flags were false, continue with file generation
     newtime = rtc.now(); // grab the current time
     initFileName(sd, logfile, newtime, filename, serialValid, serialNumber); // generate a file name
-    Serial.println(filename);
+//    Serial.println(filename);
   }
 
 //------------ PWM chip initialization ----------------------------------
@@ -342,20 +349,20 @@ void setup() {
   
 //--------- PID start -------------------------------------
   myPID.begin(&kp, &ki, &kd, pidSampleTime);
-  Serial.print(F("kp: "));
-  Serial.print(kp, 5);
-  Serial.print(F(" ki: "));
-  Serial.print(ki, 5);
-  Serial.print(F(" kd: "));
-  Serial.println(kd, 5);
+//  Serial.print(F("kp: "));
+//  Serial.print(kp, 5);
+//  Serial.print(F(" ki: "));
+//  Serial.print(ki, 5);
+//  Serial.print(F(" kd: "));
+//  Serial.println(kd, 5);
 
 //------- Battery voltage start -------------------------------------
   batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
   if (batteryVolts < voltageMin){
     lowVoltageFlag = true; // Battery voltage is too low to continue        
-  }  
-  Serial.print(F("Battery voltage: "));
-  Serial.println(batteryVolts,2);
+  }
+//  Serial.print(F("Battery voltage: "));
+//  Serial.println(batteryVolts,2);
 
 
 //-----------------------------------------------------------------
@@ -429,12 +436,40 @@ void loop() {
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
       
+      //********************************************************
+      // ----- Manual setpoint for testing -----------
+      avgMAXtemp = 34.0; // fixed Celsius reference temperature
+      //********************************************************
+
+      
       //------------ Thermistor readings --------------
       // Read the thermistor(s)
       for (byte i = 0; i < NUM_THERMISTORS; i++){
-        mux.setADG725channel(ADGchannel | i); // Activate channel i 
-        // Take a reading from thermistor1
-        pidInput[i] = thermistor1 -> readCelsius();
+
+        mux.setADG725channel(ADGchannel | i); // Activate channel i
+        // Take an initial reading and throw it away (gives ADC time to settle)
+        thermistor1 -> readCelsius();
+        delay(2); 
+        double tempVal = 0;
+        double thermAvg = 0;
+        goodReadings = 0;
+        
+        for (byte j = 0; j < THERM_AVG; j++){
+          // Take the temperature reading
+          tempVal = thermistor1 -> readCelsius();
+          // Check the temperature reading relative to previous step's temperature value
+          // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
+          // 10-30 seconds, which really threw off the PID routine. This filtering below 
+          // just throws out temperatures than change too much in the ~500ms between loops
+          if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
+            // Value is probably good
+            thermAvg += tempVal;
+            goodReadings = goodReadings + 1;
+          }        
+          delay(2);
+        }
+        // Calculate an average temperature from the good readings
+        pidInput[i] = thermAvg / (double)goodReadings;
       }
       // Turn off all multiplexer channels (shuts off thermistor circuits)
       mux.disableADG725(); 
@@ -467,35 +502,50 @@ void loop() {
         writeData = false; // reset flag
       }
 
+
+
         // Write up to 4 reference mussel temperature values in a loop
-      for (byte i = 0; i < numRefSensors; i++){
-        Serial.print(F(","));
-        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
-      }
+//      for (byte i = 0; i < numRefSensors; i++){
+//        Serial.print(F(","));
+//        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
+//      }
       // Handle a case where there are missing reference mussels, fill in NA values
-      if (numRefSensors < 4){
-        byte fillNAs = 4 - numRefSensors;
-        for (byte i = 0; i < fillNAs; i++){
-          Serial.print(F(","));
-          Serial.print(F("NA"));
-        }
-      }
-      Serial.print(F("\t"));
-      // Write the 16 thermistor temperature values in a loop
-      for (byte i = 0; i < 16; i++){
-        Serial.print(F(","));
-        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
-          // If temperature value is out of bounds, write NA
-          Serial.print(F("NA"));
-        } else {
-          // If value is in bounds, write temperature
-          Serial.print(pidInput[i],2); // write with 2 sig. figs.
-        }
-      }
+//      if (numRefSensors < 4){
+//        byte fillNAs = 4 - numRefSensors;
+//        for (byte i = 0; i < fillNAs; i++){
+//          Serial.print(F(","));
+//          Serial.print(F("NA"));
+//        }
+//      }
+//      Serial.print(F("\t"));
+//      // Write the 16 thermistor temperature values in a loop
+//      for (byte i = 0; i < 16; i++){
+//        Serial.print(F(","));
+//        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
+//          // If temperature value is out of bounds, write NA
+//          Serial.print(F("NA"));
+//        } else {
+//          // If value is in bounds, write temperature
+//          Serial.print(pidInput[i],2); // write with 2 sig. figs.
+//        }
+//      }
+//
+//
+//      Serial.println();
 
+          // Output for Serial plotter  
+          Serial.print((avgMAXtemp+tempIncrease),2); // reference temperature (i.e. drives Setpoint)
+          Serial.print(F("\t"));
+          Serial.print(pidInput[0],2); // 1st heater channel
+          Serial.print(F("\t"));
+          Serial.print(pidInput[1],2); // 2nd heater channel
+          Serial.print(F("\t"));
+          Serial.print((uint16_t)pidOutput[0]/100); // scaling down by a factor of 100
+          Serial.print(F("\t"));
+          Serial.print((uint16_t)pidOutput[1]/100);  // scaling down by a factor of 100
 
-      Serial.println();
-      flashFlag = !flashFlag;
+          Serial.println();
+          flashFlag = !flashFlag;
     } // end of MAX31820 & thermistor sampling
 
 
@@ -588,7 +638,7 @@ void loop() {
         mainState = STATE_OFF;
       }
 
-      if ( (tideHeightft > tideHeightThreshold) & 
+      if ( (tideHeightft < tideHeightThreshold) & 
             (newtime.hour() >= SUNRISE_HOUR) & 
             (newtime.hour() < SUNSET_HOUR) & 
             lowVoltageFlag == false & 
@@ -640,21 +690,30 @@ void loop() {
           for (byte i = 0; i < NUM_THERMISTORS; i++){
             pwm.setPWM(i, 0, (uint16_t)pidOutput[i]);  
           }
+          
          if (flashFlag){
           rgb.setColor(30,0,0); // flash red
          } else if (!flashFlag){
           rgb.setColor(0,0,0); // turn off red
          }
+
       } else if (tideHeightft >= tideHeightThreshold) {
         // Tide has gone high, go back to idle
         mainState = STATE_IDLE;
         lowtideLimitFlag = false;
+        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+        }
       } else if (newtime.hour() >= SUNSET_HOUR){
         // If time has rolled past SUNSET_HOUR, go to idle
         mainState = STATE_IDLE;
         lowtideLimitFlag = false;
+        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+        }
       } else if (lowVoltageFlag == true){
         mainState = STATE_OFF;
+      }
     break; // end of STATE_HEATING case
     //-----------------------------------------
     // STATE_OFF handles the case when the lowVoltageFlag is true,
