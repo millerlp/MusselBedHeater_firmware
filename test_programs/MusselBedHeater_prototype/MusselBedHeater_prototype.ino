@@ -8,6 +8,7 @@
  * 
  * TODO: Tune PID
  * TODO: Implement temperature filtering from the tuning version of this sketch
+ * TODO: Add the PID PONE define + begin
  */
 #include <EEPROM.h> // built in library, for reading the serial number stored in EEPROM
 #include "SdFat.h" // https://github.com/greiman/SdFat
