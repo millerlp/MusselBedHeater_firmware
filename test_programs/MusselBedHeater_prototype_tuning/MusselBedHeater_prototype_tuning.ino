@@ -27,7 +27,7 @@ float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet 
 double tempIncrease = 1.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
 // Specify initial PID tuning parameters
-double kp = 300, ki = 0.05, kd = 0.3;  
+double kp = 1100, ki = 0.08, kd = 900;  
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 #define SUNRISE_HOUR 6 // Hour of day when sun rises 
 #define SUNSET_HOUR 23 // Hour of day when sun sets
@@ -75,7 +75,7 @@ unsigned long prevMaxTime;
 double avgMAXtemp = 0; // Average of MAX31820 sensors
 //---------------------------------------
 // PID variables + timing
-
+#define PONE 0 // Set to 1 for Proportional on Error, or 0 for Proportional on Measurement mode
 double pidInput[16] = {}; // 16 position array of Input values for PID, this
                        // also serves as the current thermistor temperature
                        // readings array if you want to write these to disk
@@ -178,7 +178,7 @@ void setup() {
 //  Serial.println(F("Hello"));
 //  Serial.println(F("Setpoint\tThermistor"));  // Labels for serial plotter
 //    Serial.println(F("Setpoint\tThermistor\tPIDoutput")); // Labels for serial plotter
-        Serial.println(F("Setpoint\tThermistor1\tThermistor2\tPIDoutput1/100\tPIDoutput2/100")); // Labels for serial plotter
+        Serial.println(F("Setpoint\tThermistor1\tThermistor2\tPIDoutput1/100\tPIDoutput2/100\tOutputSum1/100\tOutputSum2/100")); // Labels for serial plotter
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BATT_MONITOR, INPUT);
@@ -346,15 +346,11 @@ void setup() {
   for (byte i = 0; i < 16; i++){
     pwm.setPWM(i, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
   }
+  pwm.sleep(); // Put PCA9685 chip to sleep for now
   
 //--------- PID start -------------------------------------
-  myPID.begin(&kp, &ki, &kd, pidSampleTime);
-//  Serial.print(F("kp: "));
-//  Serial.print(kp, 5);
-//  Serial.print(F(" ki: "));
-//  Serial.print(ki, 5);
-//  Serial.print(F(" kd: "));
-//  Serial.println(kd, 5);
+  myPID.begin(&kp, &ki, &kd, pidSampleTime, PONE);
+
 
 //------- Battery voltage start -------------------------------------
   batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
@@ -543,6 +539,10 @@ void loop() {
           Serial.print((uint16_t)pidOutput[0]/100); // scaling down by a factor of 100
           Serial.print(F("\t"));
           Serial.print((uint16_t)pidOutput[1]/100);  // scaling down by a factor of 100
+          Serial.print(F("\t"));
+          Serial.print(pidOutputSum[0]/100); // scaling down by a factor of 100
+          Serial.print(F("\t"));
+          Serial.print(pidOutputSum[1]/100);  // scaling down by a factor of 100
 
           Serial.println();
           flashFlag = !flashFlag;
@@ -608,6 +608,7 @@ void loop() {
           // User held button1 long enough to enter mediumPressTime mode
           // Set state to STATE_HEATING
           mainState = STATE_HEATING;
+          pwm.wakeup(); // Restart the PCA9685 PWM chip for the heaters
         }
         // Now that the button press has been handled, return
         // to DEBOUNCE_STATE_IDLE and await the next button press
@@ -647,9 +648,10 @@ void loop() {
               mainState = STATE_HEATING;
               // Zero out the PID values
               myPID.resetPID(pidOutput, pidOutputSum, lastTime, NUM_THERMISTORS);
+              pwm.wakeup();  // Wake up the PCA9685 PWM chip for the heaters
      }
      if (flashFlag){
-      rgb.setColor(0,30,0); // flash green
+      rgb.setColor(0,30,0); // flash green during idle mode
      } else if (!flashFlag){
       rgb.setColor(0,0,0); // turn off green
      }
@@ -704,6 +706,7 @@ void loop() {
         for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
           pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
         }
+        pwm.sleep(); // Put PCA9685 chip to sleep for now
       } else if (newtime.hour() >= SUNSET_HOUR){
         // If time has rolled past SUNSET_HOUR, go to idle
         mainState = STATE_IDLE;
@@ -711,6 +714,7 @@ void loop() {
         for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
           pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
         }
+        pwm.sleep(); // Put PCA9685 chip to sleep for now
       } else if (lowVoltageFlag == true){
         mainState = STATE_OFF;
       }
@@ -726,7 +730,7 @@ void loop() {
         for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
           pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
         }
-        
+        pwm.sleep(); // Put PCA9685 chip to sleep for now
         if (flashFlag){
           if (lowVoltageFlag){
            rgb.setColor(0,0,60); // flash blue color  
