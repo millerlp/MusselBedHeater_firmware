@@ -16,8 +16,8 @@
 #include "NTC_Thermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
 
-#define PLOTTER_OUTPUT 0 // Set 0 for Serial Monitor (text) output, 1 for plotter output
-
+#define PLOTTER_OUTPUT 1 // Set 0 for Serial Monitor (text) output, 1 for plotter output
+#define showRef false // Show reference mussel temperatures on Plotter output? true or false
 #define CS_MUX 7 // Arduino pin D7 connected to ADG725 SYNC pin
 #define CS_SD 10 // Pin used for SD card (not implemented here, but should be defined)
 #define THERM A0 // Arduino analog input pin A0, reading thermistors from ADG725 mux
@@ -28,7 +28,7 @@
 #define NOMINAL_TEMPERATURE   25
 #define B_VALUE               4250  // Specific to MusselBedHeater RevC chosen thermistor
 // Other thermistor-related constants
-#define NUM_THERMISTORS       16  // Number of thermistors to sample
+#define NUM_THERMISTORS       9  // Number of thermistors to sample
 #define THERM_AVG             4   // Number of thermistor readings to average
 #define TEMP_FILTER           2.0 // Threshold temperature change limit between readings
 
@@ -78,6 +78,9 @@ void setup() {
     rgb.setColor(0,0,0);
     delay(30);    
   }
+
+
+
   // Set up thermistor1 object
   thermistor1 = new NTC_Thermistor(
     THERM,
@@ -88,14 +91,16 @@ void setup() {
   // Initialize multiplexer object
   mux.begin(CS_MUX, SPI_SPEED);
   SPI.begin();
-  // Get an initial reading of the thermistor(s)
-  for (byte i = 0; i < NUM_THERMISTORS; i++){
-    mux.setADG725channel(ADGchannel | i); // Activate channel i 
-    // Take an initial reading and throw it away (gives ADC time to settle)
-    thermistor1 -> readCelsius();
-    delay(1);
-    // Take a reading from thermistor1
-    pidInput[i] = thermistor1 -> readCelsius();
+  // Get initial values from the thermistor(s)
+  for (byte j = 0; j < 4; j++){
+    for (byte i = 0; i < NUM_THERMISTORS; i++){
+      mux.setADG725channel(ADGchannel | i); // Activate channel i 
+      // Take an initial reading and throw it away (gives ADC time to settle)
+      thermistor1 -> readCelsius();
+      delay(1);
+      // Take a reading from thermistor1
+      pidInput[i] = thermistor1 -> readCelsius();
+    }
   }
   // Turn off all multiplexer channels (shuts off thermistor circuits)
   mux.disableADG725(); 
@@ -117,6 +122,24 @@ void setup() {
   // Tell all MAX31820s to begin taking the first temperature readings
   refSensors.requestTemperatures();
   delay(500); // Let some time run after requesting temperatures
+
+
+#if (PLOTTER_OUTPUT == 0) 
+  // Serial monitor text output, no headers needed
+#elif (PLOTTER_OUTPUT == 1)
+  // Serial plotter output, print headers one time
+    if (showRef) {
+      Serial.print(F("AvgRefTemp,")); // Plot average MAX31820 temperature  
+    }
+    
+    for (byte i = 0; i < NUM_THERMISTORS; i++){
+      Serial.print(F("Ch"));
+      Serial.print(i);
+      Serial.print(",");
+    }
+    Serial.println();
+#endif
+
   
 }
 
@@ -132,6 +155,8 @@ void loop() {
   if ( (newMillis - prevMillis) >= sampleInterval){
       prevMillis = newMillis; // Update prevMillis for next loop
       // Cycle through all MAX31820s and read their temps
+      avgMAXtemp = 0; // Reset average temperature variable
+      goodReadings = 0; // Reset goodReadings counter
       for (byte i = 0; i < numRefSensors; i++){
         //********** Faster version, using known addresses ********
         // Extract current device's 8-byte address from sensorAddr array
@@ -139,6 +164,7 @@ void loop() {
           addr[n] = sensorAddr[i][n];
         }
         MAXTemps[i] = refSensors.getTempC(addr); // query using device address
+
         // Sanity check the recorded temperature
         if ( (MAXTemps[i] > -10.0) & (MAXTemps[i] < 60.0) ){
           avgMAXtemp = avgMAXtemp + MAXTemps[i];
@@ -161,6 +187,7 @@ void loop() {
         delay(2); 
         double tempVal = 0;
         double thermAvg = 0;
+        goodReadings = 0; // Reset goodReadings counter
         // Take THERM_AVG number of successive readings from this thermistor
         // and average them together, along with checking and removing 
         // spurious temperature spikes
@@ -170,13 +197,20 @@ void loop() {
           // Check the temperature reading relative to previous step's temperature value
           // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
           // 10-30 seconds, which really threw off the PID routine. This filtering below 
-          // just throws out temperatures than change too much in the ~500ms between loops
-          if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
-            // Value is probably good
-            thermAvg += tempVal;
-            goodReadings = goodReadings + 1;
-          }        
-          delay(2);
+          // just throws out temperatures that change too much in the ~500ms between loops
+          if (pidInput[i] > -100) {
+            // If previous pidInput temperature was reasonable, use it to 
+            // filter out spurious large changes in temperature readings
+           if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
+              // Value is probably good
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+           }           
+          } else {
+              // If previous pidInput was questionable, just get a set of temps
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+          }
         }
         // Calculate an average temperature from the good readings
         pidInput[i] = thermAvg / (double)goodReadings;
@@ -193,7 +227,7 @@ void loop() {
       Serial.print(i);
       Serial.print(F(":"));
       Serial.print(MAXTemps[i],2);
-      Serial.print(F("\t"));
+      Serial.print(F(" "));
     }
     // Print thermistor values
     for (byte i = 0; i < NUM_THERMISTORS; i++){
@@ -201,16 +235,24 @@ void loop() {
       Serial.print(i);
       Serial.print(F(":"));
       Serial.print(pidInput[i],2);
-      Serial.print(F("C\t"));  
+      Serial.print(F("C "));  
     }
     Serial.println();
 #elif (PLOTTER_OUTPUT == 1) 
     // Code for Serial plotter output
-    Serial.print(avgMAXtemp,2); // Plot average MAX31820 temperature
-    Serial.print(F("\t"));
+    if (showRef){
+      Serial.print(avgMAXtemp,2); // Plot average MAX31820 temperature
+      Serial.print(F("\t"));  
+    }
+    
     // Plot the individual thermistor temperatures
     for (byte i = 0; i < NUM_THERMISTORS; i++){
-      Serial.print(pidInput[i]);
+      if (pidInput[i] < 0){
+        // If values show up as -273.15 (missing thermistor), set them to 0 for better plotting
+        Serial.print(0.0);
+      } else {
+        Serial.print(pidInput[i]);
+      }
       Serial.print(F("\t"));
     }
     Serial.println();
