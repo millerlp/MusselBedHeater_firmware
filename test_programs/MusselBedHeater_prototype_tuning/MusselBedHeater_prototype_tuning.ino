@@ -410,6 +410,7 @@ void loop() {
     if ( (newMillis - prevMaxTime) >= MAXSampleTime){
       prevMaxTime = newMillis; // update prevMaxTime
       avgMAXtemp = 0; // reset average value
+      goodReadings = 0; // Reset goodReadings counter
       //------- MAX31820 readings -----------
 
       // Cycle through all MAX31820s and read their temps
@@ -457,12 +458,21 @@ void loop() {
           // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
           // 10-30 seconds, which really threw off the PID routine. This filtering below 
           // just throws out temperatures than change too much in the ~500ms between loops
-          if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
-            // Value is probably good
-            thermAvg += tempVal;
-            goodReadings = goodReadings + 1;
-          }        
-          delay(2);
+          if (pidInput[i] > -100) {
+            // If previous pidInput temperature was reasonable, use it to 
+            // filter out spurious large changes in the new temperature readings
+           if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
+              // Value is probably good
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+           }           
+          } else {
+              // If previous pidInput was questionable, just get a new set of temps
+              // This allows recovery from cases where a thermistor goes offline 
+              // temporarily. 
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+          }
         }
         // Calculate an average temperature from the good readings
         pidInput[i] = thermAvg / (double)goodReadings;

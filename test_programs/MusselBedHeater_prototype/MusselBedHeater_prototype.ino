@@ -433,8 +433,38 @@ void loop() {
       // Read the thermistor(s)
       for (byte i = 0; i < NUM_THERMISTORS; i++){
         mux.setADG725channel(ADGchannel | i); // Activate channel i 
-        // Take a reading from thermistor1
-        pidInput[i] = thermistor1 -> readCelsius();
+ // Take an initial reading and throw it away (gives ADC time to settle)
+        thermistor1 -> readCelsius();
+        delay(2); 
+        double tempVal = 0;
+        double thermAvg = 0;
+        goodReadings = 0;
+        
+        for (byte j = 0; j < THERM_AVG; j++){
+          // Take the temperature reading
+          tempVal = thermistor1 -> readCelsius();
+          // Check the temperature reading relative to previous step's temperature value
+          // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
+          // 10-30 seconds, which really threw off the PID routine. This filtering below 
+          // just throws out temperatures than change too much in the ~500ms between loops
+          if (pidInput[i] > -100) {
+            // If previous pidInput temperature was reasonable, use it to 
+            // filter out spurious large changes in the new temperature readings
+           if ( abs(tempVal - pidInput[i]) < TEMP_FILTER ){
+              // Value is probably good
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+           }           
+          } else {
+              // If previous pidInput was questionable, just get a new set of temps
+              // This allows recovery from cases where a thermistor goes offline 
+              // temporarily. 
+              thermAvg += tempVal;
+              goodReadings = goodReadings + 1;
+          }
+        }
+        // Calculate an average temperature from the good readings
+        pidInput[i] = thermAvg / (double)goodReadings;
       }
       // Turn off all multiplexer channels (shuts off thermistor circuits)
       mux.disableADG725(); 
