@@ -23,13 +23,13 @@
 #include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
 //-----------------------------------------------------------------------------------
 // User-settable values
-float tideHeightThreshold = -1.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
+float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
 double tempIncrease = 1.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 #define SUNRISE_HOUR 6 // Hour of day when sun rises 
 #define SUNSET_HOUR 19 // Hour of day when sun sets
-#define NUM_THERMISTORS 16 // Number of thermistor channels
+#define NUM_THERMISTORS 9 // Number of thermistor channels
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
@@ -90,7 +90,7 @@ PID myPID; // Creates a PID object that will update 16 PID values
 // PCA9685 pulse width modulation driver chip
 // Called this way, uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
-byte pwmnum = 0; // Channel on PWM driver (0-15)
+#define PWM_OE 3 // PWM driver output enable pin (active low), connected to ATmega pin PD3
 
 //-------------------------------------------------------------
 // SD card
@@ -175,11 +175,18 @@ void setup() {
   Serial.println(F("Hello"));
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
+  // Battery monitor pins
   pinMode(BATT_MONITOR, INPUT);
   pinMode(BATT_MONITOR_EN, OUTPUT);
+  // PWM chip pin
+  pinMode(PWM_OE, OUTPUT);
+  digitalWrite(PWM_OE, LOW); // Enable PWM chip
+  // SPI bus pins
   pinMode(CS_SD, OUTPUT); // declare as output so that SPI library plays nice
   pinMode(CS_MUX, OUTPUT); // Set CS_MUX pin as output for ADG725 SYNC
+  // Thermistor analog input pin
   pinMode(THERM, INPUT); // Analog input from ADG725
+  
   rgb.begin(); // Setup RGB with default pins (9,6,5)
   for (byte i = 0; i < 5; i++){
     rgb.setColor(0,255,0);
@@ -187,6 +194,13 @@ void setup() {
     rgb.setColor(0,0,0);
     delay(30);    
   }
+
+  // Currently unused pins
+  pinMode(A1, INPUT_PULLUP);
+  pinMode(A2, INPUT_PULLUP);
+  pinMode(A3, INPUT_PULLUP);
+  pinMode(A6, INPUT_PULLUP);
+  
   // Grab the serial number from the EEPROM memory
   // This will be in the format "SNxx". The serial number
   // for a board can be permanently set with the separate
