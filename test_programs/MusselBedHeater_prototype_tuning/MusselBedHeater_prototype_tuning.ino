@@ -5,6 +5,9 @@
  * and reading them back using MusselBedHeaterlib library,
  * along with reading thermistors and doing multiple PID calculations 
  * 
+ * You need to input a desired Setpoint temperature by typing in an integer
+ * value in the serial monitor. 
+ * 
  * A thermistor temperature of -273.15 or thereabouts indicates a 
  * non-functional or unplugged thermistor
  * 
@@ -15,26 +18,29 @@
 #include "OneWire.h"  // For MAX31820 temperature sensor https://github.com/PaulStoffregen/OneWire
 #include "DallasTemperature.h" // For MAX31820 sensors https://github.com/milesburton/Arduino-Temperature-Control-Library
 #include "NTC_Thermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
-//#include "PID_v1.h" // https://github.com/br3ttb/Arduino-PID-Library/
 #include <Wire.h>
 #include "RTClib.h" // https://github.com/millerlp/RTClib
 #include "Adafruit_PWMServoDriver.h" // https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
-#include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
+//#include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
 //-----------------------------------------------------------------------------------
+#define AUTO_RUN 1 // Set 0 to use manual user input setpoint, set 1 to use 30/35/36 temps
+#define SERIAL_PLOTTER 1 // Set to 0 to use serial monitor, set 1 to use serial plotter
 // User-settable values
-float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
-double tempIncrease = 1.0; // Target temperature increase for heated 
+//float tideHeightThreshold = 12.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
+double tempIncrease = 0.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
 // Specify initial PID tuning parameters
-double kp = 1100, ki = 0.08, kd = 900;  
+double kp = 2500, ki = 0.08, kd = 700;  
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
-#define SUNRISE_HOUR 6 // Hour of day when sun rises 
-#define SUNSET_HOUR 23 // Hour of day when sun sets
-#define NUM_THERMISTORS 2 // Number of thermistor channels (and heaters)
-#define THERM_AVG 4 // Number of readings per thermistor channel to average together
+//#define SUNRISE_HOUR 5 // Hour of day when sun rises 
+//#define SUNSET_HOUR 23 // Hour of day when sun sets
+#define NUM_THERMISTORS 9 // Number of thermistor channels (and heaters)
+#define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
+unsigned long tuneTime = 2700; // Number of (milli)seconds for each setpoint temperature in a tuning test
+unsigned long elapsedTime = 0; // Number of elapsed seconds for current tuning test run
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
 
@@ -91,9 +97,9 @@ PID myPID; // Creates a PID object that will update 16 PID values
 
 //-------------------------------------------------------------
 // PCA9685 pulse width modulation driver chip
-// Called this way, uses the default address 0x40
+// Called this way, uses the default I2C address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
-byte pwmnum = 0; // Channel on PWM driver (0-15)
+#define PWM_OE 3 // PWM driver output enable pin (active low), connected to ATmega pin PD3
 
 //-------------------------------------------------------------
 // SD card
@@ -122,11 +128,12 @@ volatile unsigned long button1Time; // hold the initial button press millis() va
 byte debounceTime = 20; // milliseconds to wait for debounce
 int mediumPressTime = 2000; // milliseconds to hold button1 to register a medium press
 bool flashFlag = false; // Used to flash LED
+byte oldSecond; // Used to tell if a second has elapsed
 //--------------------------------------------------------------
 // Tide calculator setup
-TideCalc myTideCalc; // Create TideCalc object called myTideCalc
-float tideHeightft; // Hold results of tide calculation, units feet
-bool lowtideLimitFlag = false; // Flag to show that tide is above tideHeightThreshold
+//TideCalc myTideCalc; // Create TideCalc object called myTideCalc
+//float tideHeightft; // Hold results of tide calculation, units feet
+//bool lowtideLimitFlag = false; // Flag to show that tide is above tideHeightThreshold
 
 //------------------------------------------------------------
 //  Battery monitor 
@@ -136,7 +143,7 @@ float dividerRatio = 5.7; // Ratio of voltage divider (47k + 10k) / 10k = 5.7
 // The refVoltage needs to be measured individually for each board (use a 
 // voltmeter and measure at the AREF and GND pins on the board). Enter the 
 // voltage value here. 
-float refVoltage = 3.22; // Voltage at AREF pin on ATmega microcontroller, measured per board
+float refVoltage = 3.44; // Voltage at AREF pin on ATmega microcontroller, measured per board
 float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
 bool lowVoltageFlag = false;
 //--------- RGB LED setup --------------------------
@@ -168,21 +175,30 @@ typedef enum DEBOUNCE_STATE
 // values defined for the DEBOUNCE_STATE typedef above.
 volatile debounceState_t debounceState;
 
-
+#if (AUTO_RUN == 0)
+//----------- Serial input --------------------------
+// Variables for user input from Serial monitor
+char rx_byte = 0;
+String rx_str = "";
+boolean not_number = false;
+int result; 
+#endif
 
 
 //-----------------------------------------------------------------------
 //------- Setup loop ----------------------------------------------------
 void setup() {
   Serial.begin(57600);
-//  Serial.println(F("Hello"));
-//  Serial.println(F("Setpoint\tThermistor"));  // Labels for serial plotter
-//    Serial.println(F("Setpoint\tThermistor\tPIDoutput")); // Labels for serial plotter
-        Serial.println(F("Setpoint\tThermistor1\tThermistor2\tPIDoutput1/100\tPIDoutput2/100\tOutputSum1/100\tOutputSum2/100")); // Labels for serial plotter
+   
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
+  // Battery monitor pins
   pinMode(BATT_MONITOR, INPUT);
   pinMode(BATT_MONITOR_EN, OUTPUT);
+  // PWM chip pin
+  pinMode(PWM_OE, OUTPUT);
+  digitalWrite(PWM_OE, LOW); // Enable PWM chip
+  // SPI bus pins
   pinMode(CS_SD, OUTPUT); // declare as output so that SPI library plays nice
   pinMode(CS_MUX, OUTPUT); // Set CS_MUX pin as output for ADG725 SYNC
   pinMode(THERM, INPUT); // Analog input from ADG725
@@ -193,11 +209,16 @@ void setup() {
     rgb.setColor(0,0,0);
     delay(30);    
   }
+  // Currently unused pins
+  pinMode(A1, INPUT_PULLUP);
+  pinMode(A2, INPUT_PULLUP);
+  pinMode(A3, INPUT_PULLUP);
+  pinMode(A6, INPUT_PULLUP);
   // Grab the serial number from the EEPROM memory
   // This will be in the format "SNxx". The serial number
   // for a board can be permanently set with the separate
-  // program 'serial_number_generator.ino' available in 
-  // one of the subfolders of the MusselGapeTracker software
+  // program 'serial_number_generator.ino' available with 
+  // this program. 
   EEPROM.get(0, serialNumber);
   if (serialNumber[0] == 'S') {
     serialValid = true; // set flag   
@@ -260,8 +281,7 @@ void setup() {
   Wire.begin(); // Start the I2C library with default options
   Wire.setClock(400000L); // Set speed to 400kHz
   rtc.begin();  // Start the rtc object with default options
-//  printTimeSerial(rtc.now()); // print time to serial monitor
-//  Serial.println();
+
   newtime = rtc.now(); // read a time from the real time clock
   //-----------------------
   // Check that real time clock has a reasonable time value
@@ -282,10 +302,8 @@ void setup() {
   }
 
   // Calculate new tide height based on current time
-  tideHeightft = myTideCalc.currentTide(newtime);
-//  Serial.println(myTideCalc.returnStationID());
-//  Serial.print(F("Tide height, ft: "));
-//  Serial.println(tideHeightft,3);
+//  tideHeightft = myTideCalc.currentTide(newtime);
+
   
   //--------- SD card startup -------------------------------
   if (!sd.begin(CS_SD, SPI_FULL_SPEED)) {
@@ -334,12 +352,12 @@ void setup() {
   if (saveData){
     // If both error flags were false, continue with file generation
     newtime = rtc.now(); // grab the current time
-    initFileName(sd, logfile, newtime, filename, serialValid, serialNumber); // generate a file name
+    initTuningFileName(sd, logfile, newtime, filename, serialValid, serialNumber, NUM_THERMISTORS); // generate a file name
 //    Serial.println(filename);
   }
 
 //------------ PWM chip initialization ----------------------------------
-  pwm.begin();
+  pwm.begin(); // Uses default I2C address 0x40
   pwm.setOscillatorFrequency(27000000);
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
   // Set all PWM channels off initially
@@ -357,19 +375,40 @@ void setup() {
   if (batteryVolts < voltageMin){
     lowVoltageFlag = true; // Battery voltage is too low to continue        
   }
-//  Serial.print(F("Battery voltage: "));
-//  Serial.println(batteryVolts,2);
+
+
+
+#if (SERIAL_PLOTTER == 0)
+// If using Serial Monitor instead of Serial Plotter, print some additional info
+  Serial.println(F("Hello"));
+  printTimeSerial(rtc.now()); // print time to serial monitor
+  Serial.println();
+  Serial.println(filename);
+  Serial.print(F("Battery voltage: "));
+  Serial.println(batteryVolts,2); 
+//  Serial.println(myTideCalc.returnStationID());
+//  Serial.print(F("Tide height, ft: "));
+//  Serial.println(tideHeightft,3); 
+  
+#elif (SERIAL_PLOTTER == 1)
+  // If using Serial Plotter, only print line color labels
+  Serial.println(F("Setpoint\tT1\tT2\tT3\tT4\tT5\tT6\tT7\tT8\tT9")); // Labels for serial plotter   
+#endif
 
 
 //-----------------------------------------------------------------
   debounceState = DEBOUNCE_STATE_IDLE;
   mainState = STATE_IDLE; // Start the main loop in idle mode (mosfets off)
+  pidSetpoint = 0; // Initial setpoint temperature
+  tuneTime = tuneTime * 1000; // Convert seconds to milliseconds
   attachInterrupt(0, buttonFunc, LOW);
   newtime = rtc.now();
   oldtime = newtime;
   oldday = oldtime.day();
+  oldSecond = oldtime.second();
   // Initialize the timing for sampling MAX31820s
   prevMaxTime = millis();
+  elapsedTime = prevMaxTime;
 
 }         // end of setup loop------------------------------------------------
 
@@ -384,6 +423,36 @@ void loop() {
     double MAXTemps[numRefSensors] = {}; // MAX31820 temperature array
     byte goodReadings = 0;              // Number of good MAX31820 readings in a cycle
 
+#if (AUTO_RUN == 0)    
+    // Look for user input of a new setpoint value
+    if (Serial.available() > 0) {
+      rx_byte = Serial.read();
+      if ((rx_byte >= '0') && (rx_byte <= '9')){
+        rx_str += rx_byte;
+      } else if (rx_byte == '\n') {
+        // end of string
+        if (not_number) {
+//          Serial.println("Not a number");
+        }
+        else {
+          // convert the string to an integer
+          result = rx_str.toInt() ;
+          
+          //********************************************************
+          // ----- Manual setpoint for testing -----------
+          pidSetpoint = (double)result; // Change fixed Celsius reference temperature
+          //********************************************************
+        }
+        not_number = false;         // reset flag
+        rx_str = "";                // clear the string for reuse
+      }
+      else {
+        // non-number character received
+        not_number = true;    // flag a non-number
+      }
+    } // end: if (Serial.available() > 0)
+#endif    
+    
     //---------------------------------------------------
     // Check to see if a new minute has elapsed, update tide height estimate
     newtime = rtc.now();
@@ -392,11 +461,11 @@ void loop() {
       // Recalculate tide height, update oldtime
       oldtime = newtime;
       // Calculate new tide height based on current time
-      tideHeightft = myTideCalc.currentTide(newtime);
+//      tideHeightft = myTideCalc.currentTide(newtime);
       // Reset lowtideLimitFlag if tide is above threshold
-      if (tideHeightft > (tideHeightThreshold + 0.1)){
-        lowtideLimitFlag = false; // Reset to false to allow heating on next low tide 
-      }
+//      if (tideHeightft > (tideHeightThreshold + 0.1)){
+//        lowtideLimitFlag = false; // Reset to false to allow heating on next low tide 
+//      }
       // Check the battery voltage as well
       batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
       if (batteryVolts < voltageMin){
@@ -425,24 +494,16 @@ void loop() {
         if ( (MAXTemps[i] > -10.0) & (MAXTemps[i] < 60.0) ){
           avgMAXtemp = avgMAXtemp + MAXTemps[i];
           goodReadings = goodReadings + 1;   
-        }
-        
+        }   
       }
       // Start the next temperature reading
       refSensors.requestTemperatures(); 
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
-      
-      //********************************************************
-      // ----- Manual setpoint for testing -----------
-      avgMAXtemp = 34.0; // fixed Celsius reference temperature
-      //********************************************************
 
-      
       //------------ Thermistor readings --------------
       // Read the thermistor(s)
       for (byte i = 0; i < NUM_THERMISTORS; i++){
-
         mux.setADG725channel(ADGchannel | i); // Activate channel i
         // Take an initial reading and throw it away (gives ADC time to settle)
         thermistor1 -> readCelsius();
@@ -481,20 +542,26 @@ void loop() {
       mux.disableADG725(); 
 
       //------------ Save data to card
-      if ( (newtime.second() % SAVE_INTERVAL) == 0){
+      if ( (newtime.second() % SAVE_INTERVAL) == 0 ){
+        if (newtime.second() != oldSecond){
+          oldSecond = newtime.second(); // Update oldSecond to avoid >1 write per second
           if (saveData){
             writeData = true; // set flag to write samples to SD card     
           }          
+        } else if (newtime.second() == oldSecond){
+          // Do not write data if we're still in the same second
+           writeData = false; 
+        }
       }
       if (saveData && writeData){
         // If saveData is true, and it's time to writeData, then do this:
         // Check to see if a new day has started. If so, open a new file
-        // with the initFileName() function
+        // with the initTuningFileName() function
         if (oldtime.day() != oldday) {
           // Close existing file
           logfile.close();
           // Generate a new output filename based on the new date
-          initFileName(sd, logfile, oldtime, filename, serialValid, serialNumber); // generate a file name
+          initTuningFileName(sd, logfile, oldtime, filename, serialValid, serialNumber, NUM_THERMISTORS); // generate a file name
           // Update oldday value to match the new day
           oldday = oldtime.day();
         }
@@ -508,8 +575,16 @@ void loop() {
         writeData = false; // reset flag
       }
 
+      // Output for Serial plotter  
+      Serial.print(pidSetpoint,1); 
+      Serial.print(F("\t"));
+      for (byte i = 0; i < NUM_THERMISTORS; i++){
+        Serial.print(pidInput[i],2);
+        Serial.print(F("\t"));
+      }
 
-
+#if (SERIAL_PLOTTER == 0)
+  // If using serial monitor, also print out the MAX31820 & pidOutput values
         // Write up to 4 reference mussel temperature values in a loop
 //      for (byte i = 0; i < numRefSensors; i++){
 //        Serial.print(F(","));
@@ -523,43 +598,41 @@ void loop() {
 //          Serial.print(F("NA"));
 //        }
 //      }
-//      Serial.print(F("\t"));
-//      // Write the 16 thermistor temperature values in a loop
-//      for (byte i = 0; i < 16; i++){
-//        Serial.print(F(","));
-//        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
-//          // If temperature value is out of bounds, write NA
-//          Serial.print(F("NA"));
-//        } else {
-//          // If value is in bounds, write temperature
-//          Serial.print(pidInput[i],2); // write with 2 sig. figs.
-//        }
-//      }
-//
-//
-//      Serial.println();
+      Serial.print(F("\t"));
+      for (byte i = 0; i < NUM_THERMISTORS; i++){
+        Serial.print(pidOutput[i],2);
+        Serial.print(F("\t"));
+      }    
 
-          // Output for Serial plotter  
-          Serial.print((avgMAXtemp+tempIncrease),2); // reference temperature (i.e. drives Setpoint)
-          Serial.print(F("\t"));
-          Serial.print(pidInput[0],2); // 1st heater channel
-          Serial.print(F("\t"));
-          Serial.print(pidInput[1],2); // 2nd heater channel
-          Serial.print(F("\t"));
-          Serial.print((uint16_t)pidOutput[0]/100); // scaling down by a factor of 100
-          Serial.print(F("\t"));
-          Serial.print((uint16_t)pidOutput[1]/100);  // scaling down by a factor of 100
-          Serial.print(F("\t"));
-          Serial.print(pidOutputSum[0]/100); // scaling down by a factor of 100
-          Serial.print(F("\t"));
-          Serial.print(pidOutputSum[1]/100);  // scaling down by a factor of 100
+//          Serial.print(F("Free ram: "));
+//          Serial.print(freeRam());
+#endif
 
-          Serial.println();
-          flashFlag = !flashFlag;
+      Serial.println();
+      flashFlag = !flashFlag;
     } // end of MAX31820 & thermistor sampling
-
-
-
+    
+#if (AUTO_RUN == 1)    
+    //-----------------------------------------------------------------
+    // Check if it's time to change the setpoint for a tuning run
+    if ( (newMillis - elapsedTime) < tuneTime) {
+      // For the first tuneTime interval, set temp
+      pidSetpoint = 30.0;
+    } else if ( (newMillis - elapsedTime) >= tuneTime & \
+      (newMillis - elapsedTime) < (tuneTime*2) ){
+        // For the 2nd tuneTime interval, set next temp
+      pidSetpoint = 35.0; // new setpoint
+    } else if ( (newMillis - elapsedTime) >= (tuneTime*2) & \
+      (newMillis - elapsedTime) < (tuneTime*3) ) {
+        // For the 3rd tuneTime interval, set next temp
+      pidSetpoint = 36.0; // final setpoint
+    } else if ( (newMillis - elapsedTime) >= (tuneTime*3)) {
+      // After 3rd tuneTime interval, shut it down
+      mainState = STATE_OFF;
+      logfile.close(); // Close the data file
+      saveData = false; // Set save data flag false to stop writing new data to SD card
+    }
+#endif
 
   //-------------------------------------------------------------
   // Check the debounceState to 
@@ -648,17 +721,23 @@ void loop() {
         // If the lowVoltageFlag has been set true, switch to STATE_OFF
         mainState = STATE_OFF;
       }
-
-      if ( (tideHeightft < tideHeightThreshold) & 
-            (newtime.hour() >= SUNRISE_HOUR) & 
-            (newtime.hour() < SUNSET_HOUR) & 
-            lowVoltageFlag == false & 
-            lowtideLimitFlag == false){
-              // If the statements here are all true, switch to STATE_HEATING
+      if ( (lowVoltageFlag == false) & (pidSetpoint > 0) ){ // basic for tuning purposes
+//      if ( (tideHeightft < tideHeightThreshold) & 
+//            (newtime.hour() >= SUNRISE_HOUR) & 
+//            (newtime.hour() < SUNSET_HOUR) & 
+//            lowVoltageFlag == false & 
+//            lowtideLimitFlag == false){
+              // If the statements above are all true, switch to STATE_HEATING
               mainState = STATE_HEATING;
               // Zero out the PID values
               myPID.resetPID(pidOutput, pidOutputSum, lastTime, NUM_THERMISTORS);
               pwm.wakeup();  // Wake up the PCA9685 PWM chip for the heaters
+              for (byte i = 0; i < 3; i++){
+                rgb.setColor(0,30,30);
+                delay(50);
+                rgb.setColor(0,0,0);
+                delay(50);
+              }
      }
      if (flashFlag){
       rgb.setColor(0,30,0); // flash green during idle mode
@@ -672,17 +751,17 @@ void loop() {
     // state change, or because the heating conditions were satisfied
     // in the STATE_IDLE case. 
     case STATE_HEATING:
-
-      if ( (tideHeightft < tideHeightThreshold) & 
-            (newtime.hour() >= SUNRISE_HOUR) & 
-            (newtime.hour() < SUNSET_HOUR) & 
-            lowVoltageFlag == false & 
-            lowtideLimitFlag == false)
-      {
+      if ( (lowVoltageFlag == false) & (pidSetpoint > 0) ){ // basic for tuning purposes
+//      if ( (tideHeightft < tideHeightThreshold) & 
+//            (newtime.hour() >= SUNRISE_HOUR) & 
+//            (newtime.hour() < SUNSET_HOUR) & 
+//            lowVoltageFlag == false & 
+//            lowtideLimitFlag == false)
+//      {
           // Assuming all of the above is true, we should be heating
           //------PID update-----------------
           // Update the target temperature Setpoint for the heated mussels
-          pidSetpoint = avgMAXtemp + tempIncrease;
+//          pidSetpoint = avgMAXtemp + tempIncrease; // Disable for tuning routine
           // The PID Compute() function updates whenever SampleTime has
           // been exceeded (checked inside the Compute() function).
           myPID.Compute(pidInput, 
@@ -698,9 +777,11 @@ void loop() {
           //------PWM update----------------
           // This should only run during daytime low tides
           // Update PWM output values
-          // Send the channel, start value (0), and end value (0-4095)
-          for (byte i = 0; i < NUM_THERMISTORS; i++){
-            pwm.setPWM(i, 0, (uint16_t)pidOutput[i]);  
+          
+          for (byte pwmchan = 0; pwmchan < NUM_THERMISTORS; pwmchan++){
+            // Send the channel, start value (0), and end value (0-4095)
+            pwm.setPWM(pwmchan, 0, (uint16_t)pidOutput[pwmchan]);
+//            delay(10);  // testing
           }
           
          if (flashFlag){
@@ -709,22 +790,22 @@ void loop() {
           rgb.setColor(0,0,0); // turn off red
          }
 
-      } else if (tideHeightft >= tideHeightThreshold) {
-        // Tide has gone high, go back to idle
-        mainState = STATE_IDLE;
-        lowtideLimitFlag = false;
-        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
-          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
-        }
-        pwm.sleep(); // Put PCA9685 chip to sleep for now
-      } else if (newtime.hour() >= SUNSET_HOUR){
-        // If time has rolled past SUNSET_HOUR, go to idle
-        mainState = STATE_IDLE;
-        lowtideLimitFlag = false;
-        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
-          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
-        }
-        pwm.sleep(); // Put PCA9685 chip to sleep for now
+//      } else if (tideHeightft >= tideHeightThreshold) {
+//        // Tide has gone high, go back to idle
+//        mainState = STATE_IDLE;
+//        lowtideLimitFlag = false;
+//        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+//          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+//        }
+//        pwm.sleep(); // Put PCA9685 chip to sleep for now
+//      } else if (newtime.hour() >= SUNSET_HOUR){
+//        // If time has rolled past SUNSET_HOUR, go to idle
+//        mainState = STATE_IDLE;
+//        lowtideLimitFlag = false;
+//        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+//          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+//        }
+//        pwm.sleep(); // Put PCA9685 chip to sleep for now
       } else if (lowVoltageFlag == true){
         mainState = STATE_OFF;
       }
@@ -801,7 +882,7 @@ void writeToSD (DateTime timestamp, double refTemps[]) {
   logfile.print(F(","));
   logfile.print(pidSetpoint,2);
   // Write the 16 thermistor temperature values in a loop
-  for (byte i = 0; i < 16; i++){
+  for (byte i = 0; i < NUM_THERMISTORS; i++){
     logfile.print(F(","));
     if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
       // If temperature value is out of bounds, write NA
@@ -810,6 +891,12 @@ void writeToSD (DateTime timestamp, double refTemps[]) {
       // If value is in bounds, write temperature
       logfile.print(pidInput[i],2); // write with 2 sig. figs.
     }
+  }
+
+  // Write the PID output values in a loop
+  for (byte i = 0; i < NUM_THERMISTORS; i++){
+    logfile.print(F(","));
+    logfile.print( (uint16_t)pidOutput[i] ); // 
   }
   logfile.print(F(","));
   logfile.print(batteryVolts,2);
@@ -821,3 +908,12 @@ void writeToSD (DateTime timestamp, double refTemps[]) {
       timestamp.day(),timestamp.hour(),timestamp.minute(),timestamp.second());
   }
 }
+
+//---------freeRam-----------
+// A function to estimate the remaining free dynamic memory. On a 328P (Uno), 
+// the dynamic memory is 2048 bytes.
+//int freeRam () {
+//  extern int __heap_start, *__brkval;
+//  int v;
+//  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+//}
