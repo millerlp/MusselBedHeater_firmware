@@ -1,16 +1,6 @@
 /*
- * PID tuning version, set up to output to Serial Plotter only
-
- * 
- * Set AUTO_RUN to 0 if you want to input a desired Setpoint temperature by typing in an integer
- * value in the serial monitor. 
- * Set AUTO_RUN to 1 to do a simple 3-step temperature rise to 30, 35, and 36C, recording data for 
- * 45 minutes at each setpoint
- * Set AUTO_RUN to 2 to do a constant rise from 30 to 45C over 90 minutes, then fall from 45 to 30C
- * over 90 minutes, and finish with a slower fall from 30 to 26C over 40 minutes, recording data.
- * 
- * A thermistor temperature of -273.15 or thereabouts indicates a 
- * non-functional or unplugged thermistor
+ * PID tuning version, set up to heat mussels relative to 
+ * reference mussels, for prototype testing outdoors. 
  * 
  * TODO: Tune PID
  */
@@ -25,14 +15,14 @@
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
 //#include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
 //-----------------------------------------------------------------------------------
-#define AUTO_RUN 2 // Set 0 to use manual user input setpoint, set 1 to use 30/35/36 temps, set 2 to use rise/fall
+#define AUTO_RUN 0 // Set 0 to use manual user input setpoint (or just track reference mussels), set 1 to use 30/35/36 temps
 #define SERIAL_PLOTTER 1 // Set to 0 to use serial monitor, set 1 to use serial plotter
 // User-settable values
 //float tideHeightThreshold = 12.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
-double tempIncrease = 0.0; // Target temperature increase for heated 
+double tempIncrease = 2.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
 // Specify initial PID tuning parameters
-double kp = 5000, ki = 0.50, kd = 2000;  
+double kp = 2500, ki = 0.08, kd = 500;  
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 //#define SUNRISE_HOUR 5 // Hour of day when sun rises 
 //#define SUNSET_HOUR 23 // Hour of day when sun sets
@@ -40,7 +30,7 @@ double kp = 5000, ki = 0.50, kd = 2000;
 #define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
-unsigned long tuneTime = 2700; // Number of (milli)seconds for each setpoint temperature in a tuning test v1
+unsigned long tuneTime = 2700; // Number of (milli)seconds for each setpoint temperature in a tuning test
 unsigned long elapsedTime = 0; // Number of elapsed seconds for current tuning test run
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
@@ -56,7 +46,8 @@ Thermistor* thermistor1;
 // Create multiplexer object
 ADG725 mux; 
 uint8_t ADGchannel = 0x00; // Initial value to activate ADG725 channel S1
-
+double tempVal = 0;
+double thermAvg = 0;
 //--------------------------------------------------
 // NTC_Thermistor library constants - specific to my chosen thermistor model
 #define REFERENCE_RESISTANCE  4700
@@ -80,6 +71,7 @@ uint8_t addr[8] = {};  // Address array for MAX31820, 8 bytes long
 int MAXSampleTime = 1000; // units milliseconds, time between MAX31820 readings
 unsigned long prevMaxTime; 
 double avgMAXtemp = 0; // Average of MAX31820 sensors
+byte goodReadings = 0; // Keep count of good readings in each loop
 //---------------------------------------
 // PID variables + timing
 #define PONE 0 // Set to 1 for Proportional on Error, or 0 for Proportional on Measurement mode
@@ -146,8 +138,8 @@ float dividerRatio = 5.7; // Ratio of voltage divider (47k + 10k) / 10k = 5.7
 // voltage value here. 
 float refVoltage = 3.44; // Voltage at AREF pin on ATmega microcontroller, measured per board
 float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
-byte lowVoltageCounter = 0; // Count number of cycles with low voltage before setting lowVoltageFlag
 bool lowVoltageFlag = false;
+byte lowVoltageCounter = 0;
 //--------- RGB LED setup --------------------------
 // Create object for red green blue LED
 RGBLED rgb;
@@ -184,15 +176,6 @@ char rx_byte = 0;
 String rx_str = "";
 boolean not_number = false;
 int result; 
-#endif
-
-#if (AUTO_RUN == 2)
-double startTemp = 30.0; // degrees C, starting temperature
-double riseRatePerSec = 0.002778; // degrees C per second
-double peakTemp = 45; // degrees C, maximum temperature
-unsigned long riseTime = 5400; // units seconds, 5400 = 90 minutes
-unsigned long endTime = 13200; // units seconds, time to end run
-double slowDropRatePerSec = 0.001667; // degrees C per second
 #endif
 
 
@@ -254,15 +237,37 @@ void setup() {
   SPI.begin();
   // Get an initial reading of the thermistor(s)
   for (byte i = 0; i < NUM_THERMISTORS; i++){
-    mux.setADG725channel(ADGchannel | i); // Activate channel i 
-    // Take an initial reading and throw it away (gives ADC time to settle)
-    thermistor1 -> readCelsius();
-    delay(1);
-    // Take a reading from thermistor1
-    pidInput[i] = thermistor1 -> readCelsius();
-  }
-  // Turn off all multiplexer channels (shuts off thermistor circuits)
-  mux.disableADG725(); 
+      mux.setADG725channel(ADGchannel | i); // Activate channel i
+      // Take an initial reading and throw it away (gives ADC time to settle)
+      thermistor1 -> readCelsius();
+      delay(2); 
+      tempVal = 0;
+      thermAvg = 0;
+      goodReadings = 0;
+        
+      for (byte j = 0; j < THERM_AVG; j++){
+        // Take the temperature reading
+        tempVal = thermistor1 -> readCelsius();
+        // Check the temperature reading relative 
+        if (tempVal > -100) {
+          // If tempVal temperature is reasonable, use it 
+            thermAvg += tempVal;
+            goodReadings = goodReadings + 1;
+        
+        } else {
+            // If previous pidInput was questionable, just get a new set of temps
+            tempVal = thermistor1 -> readCelsius();
+
+            thermAvg += tempVal;
+            goodReadings = goodReadings + 1;
+        }
+      }
+      // Calculate an average temperature from the good readings
+      pidInput[i] = thermAvg / (double)goodReadings;
+    }
+    // Turn off all multiplexer channels (shuts off thermistor circuits)
+    mux.disableADG725(); 
+
   //---------- MAX31820 setup ---------------------------------
   // Start up the DallasTemperature library object
   refSensors.begin();
@@ -432,7 +437,7 @@ void loop() {
     // loop, regardless of the mainState of the state machine
     // Array to hold temperature results
     double MAXTemps[numRefSensors] = {}; // MAX31820 temperature array
-    byte goodReadings = 0;              // Number of good MAX31820 readings in a cycle
+    goodReadings = 0;              // Number of good MAX31820 readings in a cycle
 
 #if (AUTO_RUN == 0)    
     // Look for user input of a new setpoint value
@@ -482,9 +487,7 @@ void loop() {
       if (batteryVolts < voltageMin){
         lowVoltageCounter = lowVoltageCounter++;
         if (lowVoltageCounter > 5) {
-          // If the counter reaches 5 cycles, the battery voltage is probably
-          // steady at the low limit, so shut down heaters to protect the battery
-          lowVoltageFlag = true; // Battery voltage is too low to continue          
+          lowVoltageFlag = true; // Battery voltage is too low to continue        
         }
       }
     }
@@ -516,7 +519,11 @@ void loop() {
       refSensors.requestTemperatures(); 
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
-
+      
+      // ---- Update setpoint temperature for heated mussels -----------------
+      pidSetpoint = avgMAXtemp + tempIncrease;
+      // ----------------------------------------------
+      
       //------------ Thermistor readings --------------
       // Read the thermistor(s)
       for (byte i = 0; i < NUM_THERMISTORS; i++){
@@ -524,8 +531,8 @@ void loop() {
         // Take an initial reading and throw it away (gives ADC time to settle)
         thermistor1 -> readCelsius();
         delay(2); 
-        double tempVal = 0;
-        double thermAvg = 0;
+        tempVal = 0;
+        thermAvg = 0;
         goodReadings = 0;
         
         for (byte j = 0; j < THERM_AVG; j++){
@@ -534,7 +541,7 @@ void loop() {
           // Check the temperature reading relative to previous step's temperature value
           // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
           // 10-30 seconds, which really threw off the PID routine. This filtering below 
-          // just throws out temperatures than change too much in the ~500ms between loops
+          // just throws out temperatures than change too much in the ~1000ms between loops
           if (pidInput[i] > -100) {
             // If previous pidInput temperature was reasonable, use it to 
             // filter out spurious large changes in the new temperature readings
@@ -650,26 +657,6 @@ void loop() {
     }
 #endif
 
-#if (AUTO_RUN == 2)
-  if ( (newMillis - elapsedTime) < (riseTime*1000) ){
-    // If it's been less than riseTime, continue increasing the setpoint
-    pidSetpoint = startTemp + (riseRatePerSec * ((newMillis - elapsedTime)/1000));
-  } else if ( (newMillis - elapsedTime) >= (riseTime * 1000) & \
-              (newMillis - elapsedTime) < (riseTime * 2 * 1000)) {
-    // If it's between riseTime and riseTime*2, decrease the setpoint
-    pidSetpoint = peakTemp - (riseRatePerSec * (((newMillis - elapsedTime)/1000) - riseTime));
-  } else if ( (newMillis - elapsedTime) >= (riseTime * 2 * 1000) & \
-              (newMillis - elapsedTime) < (endTime * 1000)) {
-    // If it's beyond riseTime*2 and before endTime, use the slower cooling rate
-    pidSetpoint = startTemp - (slowDropRatePerSec * (((newMillis - elapsedTime)/1000) - (riseTime*2)));
-  } else if ( (newMillis - elapsedTime) >= (endTime*1000)){
-    // After 3rd time interval, shut it down
-      mainState = STATE_OFF;
-      logfile.close(); // Close the data file
-      saveData = false; // Set save data flag false to stop writing new data to SD card
-  }
-#endif
-
   //-------------------------------------------------------------
   // Check the debounceState to 
   // handle any button presses
@@ -768,12 +755,6 @@ void loop() {
               // Zero out the PID values
               myPID.resetPID(pidOutput, pidOutputSum, lastTime, NUM_THERMISTORS);
               pwm.wakeup();  // Wake up the PCA9685 PWM chip for the heaters
-              for (byte i = 0; i < 3; i++){
-                rgb.setColor(0,30,30);
-                delay(50);
-                rgb.setColor(0,0,0);
-                delay(50);
-              }
      }
      if (flashFlag){
       rgb.setColor(0,30,0); // flash green during idle mode
@@ -818,6 +799,7 @@ void loop() {
           for (byte pwmchan = 0; pwmchan < NUM_THERMISTORS; pwmchan++){
             // Send the channel, start value (0), and end value (0-4095)
             pwm.setPWM(pwmchan, 0, (uint16_t)pidOutput[pwmchan]);
+//            delay(10);  // testing
           }
           
          if (flashFlag){
@@ -860,9 +842,7 @@ void loop() {
         pwm.sleep(); // Put PCA9685 chip to sleep for now
         if (flashFlag){
           if (lowVoltageFlag){
-           rgb.setColor(0,0,60); // flash blue color to show battery is dead 
-          } else {
-            rgb.setColor(0,30,30); // flash turquoise color to show we shut off for other reasons
+           rgb.setColor(0,0,60); // flash blue color  
           }
         } else if (!flashFlag) {
           rgb.setColor(0,0,0); // turn off LED
