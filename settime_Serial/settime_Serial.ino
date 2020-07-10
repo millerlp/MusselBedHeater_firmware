@@ -28,7 +28,7 @@
 #include <SPI.h>  // not used here, but needed to prevent a RTClib compile error
 #include "RTClib.h"
 
-#define GREENLED 6		// Green LED pin on MusselTracker board
+#define GREENLED 5		// Green LED pin on MusselBedHeater board
 
 
 // Setup an instance of DS1307 naming it rtc
@@ -55,6 +55,7 @@ void setup() {
 	Serial.println(F("Hello"));
 	
 	pinMode(GREENLED, OUTPUT);
+  digitalWrite(GREENLED, HIGH); // shuts it off 
 	
 	Wire.begin();
 	rtc.begin();
@@ -76,9 +77,9 @@ void loop() {
 		char buf[20]; // create a character array to hold the time as a string
 		Serial.println(currTime.toString(buf,21)); // print the time as a string
 		if (currTime.second() % 10 == 0){
-			digitalWrite(GREENLED, HIGH);
-			delay(10);
 			digitalWrite(GREENLED, LOW);
+			delay(10);
+			digitalWrite(GREENLED, HIGH);
 		}
 	}
 	// When the user has entered a date and time value in the serial 
