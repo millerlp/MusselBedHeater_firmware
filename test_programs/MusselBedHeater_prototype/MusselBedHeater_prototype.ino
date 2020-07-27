@@ -24,12 +24,14 @@
 //-----------------------------------------------------------------------------------
 // User-settable values
 float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
-double tempIncrease = 1.0; // Target temperature increase for heated 
-                           // mussels relative to reference mussels. Units = Celsius
+double tempIncrease = 6.0; // Target temperature increase for heated mussels relative
+                           // to reference mussels. Usually 6.0 or 2.0. Units = Celsius
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 #define SUNRISE_HOUR 6 // Hour of day when sun rises 
 #define SUNSET_HOUR 19 // Hour of day when sun sets
-#define NUM_THERMISTORS 9 // Number of thermistor channels
+#define NUM_THERMISTORS 16 // Number of thermistor channels
+#define THERM_AVG 6 // Number of readings per thermistor channel to average together
+#define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
@@ -67,12 +69,12 @@ uint8_t numRefSensors; // store number of available MAX31820 temperature sensors
 // each 8 bytes long
 uint8_t sensorAddr[4][8] = {}; // Up to 4 MAX31820 sensors on MusselBedHeater RevC boards
 uint8_t addr[8] = {};  // Address array for MAX31820, 8 bytes long
-int MAXSampleTime = 500; // units milliseconds, time between MAX31820 readings
+unsigned int MAXSampleTime = 500; // units milliseconds, time between MAX31820 readings
 unsigned long prevMaxTime; 
 double avgMAXtemp = 0; // Average of MAX31820 sensors
 //---------------------------------------
 // PID variables + timing
-
+#define PONE 0 // Set to 1 for Proportional on Error, or 0 for Proportional on Measurement mode
 double pidInput[16] = {}; // 16 position array of Input values for PID, this
                        // also serves as the current thermistor temperature
                        // readings array if you want to write these to disk
@@ -83,7 +85,7 @@ double pidSetpoint; // All heated mussels use the same target Setpoint temperatu
 int pidSampleTime = 1000; // units milliseconds, time between PID updates 
 unsigned long lastTime; // units milliseconds, used for PID timekeeping
 // Specify initial tuning parameters
-double kp = 2, ki = 5, kd = 1;
+double kp = 2500, ki = 0.08, kd = 500;
 PID myPID; // Creates a PID object that will update 16 PID values
 
 //-------------------------------------------------------------
@@ -133,9 +135,10 @@ float dividerRatio = 5.7; // Ratio of voltage divider (47k + 10k) / 10k = 5.7
 // The refVoltage needs to be measured individually for each board (use a 
 // voltmeter and measure at the AREF and GND pins on the board). Enter the 
 // voltage value here. 
-float refVoltage = 3.22; // Voltage at AREF pin on ATmega microcontroller, measured per board
+float refVoltage = 3.00; // Voltage at AREF pin on ATmega microcontroller, measured per board
 float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
 bool lowVoltageFlag = false;
+byte lowVoltageCounter = 0;
 //--------- RGB LED setup --------------------------
 // Create object for red green blue LED
 RGBLED rgb;
@@ -147,7 +150,7 @@ typedef enum STATE
   STATE_IDLE, // Idling, heaters off
   STATE_HEATING, // collecting data normally
   STATE_OFF, // Battery voltage is low, wait for user to replace batteries
-  STATE_CLOSE_FILE, // close data file, start new file
+//  STATE_CLOSE_FILE, // close data file, start new file
 } mainState_t;
 
 // main state machine variable, this takes on the various
@@ -173,6 +176,7 @@ volatile debounceState_t debounceState;
 void setup() {
   Serial.begin(57600);
   Serial.println(F("Hello"));
+  analogReference(EXTERNAL); // hooked to MAX6103 3.00V reference on RevF hardware 
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
   // Battery monitor pins
@@ -278,13 +282,13 @@ void setup() {
     // Flash the error led to notify the user
     // This permanently halts execution, no data will be collected
       rgb.setColor(127,0,0);  // red
-      delay(150);
+      delay(250);
       rgb.setColor(0,127,0); // green
-      delay(150);
+      delay(250);
       rgb.setColor(0,0,127); // blue
-      delay(150);
+      delay(250);
       rgb.setColor(0,0,0);  // off
-      delay(150);
+      delay(250);
     } // while loop end
   }
 
@@ -355,7 +359,7 @@ void setup() {
   }
   
 //--------- PID start -------------------------------------
-  myPID.begin(&kp, &ki, &kd, pidSampleTime);
+  myPID.begin(&kp, &ki, &kd, pidSampleTime, PONE);
   Serial.print(F("kp: "));
   Serial.print(kp, 5);
   Serial.print(F(" ki: "));
@@ -411,7 +415,12 @@ void loop() {
       // Check the battery voltage as well
       batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
       if (batteryVolts < voltageMin){
-        lowVoltageFlag = true; // Battery voltage is too low to continue        
+        if (lowVoltageCounter <= 5){
+          lowVoltageCounter++; // stop updating after 5 rounds of low voltage
+        }
+        if (lowVoltageCounter > 5) {
+          lowVoltageFlag = true; // Battery voltage is too low to continue        
+        }
       }
     }
     //---------------------------------------------------------------------
@@ -635,8 +644,8 @@ void loop() {
       if ( (tideHeightft > tideHeightThreshold) & 
             (newtime.hour() >= SUNRISE_HOUR) & 
             (newtime.hour() < SUNSET_HOUR) & 
-            lowVoltageFlag == false & 
-            lowtideLimitFlag == false){
+            (lowVoltageFlag == false) & 
+            (lowtideLimitFlag == false) ){
               // If the statements here are all true, switch to STATE_HEATING
               mainState = STATE_HEATING;
               // Zero out the PID values
@@ -658,8 +667,8 @@ void loop() {
       if ( (tideHeightft < tideHeightThreshold) & 
             (newtime.hour() >= SUNRISE_HOUR) & 
             (newtime.hour() < SUNSET_HOUR) & 
-            lowVoltageFlag == false & 
-            lowtideLimitFlag == false)
+            (lowVoltageFlag == false) & 
+            (lowtideLimitFlag == false) )
       {
           // Assuming all of the above is true, we should be heating
           //------PID update-----------------
@@ -675,7 +684,8 @@ void loop() {
                         pidSampleTime,
                         lastTime,
                         kp, ki, kd,
-                        NUM_THERMISTORS);    
+                        NUM_THERMISTORS,
+                        true);    // last argument says to use the deadband feature
 
           //------PWM update----------------
           // This should only run during daytime low tides
@@ -699,6 +709,7 @@ void loop() {
         lowtideLimitFlag = false;
       } else if (lowVoltageFlag == true){
         mainState = STATE_OFF;
+      }
     break; // end of STATE_HEATING case
     //-----------------------------------------
     // STATE_OFF handles the case when the lowVoltageFlag is true,
