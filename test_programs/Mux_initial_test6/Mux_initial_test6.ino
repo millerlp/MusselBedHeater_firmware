@@ -13,7 +13,7 @@
 #include <SPI.h>
 #include "MusselBedHeaterlib.h" // https://github.com/millerlp/MusselBedHeaterlib
 #include "NTC_Thermistor.h"  // https://github.com/YuriiSalimov/NTC_Thermistor
-#include "AverageThermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
+//#include "AverageThermistor.h" // https://github.com/YuriiSalimov/NTC_Thermistor
 
 #define CS_MUX 7 // Arduino pin D7 connected to ADG725 SYNC pin
 #define CS_SD 10 // Pin used for SD card
@@ -45,18 +45,15 @@ void setup() {
   mux.begin(CS_MUX, SPI_SPEED); // Set up multiplexer
   mux.setADG725channel(ADGchannel); // Activate channel stored in ADGchannel variable
   
-  // Set thermistor object to produce an average of several readings
-  thermistor = new AverageThermistor(
+
+  thermistor = 
       new NTC_Thermistor(
       ANALOG_INPUT,
       REFERENCE_RESISTANCE,
       NOMINAL_RESISTANCE,
       NOMINAL_TEMPERATURE,
       B_VALUE
-    ),
-    READINGS_NUMBER,
-    DELAY_TIME
-  );
+    );
 }
 
 void loop() {
@@ -65,6 +62,8 @@ void loop() {
   for (byte i = 0; i < NUM_THERMS; i++){
     mux.setADG725channel(ADGchannel | i);
     delay(1);
+    thermistor->readCelsius();
+    delay(2);
     thermTemps[i] = thermistor->readCelsius();
   }
 //  uint32_t tock = micros();
