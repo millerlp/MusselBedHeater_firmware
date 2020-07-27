@@ -1,7 +1,9 @@
 /*
  * MAX31820_initial_test2.ino
+ * This will find up to 4 attached MAX31820 temperature sensors
+ * and report their temperatures via the serial monitor
+ * Tested working on MusselBedHeater RevC/F hardware
  * 
- * Tested working on MusselBedHeater RevC hardware
  * 
  */
 
