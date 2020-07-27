@@ -36,7 +36,7 @@ double kp = 5000, ki = 0.50, kd = 2000;
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 //#define SUNRISE_HOUR 5 // Hour of day when sun rises 
 //#define SUNSET_HOUR 23 // Hour of day when sun sets
-#define NUM_THERMISTORS 9 // Number of thermistor channels (and heaters)
+#define NUM_THERMISTORS 16 // Number of thermistor channels (and heaters)
 #define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
@@ -144,7 +144,7 @@ float dividerRatio = 5.7; // Ratio of voltage divider (47k + 10k) / 10k = 5.7
 // The refVoltage needs to be measured individually for each board (use a 
 // voltmeter and measure at the AREF and GND pins on the board). Enter the 
 // voltage value here. 
-float refVoltage = 3.44; // Voltage at AREF pin on ATmega microcontroller, measured per board
+float refVoltage = 3.00; // Voltage at AREF pin from MAX6103 3.0V reference (RevF hardware)
 float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
 byte lowVoltageCounter = 0; // Count number of cycles with low voltage before setting lowVoltageFlag
 bool lowVoltageFlag = false;
@@ -200,7 +200,7 @@ double slowDropRatePerSec = 0.001667; // degrees C per second
 //------- Setup loop ----------------------------------------------------
 void setup() {
   Serial.begin(57600);
-   
+  analogReference(EXTERNAL); // Set to read from MAX6103 3.0V reference chip (RevF) 
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
   // Battery monitor pins
