@@ -1,6 +1,9 @@
 /*
  * PID tuning version, set up to heat mussels relative to 
  * reference mussels, for prototype testing outdoors. 
+ * Updated for RevF hardware with MAX6103 3.0V reference 2020-07
+ * Error code: Red-green-blue flashing - bad clock setting
+ *             Red-blue flashing - SD card failure
  * 
  * TODO: Tune PID
  */
@@ -19,14 +22,14 @@
 #define SERIAL_PLOTTER 1 // Set to 0 to use serial monitor, set 1 to use serial plotter
 // User-settable values
 //float tideHeightThreshold = 12.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
-double tempIncrease = 2.0; // Target temperature increase for heated 
+double tempIncrease = 6.0; // Target temperature increase for heated 
                            // mussels relative to reference mussels. Units = Celsius
 // Specify initial PID tuning parameters
 double kp = 2500, ki = 0.08, kd = 500;  
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
 //#define SUNRISE_HOUR 5 // Hour of day when sun rises 
 //#define SUNSET_HOUR 23 // Hour of day when sun sets
-#define NUM_THERMISTORS 9 // Number of thermistor channels (and heaters)
+#define NUM_THERMISTORS 16 // Number of thermistor channels (and heaters)
 #define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
@@ -136,7 +139,7 @@ float dividerRatio = 5.7; // Ratio of voltage divider (47k + 10k) / 10k = 5.7
 // The refVoltage needs to be measured individually for each board (use a 
 // voltmeter and measure at the AREF and GND pins on the board). Enter the 
 // voltage value here. 
-float refVoltage = 3.44; // Voltage at AREF pin on ATmega microcontroller, measured per board
+float refVoltage = 3.00; // Voltage at AREF pin from MAX6103 3.0V reference chip (RevF)
 float batteryVolts = 0; // Estimated battery voltage returned from readBatteryVoltage function
 bool lowVoltageFlag = false;
 byte lowVoltageCounter = 0;
@@ -183,7 +186,7 @@ int result;
 //------- Setup loop ----------------------------------------------------
 void setup() {
   Serial.begin(57600);
-   
+  analogReference(EXTERNAL); // hooked to MAX6103 3.00V reference on RevF hardware 
   // Set BUTTON1 as an input
   pinMode(BUTTON1, INPUT_PULLUP);
   // Battery monitor pins
@@ -307,13 +310,13 @@ void setup() {
     // Flash the error led to notify the user
     // This permanently halts execution, no data will be collected
       rgb.setColor(127,0,0);  // red
-      delay(150);
+      delay(250);
       rgb.setColor(0,127,0); // green
-      delay(150);
+      delay(250);
       rgb.setColor(0,0,127); // blue
-      delay(150);
+      delay(250);
       rgb.setColor(0,0,0);  // off
-      delay(150);
+      delay(250);
     } // while loop end
   }
 
@@ -338,9 +341,9 @@ void setup() {
     sdErrorFlag = true;
     bool stallFlag = true; // set true when there is an error
     while(stallFlag){ // loop due to SD card initialization error
-      rgb.setColor(255,0,0);
+      rgb.setColor(255,0,0);  // red
       delay(100);
-      rgb.setColor(0,0,255);
+      rgb.setColor(0,0,255);  // blue
       delay(100);
       rgb.setColor(0,0,0);
       delay(100);
@@ -408,7 +411,7 @@ void setup() {
   
 #elif (SERIAL_PLOTTER == 1)
   // If using Serial Plotter, only print line color labels
-  Serial.println(F("Setpoint\tT1\tT2\tT3\tT4\tT5\tT6\tT7\tT8\tT9")); // Labels for serial plotter   
+  Serial.println(F("AvgMAX\tSetpt\tT1\tT2\tT3\tT4\tT5\tT6\tT7\tT8\tT9\tT10\tT11\tT12\tT13\tT14\tT15\tT16")); // Labels for serial plotter   
 #endif
 
 
@@ -485,7 +488,9 @@ void loop() {
       // Check the battery voltage as well
       batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
       if (batteryVolts < voltageMin){
-        lowVoltageCounter = lowVoltageCounter++;
+        if (lowVoltageCounter <= 5){
+          lowVoltageCounter++; // stop updating after 5 rounds of low voltage
+        }
         if (lowVoltageCounter > 5) {
           lowVoltageFlag = true; // Battery voltage is too low to continue        
         }
@@ -519,7 +524,7 @@ void loop() {
       refSensors.requestTemperatures(); 
       // Calculate average MAX31820 temperature of reference mussels
       avgMAXtemp = avgMAXtemp / (double)goodReadings;
-      
+//      Serial.print(avgMAXtemp,3); Serial.print("\t\t");
       // ---- Update setpoint temperature for heated mussels -----------------
       pidSetpoint = avgMAXtemp + tempIncrease;
       // ----------------------------------------------
@@ -598,7 +603,8 @@ void loop() {
         writeData = false; // reset flag
       }
 
-      // Output for Serial plotter  
+      // Output for Serial plotter
+      Serial.print(avgMAXtemp,2); Serial.print(F("\t"));  
       Serial.print(pidSetpoint,1); 
       Serial.print(F("\t"));
       for (byte i = 0; i < NUM_THERMISTORS; i++){
@@ -609,23 +615,23 @@ void loop() {
 #if (SERIAL_PLOTTER == 0)
   // If using serial monitor, also print out the MAX31820 & pidOutput values
         // Write up to 4 reference mussel temperature values in a loop
-//      for (byte i = 0; i < numRefSensors; i++){
-//        Serial.print(F(","));
-//        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
-//      }
+      for (byte i = 0; i < numRefSensors; i++){
+        Serial.print(F(","));
+        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
+      }
       // Handle a case where there are missing reference mussels, fill in NA values
-//      if (numRefSensors < 4){
-//        byte fillNAs = 4 - numRefSensors;
-//        for (byte i = 0; i < fillNAs; i++){
-//          Serial.print(F(","));
-//          Serial.print(F("NA"));
-//        }
-//      }
+      if (numRefSensors < 4){
+        byte fillNAs = 4 - numRefSensors;
+        for (byte i = 0; i < fillNAs; i++){
+          Serial.print(F(","));
+          Serial.print(F("NA"));
+        }
+      }
       Serial.print(F("\t"));
-      for (byte i = 0; i < NUM_THERMISTORS; i++){
-        Serial.print(pidOutput[i],2);
-        Serial.print(F("\t"));
-      }    
+//      for (byte i = 0; i < NUM_THERMISTORS; i++){
+//        Serial.print(pidOutput[i],2);
+//        Serial.print(F("\t"));
+//      }    
 
 //          Serial.print(F("Free ram: "));
 //          Serial.print(freeRam());
