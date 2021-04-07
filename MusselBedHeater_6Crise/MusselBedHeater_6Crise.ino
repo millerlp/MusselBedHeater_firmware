@@ -1,7 +1,8 @@
 /*
- * Basic working example, initializing multiple MAX31820s
- * and reading them back using MusselBedHeaterlib library,
- * along with reading thermistors and doing multiple PID calculations 
+ * Main field mussel bed heater program
+ * 
+ * See the User-settable values section around line 22 for values
+ * that you may want to change for the experiment
  * 
  * A thermistor temperature of -273.15 or thereabouts indicates a 
  * non-functional or unplugged thermistor
@@ -20,12 +21,12 @@
 #include "TidelibNorthSpitHumboldtBayCalifornia.h" // https://github.com/millerlp/Tide_calculator
 //-----------------------------------------------------------------------------------
 // User-settable values
-float tideHeightThreshold = 10.0; // threshold for low vs high tide, units feet (5.9ft = 1.8m)
-double tempIncrease = 6.0; // Target temperature increase for heated mussels relative
+float tideHeightThreshold = 5.0; // <<--- threshold for low vs high tide, units feet
+double tempIncrease = 6.0; // <<--- Target temperature increase for heated mussels relative
                            // to reference mussels. Usually 6.0 or 2.0. Units = Celsius
 #define SAVE_INTERVAL 10 // Number of seconds between saving temperature data to SD card
-#define SUNRISE_HOUR 6 // Hour of day when sun rises 
-#define SUNSET_HOUR 19 // Hour of day when sun sets
+#define SUNRISE_HOUR 6 // Hour of day when sun rises (Pacific Standard Time, not Daylight savings)
+#define SUNSET_HOUR 19 // Hour of day when sun sets (Pacific Standard Time, not Daylight savings)
 #define NUM_THERMISTORS 16 // Number of thermistor channels
 #define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
@@ -638,6 +639,12 @@ void loop() {
         mainState = STATE_OFF;
       }
 
+      // Update pidSetpoint value for record-keeping purposes
+      // No temperature rise is added at this point, so the setpoint
+      // should equal the reference temperatures.
+      pidSetpoint = avgMAXtemp;
+
+      // Check if the tide&time has changed enough to go into heating model
       if ( (tideHeightft > tideHeightThreshold) & 
             (newtime.hour() >= SUNRISE_HOUR) & 
             (newtime.hour() < SUNSET_HOUR) & 
