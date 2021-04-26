@@ -421,6 +421,14 @@ void loop() {
         if (lowVoltageCounter > 5) {
           lowVoltageFlag = true; // Battery voltage is too low to continue        
         }
+      } else if (batteryVolts >= voltageMin) {
+        // If battery voltage is higher than voltageMin, and the lowVoltageCounter
+        // value is >0, subtract 1 off the counter. This should force the 
+        // program to only enter STATE_OFF if the battery voltage stays low
+        // for 5 consecutive minutes (since this only runs once each minute)
+        if (lowVoltageCounter > 0) {
+          lowVoltageCounter = lowVoltageCounter - 1; 
+        }
       }
     }
     //---------------------------------------------------------------------
@@ -510,6 +518,9 @@ void loop() {
           // Update oldday value to match the new day
           oldday = oldtime.day();
         }
+
+        // Update the battery voltage 
+        batteryVolts = readBatteryVoltage(BATT_MONITOR_EN,BATT_MONITOR,dividerRatio,refVoltage);
         // Call the writeToSD function to output the data array contents
         // to the SD card
         writeToSD(newtime, MAXTemps);
@@ -518,31 +529,31 @@ void loop() {
       }
       // Mirror some data to the Serial monitor for testing purposes
       // Write up to 4 reference mussel temperature values in a loop
-      for (byte i = 0; i < numRefSensors; i++){
-        Serial.print(F(","));
-        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
-      }
-      // Handle a case where there are missing reference mussels, fill in NA values
-      if (numRefSensors < 4){
-        byte fillNAs = 4 - numRefSensors;
-        for (byte i = 0; i < fillNAs; i++){
-          Serial.print(F(","));
-          Serial.print(F("NA"));
-        }
-      }
-      Serial.print(F("\t"));
-      // Write the 16 thermistor temperature values in a loop
-      for (byte i = 0; i < 16; i++){
-        Serial.print(F(","));
-        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
-          // If temperature value is out of bounds, write NA
-          Serial.print(F("NA"));
-        } else {
-          // If value is in bounds, write temperature
-          Serial.print(pidInput[i],2); // write with 2 sig. figs.
-        }
-      }
-      Serial.println();
+//      for (byte i = 0; i < numRefSensors; i++){
+//        Serial.print(F(","));
+//        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
+//      }
+//      // Handle a case where there are missing reference mussels, fill in NA values
+//      if (numRefSensors < 4){
+//        byte fillNAs = 4 - numRefSensors;
+//        for (byte i = 0; i < fillNAs; i++){
+//          Serial.print(F(","));
+//          Serial.print(F("NA"));
+//        }
+//      }
+//      Serial.print(F("\t"));
+//      // Write the 16 thermistor temperature values in a loop
+//      for (byte i = 0; i < 16; i++){
+//        Serial.print(F(","));
+//        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
+//          // If temperature value is out of bounds, write NA
+//          Serial.print(F("NA"));
+//        } else {
+//          // If value is in bounds, write temperature
+//          Serial.print(pidInput[i],2); // write with 2 sig. figs.
+//        }
+//      }
+//      Serial.println();
       flashFlag = !flashFlag;
     } // end of MAX31820 & thermistor sampling
 
