@@ -713,10 +713,18 @@ void loop() {
         // Tide has gone high, go back to idle
         mainState = STATE_IDLE;
         lowtideLimitFlag = false;
+        // Set all PWM heater channels to zero when re-entering STATE_IDLE
+        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+        }
       } else if (newtime.hour() >= SUNSET_HOUR){
         // If time has rolled past SUNSET_HOUR, go to idle
         mainState = STATE_IDLE;
         lowtideLimitFlag = false;
+        // Set all PWM heater channels to zero when re-entering STATE_IDLE
+        for (byte pwmchan = 0; pwmchan < 16; pwmchan++){
+          pwm.setPWM(pwmchan, 0, 0); // Channel, on, off (relative to start of 4096-part cycle)  
+        }
       } else if (lowVoltageFlag == true){
         mainState = STATE_OFF;
       }
