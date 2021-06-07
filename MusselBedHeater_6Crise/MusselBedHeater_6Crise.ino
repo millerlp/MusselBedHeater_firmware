@@ -1,5 +1,5 @@
 /*
- * Main field mussel bed heater program
+ * Main field mussel bed heater program, set to work with RevF boards (2021)
  * 
  * See the User-settable values section around line 22 for values
  * that you may want to change for the experiment
@@ -31,6 +31,10 @@ double tempIncrease = 6.0; // <<--- Target temperature increase for heated musse
 #define THERM_AVG 6 // Number of readings per thermistor channel to average together
 #define TEMP_FILTER 2.0 // Threshold temperature change limit for the thermistor readings
 float voltageMin = 11.20; // Minimum battery voltage allowed, shut off below this. Units: volts 
+float therm_correction = -0.0; // Thermistor temperature correction, applied to all thermistors
+                              // in the heated mussels. If thermistors read high during calibration
+                              // this value should be negative, to make the reported temperature
+                              // closer to the lower (true) calibration temperature. Units: Celsius
 //-----------------------------------------------------------------------------------
 #define BUTTON1 2     // BUTTON1 on INT0, pin PD2
 
@@ -237,6 +241,8 @@ void setup() {
     delay(1);
     // Take a reading from thermistor1
     pidInput[i] = thermistor1 -> readCelsius();
+    // Apply the temperature correction
+    pidInput[i] = pidInput[i] + therm_correction;
   }
   // Turn off all multiplexer channels (shuts off thermistor circuits)
   mux.disableADG725(); 
@@ -464,6 +470,8 @@ void loop() {
         for (byte j = 0; j < THERM_AVG; j++){
           // Take the temperature reading
           tempVal = thermistor1 -> readCelsius();
+          // Apply the thermistor temperature correction
+          tempVal = tempVal + therm_correction;
           // Check the temperature reading relative to previous step's temperature value
           // I was getting spurious temperature spikes (high and low) in excess of 2-3C every
           // 10-30 seconds, which really threw off the PID routine. This filtering below 
