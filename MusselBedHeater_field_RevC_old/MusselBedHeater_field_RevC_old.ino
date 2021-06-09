@@ -113,7 +113,7 @@ bool sdErrorFlag = false; // Flag to mark initialization problem with SD card
 bool saveData = false; // Flag to show SD card is functional
 bool writeData = false; // Flag to mark when to write to SD card
 bool serialValid = false; // Flag to show whether the serialNumber value is real or just zeros
-bool newSecondFlag = false; // Flag to show if we've started a new second (timing)
+
 //-------------------------------------------------------------
 // Real Time Clock DS3231M  
 // Create real time clock object
@@ -129,6 +129,7 @@ volatile unsigned long button1Time; // hold the initial button press millis() va
 byte debounceTime = 20; // milliseconds to wait for debounce
 int mediumPressTime = 2000; // milliseconds to hold button1 to register a medium press
 bool flashFlag = false; // Used to flash LED
+bool newSecondFlag = false; // Flag to show if we've started a new second (timing)
 //--------------------------------------------------------------
 // Tide calculator setup
 TideCalc myTideCalc; // Create TideCalc object called myTideCalc
