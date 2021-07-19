@@ -113,7 +113,6 @@ bool sdErrorFlag = false; // Flag to mark initialization problem with SD card
 bool saveData = false; // Flag to show SD card is functional
 bool writeData = false; // Flag to mark when to write to SD card
 bool serialValid = false; // Flag to show whether the serialNumber value is real or just zeros
-
 //-------------------------------------------------------------
 // Real Time Clock DS3231M  
 // Create real time clock object
@@ -122,14 +121,12 @@ char buf[20]; // declare a string buffer to hold the time result
 //**************** Time variables
 DateTime newtime;
 DateTime oldtime; // used to track time in main loop
-DateTime secondsValue; // used to track time in main loop
 byte oldday;     // used to keep track of midnight transition
 bool rtcErrorFlag = false; // Flag to show error with RTC
 volatile unsigned long button1Time; // hold the initial button press millis() value
 byte debounceTime = 20; // milliseconds to wait for debounce
 int mediumPressTime = 2000; // milliseconds to hold button1 to register a medium press
 bool flashFlag = false; // Used to flash LED
-bool newSecondFlag = false; // Flag to show if we've started a new second (timing)
 //--------------------------------------------------------------
 // Tide calculator setup
 TideCalc myTideCalc; // Create TideCalc object called myTideCalc
@@ -394,7 +391,6 @@ void setup() {
   newtime = rtc.now();
   oldtime = newtime;
   oldday = oldtime.day();
-  secondsValue = oldtime;
   // Initialize the timing for sampling MAX31820s
   prevMaxTime = millis();
 
@@ -443,14 +439,6 @@ void loop() {
         }
       }
     }
-    //------------------------------------------------------------------
-    // Check to see if we're still in the same second as the prior readings
-    if ( newtime.second() != secondsValue.second() ) {
-      newSecondFlag = true; // If it's a new second, set flag true to record data
-      secondsValue = newtime; // update secondsValue with the new time value
-    } else if (newtime.second() == secondsValue.second() ) {
-      newSecondFlag = false; // Still the same second, set flag false
-    }
     //---------------------------------------------------------------------
     // Check to see if enough time has elapsed to read the mussel temps
     unsigned long newMillis = millis();
@@ -469,7 +457,7 @@ void loop() {
         }
         MAXTemps[i] = refSensors.getTempC(addr); // query using device address
         // Sanity check the recorded temperature
-        if ( (MAXTemps[i] > -10.0) & (MAXTemps[i] < 70.0) ){
+        if ( (MAXTemps[i] > -10.0) & (MAXTemps[i] < 60.0) ){
           avgMAXtemp = avgMAXtemp + MAXTemps[i];
           goodReadings = goodReadings + 1;   
         }
@@ -523,7 +511,7 @@ void loop() {
       mux.disableADG725(); 
 
       //------------ Save data to card
-      if ( ((newtime.second() % SAVE_INTERVAL) == 0 ) & newSecondFlag ){
+      if ( (newtime.second() % SAVE_INTERVAL) == 0){
           if (saveData){
             writeData = true; // set flag to write samples to SD card     
           }          
