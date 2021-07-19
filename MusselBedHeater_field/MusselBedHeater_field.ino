@@ -1,4 +1,4 @@
-/*
+ /*
  * MusselBedHeater_field.ino
  * This version is intended for use in the field for running
  * experiments (and lab testing as needed). Works with RevF hardware
@@ -550,31 +550,31 @@ void loop() {
       }
       // Mirror some data to the Serial monitor for testing purposes
       // Write up to 4 reference mussel temperature values in a loop
-//      for (byte i = 0; i < numRefSensors; i++){
-//        Serial.print(F(","));
-//        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
-//      }
-//      // Handle a case where there are missing reference mussels, fill in NA values
-//      if (numRefSensors < 4){
-//        byte fillNAs = 4 - numRefSensors;
-//        for (byte i = 0; i < fillNAs; i++){
-//          Serial.print(F(","));
-//          Serial.print(F("NA"));
-//        }
-//      }
-//      Serial.print(F("\t"));
-//      // Write the 16 thermistor temperature values in a loop
-//      for (byte i = 0; i < 16; i++){
-//        Serial.print(F(","));
-//        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
-//          // If temperature value is out of bounds, write NA
-//          Serial.print(F("NA"));
-//        } else {
-//          // If value is in bounds, write temperature
-//          Serial.print(pidInput[i],2); // write with 2 sig. figs.
-//        }
-//      }
-//      Serial.println();
+      for (byte i = 0; i < numRefSensors; i++){
+        Serial.print(F(","));
+        Serial.print(MAXTemps[i],2); // write with 2 sig. figs.
+      }
+      // Handle a case where there are missing reference mussels, fill in NA values
+      if (numRefSensors < 4){
+        byte fillNAs = 4 - numRefSensors;
+        for (byte i = 0; i < fillNAs; i++){
+          Serial.print(F(","));
+          Serial.print(F("NA"));
+        }
+      }
+      Serial.print(F("\t"));
+      // Write the 16 thermistor temperature values in a loop
+      for (byte i = 0; i < 16; i++){
+        Serial.print(F(","));
+        if ( (pidInput[i] < -10) | (pidInput[i] > 60) ){
+          // If temperature value is out of bounds, write NA
+          Serial.print(F("NA"));
+        } else {
+          // If value is in bounds, write temperature
+          Serial.print(pidInput[i],2); // write with 2 sig. figs.
+        }
+      }
+      Serial.println();
       flashFlag = !flashFlag;
     } // end of MAX31820 & thermistor sampling
 
