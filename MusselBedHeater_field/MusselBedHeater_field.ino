@@ -321,11 +321,11 @@ void setup() {
     sdErrorFlag = true;
     bool stallFlag = true; // set true when there is an error
     while(stallFlag){ // loop due to SD card initialization error
-      rgb.setColor(255,0,0);
+      rgb.setColor(255,0,0);  // red
       delay(100);
-      rgb.setColor(0,0,255);
+      rgb.setColor(0,0,255); // blue
       delay(100);
-      rgb.setColor(0,0,0);
+      rgb.setColor(0,0,0);  // off
       delay(100);
       if (digitalRead(BUTTON1) == LOW){
         delay(40);  // debounce pause
