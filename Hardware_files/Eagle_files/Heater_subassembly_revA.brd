@@ -1,0 +1,2378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="9.5.2">
+<drawing>
+<settings>
+<setting alwaysvectorfont="yes"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
+<layer number="3" name="Route3" color="17" fill="1" visible="no" active="no"/>
+<layer number="4" name="Route4" color="18" fill="1" visible="no" active="no"/>
+<layer number="5" name="Route5" color="19" fill="1" visible="no" active="no"/>
+<layer number="6" name="Route6" color="25" fill="1" visible="no" active="no"/>
+<layer number="7" name="Route7" color="26" fill="1" visible="no" active="no"/>
+<layer number="8" name="Route8" color="27" fill="1" visible="no" active="no"/>
+<layer number="9" name="Route9" color="28" fill="1" visible="no" active="no"/>
+<layer number="10" name="Route10" color="29" fill="1" visible="no" active="no"/>
+<layer number="11" name="Route11" color="30" fill="1" visible="no" active="no"/>
+<layer number="12" name="Route12" color="20" fill="1" visible="no" active="no"/>
+<layer number="13" name="Route13" color="21" fill="1" visible="no" active="no"/>
+<layer number="14" name="Route14" color="22" fill="1" visible="no" active="no"/>
+<layer number="15" name="Route15" color="23" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="88" name="SimResults" color="9" fill="1" visible="no" active="no"/>
+<layer number="89" name="SimProbes" color="9" fill="1" visible="no" active="no"/>
+<layer number="90" name="Modules" color="5" fill="1" visible="no" active="no"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="no" active="no"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="no" active="no"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="no" active="no"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="no" active="no"/>
+<layer number="95" name="Names" color="7" fill="1" visible="no" active="no"/>
+<layer number="96" name="Values" color="7" fill="1" visible="no" active="no"/>
+<layer number="97" name="Info" color="7" fill="1" visible="no" active="no"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="no" active="no"/>
+<layer number="99" name="SpiceOrder" color="7" fill="1" visible="no" active="no"/>
+<layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
+<layer number="101" name="Patch_Top" color="12" fill="4" visible="no" active="yes"/>
+<layer number="102" name="Vscore" color="7" fill="1" visible="no" active="yes"/>
+<layer number="103" name="tMap" color="7" fill="1" visible="no" active="yes"/>
+<layer number="104" name="Name" color="16" fill="1" visible="no" active="yes"/>
+<layer number="105" name="tPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="106" name="bPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="107" name="Crop" color="7" fill="1" visible="no" active="yes"/>
+<layer number="108" name="tplace-old" color="10" fill="1" visible="no" active="yes"/>
+<layer number="109" name="ref-old" color="11" fill="1" visible="no" active="yes"/>
+<layer number="110" name="fp0" color="7" fill="1" visible="no" active="yes"/>
+<layer number="111" name="LPC17xx" color="7" fill="1" visible="no" active="yes"/>
+<layer number="112" name="tSilk" color="7" fill="1" visible="no" active="yes"/>
+<layer number="113" name="IDFDebug" color="4" fill="1" visible="no" active="yes"/>
+<layer number="114" name="FRNTMAAT1" color="7" fill="1" visible="no" active="no"/>
+<layer number="115" name="FRNTMAAT2" color="7" fill="1" visible="no" active="no"/>
+<layer number="116" name="Patch_BOT" color="9" fill="4" visible="no" active="yes"/>
+<layer number="117" name="BACKMAAT1" color="7" fill="1" visible="no" active="no"/>
+<layer number="118" name="Rect_Pads" color="7" fill="1" visible="no" active="no"/>
+<layer number="119" name="KAP_TEKEN" color="7" fill="1" visible="no" active="no"/>
+<layer number="120" name="KAP_MAAT1" color="7" fill="1" visible="no" active="no"/>
+<layer number="121" name="_tsilk" color="7" fill="1" visible="no" active="yes"/>
+<layer number="122" name="_bsilk" color="7" fill="1" visible="no" active="yes"/>
+<layer number="123" name="tTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="124" name="bTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="126" name="_bNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="127" name="_tValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="128" name="_bValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="129" name="top_silk" color="7" fill="1" visible="no" active="no"/>
+<layer number="130" name="SMDSTROOK" color="7" fill="1" visible="no" active="no"/>
+<layer number="131" name="tAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="132" name="bAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="133" name="bottom_silk" color="7" fill="1" visible="no" active="no"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="no" active="yes"/>
+<layer number="150" name="Notes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="151" name="HeatSink" color="7" fill="1" visible="no" active="yes"/>
+<layer number="152" name="_bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="153" name="FabDoc1" color="7" fill="1" visible="no" active="yes"/>
+<layer number="154" name="FabDoc2" color="7" fill="1" visible="no" active="yes"/>
+<layer number="155" name="FabDoc3" color="7" fill="1" visible="no" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="no" active="yes"/>
+<layer number="200" name="200bmp" color="1" fill="10" visible="no" active="yes"/>
+<layer number="201" name="201bmp" color="2" fill="10" visible="no" active="yes"/>
+<layer number="202" name="202bmp" color="3" fill="10" visible="no" active="yes"/>
+<layer number="203" name="203bmp" color="4" fill="10" visible="no" active="yes"/>
+<layer number="204" name="204bmp" color="5" fill="10" visible="no" active="yes"/>
+<layer number="205" name="205bmp" color="6" fill="10" visible="no" active="yes"/>
+<layer number="206" name="206bmp" color="7" fill="10" visible="no" active="yes"/>
+<layer number="207" name="207bmp" color="8" fill="10" visible="no" active="yes"/>
+<layer number="208" name="208bmp" color="9" fill="10" visible="no" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="217" name="217bmp" color="18" fill="1" visible="no" active="no"/>
+<layer number="218" name="218bmp" color="19" fill="1" visible="no" active="no"/>
+<layer number="219" name="219bmp" color="20" fill="1" visible="no" active="no"/>
+<layer number="220" name="220bmp" color="21" fill="1" visible="no" active="no"/>
+<layer number="221" name="221bmp" color="22" fill="1" visible="no" active="no"/>
+<layer number="222" name="222bmp" color="23" fill="1" visible="no" active="no"/>
+<layer number="223" name="223bmp" color="24" fill="1" visible="no" active="no"/>
+<layer number="224" name="224bmp" color="25" fill="1" visible="no" active="no"/>
+<layer number="225" name="225bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="226" name="226bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="227" name="227bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="228" name="228bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="229" name="229bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="230" name="230bmp" color="7" fill="1" visible="no" active="no"/>
+<layer number="231" name="Eagle3D_PG1" color="7" fill="1" visible="no" active="no"/>
+<layer number="232" name="Eagle3D_PG2" color="7" fill="1" visible="no" active="no"/>
+<layer number="233" name="Eagle3D_PG3" color="7" fill="1" visible="no" active="no"/>
+<layer number="248" name="Housing" color="7" fill="1" visible="no" active="yes"/>
+<layer number="249" name="Edge" color="7" fill="1" visible="no" active="yes"/>
+<layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
+<layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
+<layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
+<layer number="255" name="Accent" color="7" fill="1" visible="no" active="no"/>
+</layers>
+<board>
+<plain>
+<wire x1="0" y1="0" x2="38.1" y2="0" width="0" layer="20"/>
+<wire x1="38.1" y1="0" x2="38.1" y2="101.6" width="0" layer="20"/>
+<wire x1="38.1" y1="101.6" x2="0" y2="101.6" width="0" layer="20"/>
+<wire x1="0" y1="101.6" x2="0" y2="0" width="0" layer="20"/>
+<hole x="3.81" y="0.635" drill="0.35"/>
+<hole x="3.81" y="1.27" drill="0.35"/>
+<hole x="3.81" y="1.905" drill="0.35"/>
+<hole x="3.81" y="2.54" drill="0.35"/>
+<hole x="3.81" y="3.175" drill="0.35"/>
+<hole x="3.81" y="3.81" drill="0.35"/>
+<hole x="3.81" y="4.445" drill="0.35"/>
+<hole x="3.81" y="5.08" drill="0.35"/>
+<hole x="3.81" y="5.715" drill="0.35"/>
+<hole x="3.81" y="6.35" drill="0.35"/>
+<hole x="3.81" y="6.985" drill="0.35"/>
+<hole x="3.81" y="7.62" drill="0.35"/>
+<hole x="3.81" y="8.255" drill="0.35"/>
+<hole x="3.81" y="8.89" drill="0.35"/>
+<hole x="3.81" y="9.525" drill="0.35"/>
+<hole x="3.81" y="10.16" drill="0.35"/>
+<hole x="3.81" y="10.795" drill="0.35"/>
+<hole x="3.81" y="11.43" drill="0.35"/>
+<hole x="3.81" y="12.065" drill="0.35"/>
+<hole x="3.81" y="12.7" drill="0.35"/>
+<hole x="3.81" y="13.335" drill="0.35"/>
+<hole x="3.81" y="13.97" drill="0.35"/>
+<hole x="3.81" y="14.605" drill="0.35"/>
+<hole x="3.81" y="15.24" drill="0.35"/>
+<hole x="3.81" y="15.875" drill="0.35"/>
+<hole x="3.81" y="16.51" drill="0.35"/>
+<hole x="3.81" y="17.145" drill="0.35"/>
+<hole x="3.81" y="17.78" drill="0.35"/>
+<hole x="3.81" y="18.415" drill="0.35"/>
+<hole x="3.81" y="19.05" drill="0.35"/>
+<hole x="3.81" y="19.685" drill="0.35"/>
+<hole x="3.81" y="20.32" drill="0.35"/>
+<hole x="4.445" y="20.32" drill="0.35"/>
+<hole x="5.08" y="20.32" drill="0.35"/>
+<hole x="5.715" y="20.32" drill="0.35"/>
+<hole x="6.35" y="20.32" drill="0.35"/>
+<hole x="6.985" y="20.32" drill="0.35"/>
+<hole x="7.62" y="20.32" drill="0.35"/>
+<hole x="8.255" y="20.32" drill="0.35"/>
+<hole x="8.89" y="20.32" drill="0.35"/>
+<hole x="9.525" y="20.32" drill="0.35"/>
+<hole x="10.16" y="20.32" drill="0.35"/>
+<hole x="10.795" y="20.32" drill="0.35"/>
+<hole x="11.43" y="20.32" drill="0.35"/>
+<hole x="11.43" y="0.635" drill="0.35"/>
+<hole x="11.43" y="1.27" drill="0.35"/>
+<hole x="11.43" y="1.905" drill="0.35"/>
+<hole x="11.43" y="2.54" drill="0.35"/>
+<hole x="11.43" y="3.175" drill="0.35"/>
+<hole x="11.43" y="3.81" drill="0.35"/>
+<hole x="11.43" y="4.445" drill="0.35"/>
+<hole x="11.43" y="5.08" drill="0.35"/>
+<hole x="11.43" y="5.715" drill="0.35"/>
+<hole x="11.43" y="6.35" drill="0.35"/>
+<hole x="11.43" y="6.985" drill="0.35"/>
+<hole x="11.43" y="7.62" drill="0.35"/>
+<hole x="11.43" y="8.255" drill="0.35"/>
+<hole x="11.43" y="8.89" drill="0.35"/>
+<hole x="11.43" y="9.525" drill="0.35"/>
+<hole x="11.43" y="10.16" drill="0.35"/>
+<hole x="11.43" y="10.795" drill="0.35"/>
+<hole x="11.43" y="11.43" drill="0.35"/>
+<hole x="11.43" y="12.065" drill="0.35"/>
+<hole x="11.43" y="12.7" drill="0.35"/>
+<hole x="11.43" y="13.335" drill="0.35"/>
+<hole x="11.43" y="13.97" drill="0.35"/>
+<hole x="11.43" y="14.605" drill="0.35"/>
+<hole x="11.43" y="15.24" drill="0.35"/>
+<hole x="11.43" y="15.875" drill="0.35"/>
+<hole x="11.43" y="16.51" drill="0.35"/>
+<hole x="11.43" y="17.145" drill="0.35"/>
+<hole x="11.43" y="17.78" drill="0.35"/>
+<hole x="11.43" y="18.415" drill="0.35"/>
+<hole x="11.43" y="19.05" drill="0.35"/>
+<hole x="11.43" y="19.685" drill="0.35"/>
+<hole x="12.065" y="20.32" drill="0.35"/>
+<hole x="12.7" y="20.32" drill="0.35"/>
+<hole x="13.335" y="20.32" drill="0.35"/>
+<hole x="13.97" y="20.32" drill="0.35"/>
+<hole x="14.605" y="20.32" drill="0.35"/>
+<hole x="15.24" y="20.32" drill="0.35"/>
+<hole x="15.875" y="20.32" drill="0.35"/>
+<hole x="16.51" y="20.32" drill="0.35"/>
+<hole x="17.145" y="20.32" drill="0.35"/>
+<hole x="17.78" y="20.32" drill="0.35"/>
+<hole x="18.415" y="20.32" drill="0.35"/>
+<hole x="19.05" y="20.32" drill="0.35"/>
+<hole x="19.05" y="0.635" drill="0.35"/>
+<hole x="19.05" y="1.27" drill="0.35"/>
+<hole x="19.05" y="1.905" drill="0.35"/>
+<hole x="19.05" y="2.54" drill="0.35"/>
+<hole x="19.05" y="3.175" drill="0.35"/>
+<hole x="19.05" y="3.81" drill="0.35"/>
+<hole x="19.05" y="4.445" drill="0.35"/>
+<hole x="19.05" y="5.08" drill="0.35"/>
+<hole x="19.05" y="5.715" drill="0.35"/>
+<hole x="19.05" y="6.35" drill="0.35"/>
+<hole x="19.05" y="6.985" drill="0.35"/>
+<hole x="19.05" y="7.62" drill="0.35"/>
+<hole x="19.05" y="8.255" drill="0.35"/>
+<hole x="19.05" y="8.89" drill="0.35"/>
+<hole x="19.05" y="9.525" drill="0.35"/>
+<hole x="19.05" y="10.16" drill="0.35"/>
+<hole x="19.05" y="10.795" drill="0.35"/>
+<hole x="19.05" y="11.43" drill="0.35"/>
+<hole x="19.05" y="12.065" drill="0.35"/>
+<hole x="19.05" y="12.7" drill="0.35"/>
+<hole x="19.05" y="13.335" drill="0.35"/>
+<hole x="19.05" y="13.97" drill="0.35"/>
+<hole x="19.05" y="14.605" drill="0.35"/>
+<hole x="19.05" y="15.24" drill="0.35"/>
+<hole x="19.05" y="15.875" drill="0.35"/>
+<hole x="19.05" y="16.51" drill="0.35"/>
+<hole x="19.05" y="17.145" drill="0.35"/>
+<hole x="19.05" y="17.78" drill="0.35"/>
+<hole x="19.05" y="18.415" drill="0.35"/>
+<hole x="19.05" y="19.05" drill="0.35"/>
+<hole x="19.05" y="19.685" drill="0.35"/>
+<hole x="3.81" y="20.955" drill="0.35"/>
+<hole x="3.81" y="21.59" drill="0.35"/>
+<hole x="3.81" y="22.225" drill="0.35"/>
+<hole x="3.81" y="22.86" drill="0.35"/>
+<hole x="3.81" y="23.495" drill="0.35"/>
+<hole x="3.81" y="24.13" drill="0.35"/>
+<hole x="3.81" y="24.765" drill="0.35"/>
+<hole x="3.81" y="25.4" drill="0.35"/>
+<hole x="3.81" y="26.035" drill="0.35"/>
+<hole x="3.81" y="26.67" drill="0.35"/>
+<hole x="3.81" y="27.305" drill="0.35"/>
+<hole x="3.81" y="27.94" drill="0.35"/>
+<hole x="3.81" y="28.575" drill="0.35"/>
+<hole x="3.81" y="29.21" drill="0.35"/>
+<hole x="3.81" y="29.845" drill="0.35"/>
+<hole x="3.81" y="30.48" drill="0.35"/>
+<hole x="3.81" y="31.115" drill="0.35"/>
+<hole x="3.81" y="31.75" drill="0.35"/>
+<hole x="3.81" y="32.385" drill="0.35"/>
+<hole x="3.81" y="33.02" drill="0.35"/>
+<hole x="3.81" y="33.655" drill="0.35"/>
+<hole x="3.81" y="34.29" drill="0.35"/>
+<hole x="3.81" y="34.925" drill="0.35"/>
+<hole x="3.81" y="35.56" drill="0.35"/>
+<hole x="3.81" y="36.195" drill="0.35"/>
+<hole x="3.81" y="36.83" drill="0.35"/>
+<hole x="3.81" y="37.465" drill="0.35"/>
+<hole x="3.81" y="38.1" drill="0.35"/>
+<hole x="3.81" y="38.735" drill="0.35"/>
+<hole x="3.81" y="39.37" drill="0.35"/>
+<hole x="3.81" y="40.005" drill="0.35"/>
+<hole x="3.81" y="40.64" drill="0.35"/>
+<hole x="4.445" y="40.64" drill="0.35"/>
+<hole x="5.08" y="40.64" drill="0.35"/>
+<hole x="5.715" y="40.64" drill="0.35"/>
+<hole x="6.35" y="40.64" drill="0.35"/>
+<hole x="6.985" y="40.64" drill="0.35"/>
+<hole x="7.62" y="40.64" drill="0.35"/>
+<hole x="8.255" y="40.64" drill="0.35"/>
+<hole x="8.89" y="40.64" drill="0.35"/>
+<hole x="9.525" y="40.64" drill="0.35"/>
+<hole x="10.16" y="40.64" drill="0.35"/>
+<hole x="10.795" y="40.64" drill="0.35"/>
+<hole x="11.43" y="40.64" drill="0.35"/>
+<hole x="11.43" y="20.955" drill="0.35"/>
+<hole x="11.43" y="21.59" drill="0.35"/>
+<hole x="11.43" y="22.225" drill="0.35"/>
+<hole x="11.43" y="22.86" drill="0.35"/>
+<hole x="11.43" y="23.495" drill="0.35"/>
+<hole x="11.43" y="24.13" drill="0.35"/>
+<hole x="11.43" y="24.765" drill="0.35"/>
+<hole x="11.43" y="25.4" drill="0.35"/>
+<hole x="11.43" y="26.035" drill="0.35"/>
+<hole x="11.43" y="26.67" drill="0.35"/>
+<hole x="11.43" y="27.305" drill="0.35"/>
+<hole x="11.43" y="27.94" drill="0.35"/>
+<hole x="11.43" y="28.575" drill="0.35"/>
+<hole x="11.43" y="29.21" drill="0.35"/>
+<hole x="11.43" y="29.845" drill="0.35"/>
+<hole x="11.43" y="30.48" drill="0.35"/>
+<hole x="11.43" y="31.115" drill="0.35"/>
+<hole x="11.43" y="31.75" drill="0.35"/>
+<hole x="11.43" y="32.385" drill="0.35"/>
+<hole x="11.43" y="33.02" drill="0.35"/>
+<hole x="11.43" y="33.655" drill="0.35"/>
+<hole x="11.43" y="34.29" drill="0.35"/>
+<hole x="11.43" y="34.925" drill="0.35"/>
+<hole x="11.43" y="35.56" drill="0.35"/>
+<hole x="11.43" y="36.195" drill="0.35"/>
+<hole x="11.43" y="36.83" drill="0.35"/>
+<hole x="11.43" y="37.465" drill="0.35"/>
+<hole x="11.43" y="38.1" drill="0.35"/>
+<hole x="11.43" y="38.735" drill="0.35"/>
+<hole x="11.43" y="39.37" drill="0.35"/>
+<hole x="11.43" y="40.005" drill="0.35"/>
+<hole x="12.065" y="40.64" drill="0.35"/>
+<hole x="12.7" y="40.64" drill="0.35"/>
+<hole x="13.335" y="40.64" drill="0.35"/>
+<hole x="13.97" y="40.64" drill="0.35"/>
+<hole x="14.605" y="40.64" drill="0.35"/>
+<hole x="15.24" y="40.64" drill="0.35"/>
+<hole x="15.875" y="40.64" drill="0.35"/>
+<hole x="16.51" y="40.64" drill="0.35"/>
+<hole x="17.145" y="40.64" drill="0.35"/>
+<hole x="17.78" y="40.64" drill="0.35"/>
+<hole x="18.415" y="40.64" drill="0.35"/>
+<hole x="19.05" y="40.64" drill="0.35"/>
+<hole x="19.05" y="20.955" drill="0.35"/>
+<hole x="19.05" y="21.59" drill="0.35"/>
+<hole x="19.05" y="22.225" drill="0.35"/>
+<hole x="19.05" y="22.86" drill="0.35"/>
+<hole x="19.05" y="23.495" drill="0.35"/>
+<hole x="19.05" y="24.13" drill="0.35"/>
+<hole x="19.05" y="24.765" drill="0.35"/>
+<hole x="19.05" y="25.4" drill="0.35"/>
+<hole x="19.05" y="26.035" drill="0.35"/>
+<hole x="19.05" y="26.67" drill="0.35"/>
+<hole x="19.05" y="27.305" drill="0.35"/>
+<hole x="19.05" y="27.94" drill="0.35"/>
+<hole x="19.05" y="28.575" drill="0.35"/>
+<hole x="19.05" y="29.21" drill="0.35"/>
+<hole x="19.05" y="29.845" drill="0.35"/>
+<hole x="19.05" y="30.48" drill="0.35"/>
+<hole x="19.05" y="31.115" drill="0.35"/>
+<hole x="19.05" y="31.75" drill="0.35"/>
+<hole x="19.05" y="32.385" drill="0.35"/>
+<hole x="19.05" y="33.02" drill="0.35"/>
+<hole x="19.05" y="33.655" drill="0.35"/>
+<hole x="19.05" y="34.29" drill="0.35"/>
+<hole x="19.05" y="34.925" drill="0.35"/>
+<hole x="19.05" y="35.56" drill="0.35"/>
+<hole x="19.05" y="36.195" drill="0.35"/>
+<hole x="19.05" y="36.83" drill="0.35"/>
+<hole x="19.05" y="37.465" drill="0.35"/>
+<hole x="19.05" y="38.1" drill="0.35"/>
+<hole x="19.05" y="38.735" drill="0.35"/>
+<hole x="19.05" y="39.37" drill="0.35"/>
+<hole x="19.05" y="40.005" drill="0.35"/>
+<hole x="3.81" y="41.275" drill="0.35"/>
+<hole x="3.81" y="41.91" drill="0.35"/>
+<hole x="3.81" y="42.545" drill="0.35"/>
+<hole x="3.81" y="43.18" drill="0.35"/>
+<hole x="3.81" y="43.815" drill="0.35"/>
+<hole x="3.81" y="44.45" drill="0.35"/>
+<hole x="3.81" y="45.085" drill="0.35"/>
+<hole x="3.81" y="45.72" drill="0.35"/>
+<hole x="3.81" y="46.355" drill="0.35"/>
+<hole x="3.81" y="46.99" drill="0.35"/>
+<hole x="3.81" y="47.625" drill="0.35"/>
+<hole x="3.81" y="48.26" drill="0.35"/>
+<hole x="3.81" y="48.895" drill="0.35"/>
+<hole x="3.81" y="49.53" drill="0.35"/>
+<hole x="3.81" y="50.165" drill="0.35"/>
+<hole x="3.81" y="50.8" drill="0.35"/>
+<hole x="3.81" y="51.435" drill="0.35"/>
+<hole x="3.81" y="52.07" drill="0.35"/>
+<hole x="3.81" y="52.705" drill="0.35"/>
+<hole x="3.81" y="53.34" drill="0.35"/>
+<hole x="3.81" y="53.975" drill="0.35"/>
+<hole x="3.81" y="54.61" drill="0.35"/>
+<hole x="3.81" y="55.245" drill="0.35"/>
+<hole x="3.81" y="55.88" drill="0.35"/>
+<hole x="3.81" y="56.515" drill="0.35"/>
+<hole x="3.81" y="57.15" drill="0.35"/>
+<hole x="3.81" y="57.785" drill="0.35"/>
+<hole x="3.81" y="58.42" drill="0.35"/>
+<hole x="3.81" y="59.055" drill="0.35"/>
+<hole x="3.81" y="59.69" drill="0.35"/>
+<hole x="3.81" y="60.325" drill="0.35"/>
+<hole x="3.81" y="60.96" drill="0.35"/>
+<hole x="4.445" y="60.96" drill="0.35"/>
+<hole x="5.08" y="60.96" drill="0.35"/>
+<hole x="5.715" y="60.96" drill="0.35"/>
+<hole x="6.35" y="60.96" drill="0.35"/>
+<hole x="6.985" y="60.96" drill="0.35"/>
+<hole x="7.62" y="60.96" drill="0.35"/>
+<hole x="8.255" y="60.96" drill="0.35"/>
+<hole x="8.89" y="60.96" drill="0.35"/>
+<hole x="9.525" y="60.96" drill="0.35"/>
+<hole x="10.16" y="60.96" drill="0.35"/>
+<hole x="10.795" y="60.96" drill="0.35"/>
+<hole x="11.43" y="60.96" drill="0.35"/>
+<hole x="11.43" y="41.275" drill="0.35"/>
+<hole x="11.43" y="41.91" drill="0.35"/>
+<hole x="11.43" y="42.545" drill="0.35"/>
+<hole x="11.43" y="43.18" drill="0.35"/>
+<hole x="11.43" y="43.815" drill="0.35"/>
+<hole x="11.43" y="44.45" drill="0.35"/>
+<hole x="11.43" y="45.085" drill="0.35"/>
+<hole x="11.43" y="45.72" drill="0.35"/>
+<hole x="11.43" y="46.355" drill="0.35"/>
+<hole x="11.43" y="46.99" drill="0.35"/>
+<hole x="11.43" y="47.625" drill="0.35"/>
+<hole x="11.43" y="48.26" drill="0.35"/>
+<hole x="11.43" y="48.895" drill="0.35"/>
+<hole x="11.43" y="49.53" drill="0.35"/>
+<hole x="11.43" y="50.165" drill="0.35"/>
+<hole x="11.43" y="50.8" drill="0.35"/>
+<hole x="11.43" y="51.435" drill="0.35"/>
+<hole x="11.43" y="52.07" drill="0.35"/>
+<hole x="11.43" y="52.705" drill="0.35"/>
+<hole x="11.43" y="53.34" drill="0.35"/>
+<hole x="11.43" y="53.975" drill="0.35"/>
+<hole x="11.43" y="54.61" drill="0.35"/>
+<hole x="11.43" y="55.245" drill="0.35"/>
+<hole x="11.43" y="55.88" drill="0.35"/>
+<hole x="11.43" y="56.515" drill="0.35"/>
+<hole x="11.43" y="57.15" drill="0.35"/>
+<hole x="11.43" y="57.785" drill="0.35"/>
+<hole x="11.43" y="58.42" drill="0.35"/>
+<hole x="11.43" y="59.055" drill="0.35"/>
+<hole x="11.43" y="59.69" drill="0.35"/>
+<hole x="11.43" y="60.325" drill="0.35"/>
+<hole x="12.065" y="60.96" drill="0.35"/>
+<hole x="12.7" y="60.96" drill="0.35"/>
+<hole x="13.335" y="60.96" drill="0.35"/>
+<hole x="13.97" y="60.96" drill="0.35"/>
+<hole x="14.605" y="60.96" drill="0.35"/>
+<hole x="15.24" y="60.96" drill="0.35"/>
+<hole x="15.875" y="60.96" drill="0.35"/>
+<hole x="16.51" y="60.96" drill="0.35"/>
+<hole x="17.145" y="60.96" drill="0.35"/>
+<hole x="17.78" y="60.96" drill="0.35"/>
+<hole x="18.415" y="60.96" drill="0.35"/>
+<hole x="19.05" y="60.96" drill="0.35"/>
+<hole x="19.05" y="41.275" drill="0.35"/>
+<hole x="19.05" y="41.91" drill="0.35"/>
+<hole x="19.05" y="42.545" drill="0.35"/>
+<hole x="19.05" y="43.18" drill="0.35"/>
+<hole x="19.05" y="43.815" drill="0.35"/>
+<hole x="19.05" y="44.45" drill="0.35"/>
+<hole x="19.05" y="45.085" drill="0.35"/>
+<hole x="19.05" y="45.72" drill="0.35"/>
+<hole x="19.05" y="46.355" drill="0.35"/>
+<hole x="19.05" y="46.99" drill="0.35"/>
+<hole x="19.05" y="47.625" drill="0.35"/>
+<hole x="19.05" y="48.26" drill="0.35"/>
+<hole x="19.05" y="48.895" drill="0.35"/>
+<hole x="19.05" y="49.53" drill="0.35"/>
+<hole x="19.05" y="50.165" drill="0.35"/>
+<hole x="19.05" y="50.8" drill="0.35"/>
+<hole x="19.05" y="51.435" drill="0.35"/>
+<hole x="19.05" y="52.07" drill="0.35"/>
+<hole x="19.05" y="52.705" drill="0.35"/>
+<hole x="19.05" y="53.34" drill="0.35"/>
+<hole x="19.05" y="53.975" drill="0.35"/>
+<hole x="19.05" y="54.61" drill="0.35"/>
+<hole x="19.05" y="55.245" drill="0.35"/>
+<hole x="19.05" y="55.88" drill="0.35"/>
+<hole x="19.05" y="56.515" drill="0.35"/>
+<hole x="19.05" y="57.15" drill="0.35"/>
+<hole x="19.05" y="57.785" drill="0.35"/>
+<hole x="19.05" y="58.42" drill="0.35"/>
+<hole x="19.05" y="59.055" drill="0.35"/>
+<hole x="19.05" y="59.69" drill="0.35"/>
+<hole x="19.05" y="60.325" drill="0.35"/>
+<hole x="3.81" y="61.595" drill="0.35"/>
+<hole x="3.81" y="62.23" drill="0.35"/>
+<hole x="3.81" y="62.865" drill="0.35"/>
+<hole x="3.81" y="63.5" drill="0.35"/>
+<hole x="3.81" y="64.135" drill="0.35"/>
+<hole x="3.81" y="64.77" drill="0.35"/>
+<hole x="3.81" y="65.405" drill="0.35"/>
+<hole x="3.81" y="66.04" drill="0.35"/>
+<hole x="3.81" y="66.675" drill="0.35"/>
+<hole x="3.81" y="67.31" drill="0.35"/>
+<hole x="3.81" y="67.945" drill="0.35"/>
+<hole x="3.81" y="68.58" drill="0.35"/>
+<hole x="3.81" y="69.215" drill="0.35"/>
+<hole x="3.81" y="69.85" drill="0.35"/>
+<hole x="3.81" y="70.485" drill="0.35"/>
+<hole x="3.81" y="71.12" drill="0.35"/>
+<hole x="3.81" y="71.755" drill="0.35"/>
+<hole x="3.81" y="72.39" drill="0.35"/>
+<hole x="3.81" y="73.025" drill="0.35"/>
+<hole x="3.81" y="73.66" drill="0.35"/>
+<hole x="3.81" y="74.295" drill="0.35"/>
+<hole x="3.81" y="74.93" drill="0.35"/>
+<hole x="3.81" y="75.565" drill="0.35"/>
+<hole x="3.81" y="76.2" drill="0.35"/>
+<hole x="3.81" y="76.835" drill="0.35"/>
+<hole x="3.81" y="77.47" drill="0.35"/>
+<hole x="3.81" y="78.105" drill="0.35"/>
+<hole x="3.81" y="78.74" drill="0.35"/>
+<hole x="3.81" y="79.375" drill="0.35"/>
+<hole x="3.81" y="80.01" drill="0.35"/>
+<hole x="3.81" y="80.645" drill="0.35"/>
+<hole x="3.81" y="81.28" drill="0.35"/>
+<hole x="4.445" y="81.28" drill="0.35"/>
+<hole x="5.08" y="81.28" drill="0.35"/>
+<hole x="5.715" y="81.28" drill="0.35"/>
+<hole x="6.35" y="81.28" drill="0.35"/>
+<hole x="6.985" y="81.28" drill="0.35"/>
+<hole x="7.62" y="81.28" drill="0.35"/>
+<hole x="8.255" y="81.28" drill="0.35"/>
+<hole x="8.89" y="81.28" drill="0.35"/>
+<hole x="9.525" y="81.28" drill="0.35"/>
+<hole x="10.16" y="81.28" drill="0.35"/>
+<hole x="10.795" y="81.28" drill="0.35"/>
+<hole x="11.43" y="81.28" drill="0.35"/>
+<hole x="11.43" y="61.595" drill="0.35"/>
+<hole x="11.43" y="62.23" drill="0.35"/>
+<hole x="11.43" y="62.865" drill="0.35"/>
+<hole x="11.43" y="63.5" drill="0.35"/>
+<hole x="11.43" y="64.135" drill="0.35"/>
+<hole x="11.43" y="64.77" drill="0.35"/>
+<hole x="11.43" y="65.405" drill="0.35"/>
+<hole x="11.43" y="66.04" drill="0.35"/>
+<hole x="11.43" y="66.675" drill="0.35"/>
+<hole x="11.43" y="67.31" drill="0.35"/>
+<hole x="11.43" y="67.945" drill="0.35"/>
+<hole x="11.43" y="68.58" drill="0.35"/>
+<hole x="11.43" y="69.215" drill="0.35"/>
+<hole x="11.43" y="69.85" drill="0.35"/>
+<hole x="11.43" y="70.485" drill="0.35"/>
+<hole x="11.43" y="71.12" drill="0.35"/>
+<hole x="11.43" y="71.755" drill="0.35"/>
+<hole x="11.43" y="72.39" drill="0.35"/>
+<hole x="11.43" y="73.025" drill="0.35"/>
+<hole x="11.43" y="73.66" drill="0.35"/>
+<hole x="11.43" y="74.295" drill="0.35"/>
+<hole x="11.43" y="74.93" drill="0.35"/>
+<hole x="11.43" y="75.565" drill="0.35"/>
+<hole x="11.43" y="76.2" drill="0.35"/>
+<hole x="11.43" y="76.835" drill="0.35"/>
+<hole x="11.43" y="77.47" drill="0.35"/>
+<hole x="11.43" y="78.105" drill="0.35"/>
+<hole x="11.43" y="78.74" drill="0.35"/>
+<hole x="11.43" y="79.375" drill="0.35"/>
+<hole x="11.43" y="80.01" drill="0.35"/>
+<hole x="11.43" y="80.645" drill="0.35"/>
+<hole x="12.065" y="81.28" drill="0.35"/>
+<hole x="12.7" y="81.28" drill="0.35"/>
+<hole x="13.335" y="81.28" drill="0.35"/>
+<hole x="13.97" y="81.28" drill="0.35"/>
+<hole x="14.605" y="81.28" drill="0.35"/>
+<hole x="15.24" y="81.28" drill="0.35"/>
+<hole x="15.875" y="81.28" drill="0.35"/>
+<hole x="16.51" y="81.28" drill="0.35"/>
+<hole x="17.145" y="81.28" drill="0.35"/>
+<hole x="17.78" y="81.28" drill="0.35"/>
+<hole x="18.415" y="81.28" drill="0.35"/>
+<hole x="19.05" y="81.28" drill="0.35"/>
+<hole x="19.05" y="61.595" drill="0.35"/>
+<hole x="19.05" y="62.23" drill="0.35"/>
+<hole x="19.05" y="62.865" drill="0.35"/>
+<hole x="19.05" y="63.5" drill="0.35"/>
+<hole x="19.05" y="64.135" drill="0.35"/>
+<hole x="19.05" y="64.77" drill="0.35"/>
+<hole x="19.05" y="65.405" drill="0.35"/>
+<hole x="19.05" y="66.04" drill="0.35"/>
+<hole x="19.05" y="66.675" drill="0.35"/>
+<hole x="19.05" y="67.31" drill="0.35"/>
+<hole x="19.05" y="67.945" drill="0.35"/>
+<hole x="19.05" y="68.58" drill="0.35"/>
+<hole x="19.05" y="69.215" drill="0.35"/>
+<hole x="19.05" y="69.85" drill="0.35"/>
+<hole x="19.05" y="70.485" drill="0.35"/>
+<hole x="19.05" y="71.12" drill="0.35"/>
+<hole x="19.05" y="71.755" drill="0.35"/>
+<hole x="19.05" y="72.39" drill="0.35"/>
+<hole x="19.05" y="73.025" drill="0.35"/>
+<hole x="19.05" y="73.66" drill="0.35"/>
+<hole x="19.05" y="74.295" drill="0.35"/>
+<hole x="19.05" y="74.93" drill="0.35"/>
+<hole x="19.05" y="75.565" drill="0.35"/>
+<hole x="19.05" y="76.2" drill="0.35"/>
+<hole x="19.05" y="76.835" drill="0.35"/>
+<hole x="19.05" y="77.47" drill="0.35"/>
+<hole x="19.05" y="78.105" drill="0.35"/>
+<hole x="19.05" y="78.74" drill="0.35"/>
+<hole x="19.05" y="79.375" drill="0.35"/>
+<hole x="19.05" y="80.01" drill="0.35"/>
+<hole x="19.05" y="80.645" drill="0.35"/>
+<hole x="19.685" y="20.32" drill="0.35"/>
+<hole x="20.32" y="20.32" drill="0.35"/>
+<hole x="20.955" y="20.32" drill="0.35"/>
+<hole x="21.59" y="20.32" drill="0.35"/>
+<hole x="22.225" y="20.32" drill="0.35"/>
+<hole x="22.86" y="20.32" drill="0.35"/>
+<hole x="23.495" y="20.32" drill="0.35"/>
+<hole x="24.13" y="20.32" drill="0.35"/>
+<hole x="24.765" y="20.32" drill="0.35"/>
+<hole x="25.4" y="20.32" drill="0.35"/>
+<hole x="26.035" y="20.32" drill="0.35"/>
+<hole x="26.67" y="20.32" drill="0.35"/>
+<hole x="26.67" y="0.635" drill="0.35"/>
+<hole x="26.67" y="1.27" drill="0.35"/>
+<hole x="26.67" y="1.905" drill="0.35"/>
+<hole x="26.67" y="2.54" drill="0.35"/>
+<hole x="26.67" y="3.175" drill="0.35"/>
+<hole x="26.67" y="3.81" drill="0.35"/>
+<hole x="26.67" y="4.445" drill="0.35"/>
+<hole x="26.67" y="5.08" drill="0.35"/>
+<hole x="26.67" y="5.715" drill="0.35"/>
+<hole x="26.67" y="6.35" drill="0.35"/>
+<hole x="26.67" y="6.985" drill="0.35"/>
+<hole x="26.67" y="7.62" drill="0.35"/>
+<hole x="26.67" y="8.255" drill="0.35"/>
+<hole x="26.67" y="8.89" drill="0.35"/>
+<hole x="26.67" y="9.525" drill="0.35"/>
+<hole x="26.67" y="10.16" drill="0.35"/>
+<hole x="26.67" y="10.795" drill="0.35"/>
+<hole x="26.67" y="11.43" drill="0.35"/>
+<hole x="26.67" y="12.065" drill="0.35"/>
+<hole x="26.67" y="12.7" drill="0.35"/>
+<hole x="26.67" y="13.335" drill="0.35"/>
+<hole x="26.67" y="13.97" drill="0.35"/>
+<hole x="26.67" y="14.605" drill="0.35"/>
+<hole x="26.67" y="15.24" drill="0.35"/>
+<hole x="26.67" y="15.875" drill="0.35"/>
+<hole x="26.67" y="16.51" drill="0.35"/>
+<hole x="26.67" y="17.145" drill="0.35"/>
+<hole x="26.67" y="17.78" drill="0.35"/>
+<hole x="26.67" y="18.415" drill="0.35"/>
+<hole x="26.67" y="19.05" drill="0.35"/>
+<hole x="26.67" y="19.685" drill="0.35"/>
+<hole x="27.305" y="20.32" drill="0.35"/>
+<hole x="27.94" y="20.32" drill="0.35"/>
+<hole x="28.575" y="20.32" drill="0.35"/>
+<hole x="29.21" y="20.32" drill="0.35"/>
+<hole x="29.845" y="20.32" drill="0.35"/>
+<hole x="30.48" y="20.32" drill="0.35"/>
+<hole x="31.115" y="20.32" drill="0.35"/>
+<hole x="31.75" y="20.32" drill="0.35"/>
+<hole x="32.385" y="20.32" drill="0.35"/>
+<hole x="33.02" y="20.32" drill="0.35"/>
+<hole x="33.655" y="20.32" drill="0.35"/>
+<hole x="34.29" y="20.32" drill="0.35"/>
+<hole x="34.29" y="0.635" drill="0.35"/>
+<hole x="34.29" y="1.27" drill="0.35"/>
+<hole x="34.29" y="1.905" drill="0.35"/>
+<hole x="34.29" y="2.54" drill="0.35"/>
+<hole x="34.29" y="3.175" drill="0.35"/>
+<hole x="34.29" y="3.81" drill="0.35"/>
+<hole x="34.29" y="4.445" drill="0.35"/>
+<hole x="34.29" y="5.08" drill="0.35"/>
+<hole x="34.29" y="5.715" drill="0.35"/>
+<hole x="34.29" y="6.35" drill="0.35"/>
+<hole x="34.29" y="6.985" drill="0.35"/>
+<hole x="34.29" y="7.62" drill="0.35"/>
+<hole x="34.29" y="8.255" drill="0.35"/>
+<hole x="34.29" y="8.89" drill="0.35"/>
+<hole x="34.29" y="9.525" drill="0.35"/>
+<hole x="34.29" y="10.16" drill="0.35"/>
+<hole x="34.29" y="10.795" drill="0.35"/>
+<hole x="34.29" y="11.43" drill="0.35"/>
+<hole x="34.29" y="12.065" drill="0.35"/>
+<hole x="34.29" y="12.7" drill="0.35"/>
+<hole x="34.29" y="13.335" drill="0.35"/>
+<hole x="34.29" y="13.97" drill="0.35"/>
+<hole x="34.29" y="14.605" drill="0.35"/>
+<hole x="34.29" y="15.24" drill="0.35"/>
+<hole x="34.29" y="15.875" drill="0.35"/>
+<hole x="34.29" y="16.51" drill="0.35"/>
+<hole x="34.29" y="17.145" drill="0.35"/>
+<hole x="34.29" y="17.78" drill="0.35"/>
+<hole x="34.29" y="18.415" drill="0.35"/>
+<hole x="34.29" y="19.05" drill="0.35"/>
+<hole x="34.29" y="19.685" drill="0.35"/>
+<hole x="19.685" y="40.64" drill="0.35"/>
+<hole x="20.32" y="40.64" drill="0.35"/>
+<hole x="20.955" y="40.64" drill="0.35"/>
+<hole x="21.59" y="40.64" drill="0.35"/>
+<hole x="22.225" y="40.64" drill="0.35"/>
+<hole x="22.86" y="40.64" drill="0.35"/>
+<hole x="23.495" y="40.64" drill="0.35"/>
+<hole x="24.13" y="40.64" drill="0.35"/>
+<hole x="24.765" y="40.64" drill="0.35"/>
+<hole x="25.4" y="40.64" drill="0.35"/>
+<hole x="26.035" y="40.64" drill="0.35"/>
+<hole x="26.67" y="40.64" drill="0.35"/>
+<hole x="26.67" y="20.955" drill="0.35"/>
+<hole x="26.67" y="21.59" drill="0.35"/>
+<hole x="26.67" y="22.225" drill="0.35"/>
+<hole x="26.67" y="22.86" drill="0.35"/>
+<hole x="26.67" y="23.495" drill="0.35"/>
+<hole x="26.67" y="24.13" drill="0.35"/>
+<hole x="26.67" y="24.765" drill="0.35"/>
+<hole x="26.67" y="25.4" drill="0.35"/>
+<hole x="26.67" y="26.035" drill="0.35"/>
+<hole x="26.67" y="26.67" drill="0.35"/>
+<hole x="26.67" y="27.305" drill="0.35"/>
+<hole x="26.67" y="27.94" drill="0.35"/>
+<hole x="26.67" y="28.575" drill="0.35"/>
+<hole x="26.67" y="29.21" drill="0.35"/>
+<hole x="26.67" y="29.845" drill="0.35"/>
+<hole x="26.67" y="30.48" drill="0.35"/>
+<hole x="26.67" y="31.115" drill="0.35"/>
+<hole x="26.67" y="31.75" drill="0.35"/>
+<hole x="26.67" y="32.385" drill="0.35"/>
+<hole x="26.67" y="33.02" drill="0.35"/>
+<hole x="26.67" y="33.655" drill="0.35"/>
+<hole x="26.67" y="34.29" drill="0.35"/>
+<hole x="26.67" y="34.925" drill="0.35"/>
+<hole x="26.67" y="35.56" drill="0.35"/>
+<hole x="26.67" y="36.195" drill="0.35"/>
+<hole x="26.67" y="36.83" drill="0.35"/>
+<hole x="26.67" y="37.465" drill="0.35"/>
+<hole x="26.67" y="38.1" drill="0.35"/>
+<hole x="26.67" y="38.735" drill="0.35"/>
+<hole x="26.67" y="39.37" drill="0.35"/>
+<hole x="26.67" y="40.005" drill="0.35"/>
+<hole x="27.305" y="40.64" drill="0.35"/>
+<hole x="27.94" y="40.64" drill="0.35"/>
+<hole x="28.575" y="40.64" drill="0.35"/>
+<hole x="29.21" y="40.64" drill="0.35"/>
+<hole x="29.845" y="40.64" drill="0.35"/>
+<hole x="30.48" y="40.64" drill="0.35"/>
+<hole x="31.115" y="40.64" drill="0.35"/>
+<hole x="31.75" y="40.64" drill="0.35"/>
+<hole x="32.385" y="40.64" drill="0.35"/>
+<hole x="33.02" y="40.64" drill="0.35"/>
+<hole x="33.655" y="40.64" drill="0.35"/>
+<hole x="34.29" y="40.64" drill="0.35"/>
+<hole x="34.29" y="20.955" drill="0.35"/>
+<hole x="34.29" y="21.59" drill="0.35"/>
+<hole x="34.29" y="22.225" drill="0.35"/>
+<hole x="34.29" y="22.86" drill="0.35"/>
+<hole x="34.29" y="23.495" drill="0.35"/>
+<hole x="34.29" y="24.13" drill="0.35"/>
+<hole x="34.29" y="24.765" drill="0.35"/>
+<hole x="34.29" y="25.4" drill="0.35"/>
+<hole x="34.29" y="26.035" drill="0.35"/>
+<hole x="34.29" y="26.67" drill="0.35"/>
+<hole x="34.29" y="27.305" drill="0.35"/>
+<hole x="34.29" y="27.94" drill="0.35"/>
+<hole x="34.29" y="28.575" drill="0.35"/>
+<hole x="34.29" y="29.21" drill="0.35"/>
+<hole x="34.29" y="29.845" drill="0.35"/>
+<hole x="34.29" y="30.48" drill="0.35"/>
+<hole x="34.29" y="31.115" drill="0.35"/>
+<hole x="34.29" y="31.75" drill="0.35"/>
+<hole x="34.29" y="32.385" drill="0.35"/>
+<hole x="34.29" y="33.02" drill="0.35"/>
+<hole x="34.29" y="33.655" drill="0.35"/>
+<hole x="34.29" y="34.29" drill="0.35"/>
+<hole x="34.29" y="34.925" drill="0.35"/>
+<hole x="34.29" y="35.56" drill="0.35"/>
+<hole x="34.29" y="36.195" drill="0.35"/>
+<hole x="34.29" y="36.83" drill="0.35"/>
+<hole x="34.29" y="37.465" drill="0.35"/>
+<hole x="34.29" y="38.1" drill="0.35"/>
+<hole x="34.29" y="38.735" drill="0.35"/>
+<hole x="34.29" y="39.37" drill="0.35"/>
+<hole x="34.29" y="40.005" drill="0.35"/>
+<hole x="19.685" y="60.96" drill="0.35"/>
+<hole x="20.32" y="60.96" drill="0.35"/>
+<hole x="20.955" y="60.96" drill="0.35"/>
+<hole x="21.59" y="60.96" drill="0.35"/>
+<hole x="22.225" y="60.96" drill="0.35"/>
+<hole x="22.86" y="60.96" drill="0.35"/>
+<hole x="23.495" y="60.96" drill="0.35"/>
+<hole x="24.13" y="60.96" drill="0.35"/>
+<hole x="24.765" y="60.96" drill="0.35"/>
+<hole x="25.4" y="60.96" drill="0.35"/>
+<hole x="26.035" y="60.96" drill="0.35"/>
+<hole x="26.67" y="60.96" drill="0.35"/>
+<hole x="26.67" y="41.275" drill="0.35"/>
+<hole x="26.67" y="41.91" drill="0.35"/>
+<hole x="26.67" y="42.545" drill="0.35"/>
+<hole x="26.67" y="43.18" drill="0.35"/>
+<hole x="26.67" y="43.815" drill="0.35"/>
+<hole x="26.67" y="44.45" drill="0.35"/>
+<hole x="26.67" y="45.085" drill="0.35"/>
+<hole x="26.67" y="45.72" drill="0.35"/>
+<hole x="26.67" y="46.355" drill="0.35"/>
+<hole x="26.67" y="46.99" drill="0.35"/>
+<hole x="26.67" y="47.625" drill="0.35"/>
+<hole x="26.67" y="48.26" drill="0.35"/>
+<hole x="26.67" y="48.895" drill="0.35"/>
+<hole x="26.67" y="49.53" drill="0.35"/>
+<hole x="26.67" y="50.165" drill="0.35"/>
+<hole x="26.67" y="50.8" drill="0.35"/>
+<hole x="26.67" y="51.435" drill="0.35"/>
+<hole x="26.67" y="52.07" drill="0.35"/>
+<hole x="26.67" y="52.705" drill="0.35"/>
+<hole x="26.67" y="53.34" drill="0.35"/>
+<hole x="26.67" y="53.975" drill="0.35"/>
+<hole x="26.67" y="54.61" drill="0.35"/>
+<hole x="26.67" y="55.245" drill="0.35"/>
+<hole x="26.67" y="55.88" drill="0.35"/>
+<hole x="26.67" y="56.515" drill="0.35"/>
+<hole x="26.67" y="57.15" drill="0.35"/>
+<hole x="26.67" y="57.785" drill="0.35"/>
+<hole x="26.67" y="58.42" drill="0.35"/>
+<hole x="26.67" y="59.055" drill="0.35"/>
+<hole x="26.67" y="59.69" drill="0.35"/>
+<hole x="26.67" y="60.325" drill="0.35"/>
+<hole x="27.305" y="60.96" drill="0.35"/>
+<hole x="27.94" y="60.96" drill="0.35"/>
+<hole x="28.575" y="60.96" drill="0.35"/>
+<hole x="29.21" y="60.96" drill="0.35"/>
+<hole x="29.845" y="60.96" drill="0.35"/>
+<hole x="30.48" y="60.96" drill="0.35"/>
+<hole x="31.115" y="60.96" drill="0.35"/>
+<hole x="31.75" y="60.96" drill="0.35"/>
+<hole x="32.385" y="60.96" drill="0.35"/>
+<hole x="33.02" y="60.96" drill="0.35"/>
+<hole x="33.655" y="60.96" drill="0.35"/>
+<hole x="34.29" y="60.96" drill="0.35"/>
+<hole x="34.29" y="41.275" drill="0.35"/>
+<hole x="34.29" y="41.91" drill="0.35"/>
+<hole x="34.29" y="42.545" drill="0.35"/>
+<hole x="34.29" y="43.18" drill="0.35"/>
+<hole x="34.29" y="43.815" drill="0.35"/>
+<hole x="34.29" y="44.45" drill="0.35"/>
+<hole x="34.29" y="45.085" drill="0.35"/>
+<hole x="34.29" y="45.72" drill="0.35"/>
+<hole x="34.29" y="46.355" drill="0.35"/>
+<hole x="34.29" y="46.99" drill="0.35"/>
+<hole x="34.29" y="47.625" drill="0.35"/>
+<hole x="34.29" y="48.26" drill="0.35"/>
+<hole x="34.29" y="48.895" drill="0.35"/>
+<hole x="34.29" y="49.53" drill="0.35"/>
+<hole x="34.29" y="50.165" drill="0.35"/>
+<hole x="34.29" y="50.8" drill="0.35"/>
+<hole x="34.29" y="51.435" drill="0.35"/>
+<hole x="34.29" y="52.07" drill="0.35"/>
+<hole x="34.29" y="52.705" drill="0.35"/>
+<hole x="34.29" y="53.34" drill="0.35"/>
+<hole x="34.29" y="53.975" drill="0.35"/>
+<hole x="34.29" y="54.61" drill="0.35"/>
+<hole x="34.29" y="55.245" drill="0.35"/>
+<hole x="34.29" y="55.88" drill="0.35"/>
+<hole x="34.29" y="56.515" drill="0.35"/>
+<hole x="34.29" y="57.15" drill="0.35"/>
+<hole x="34.29" y="57.785" drill="0.35"/>
+<hole x="34.29" y="58.42" drill="0.35"/>
+<hole x="34.29" y="59.055" drill="0.35"/>
+<hole x="34.29" y="59.69" drill="0.35"/>
+<hole x="34.29" y="60.325" drill="0.35"/>
+<hole x="19.685" y="81.28" drill="0.35"/>
+<hole x="20.32" y="81.28" drill="0.35"/>
+<hole x="20.955" y="81.28" drill="0.35"/>
+<hole x="21.59" y="81.28" drill="0.35"/>
+<hole x="22.225" y="81.28" drill="0.35"/>
+<hole x="22.86" y="81.28" drill="0.35"/>
+<hole x="23.495" y="81.28" drill="0.35"/>
+<hole x="24.13" y="81.28" drill="0.35"/>
+<hole x="24.765" y="81.28" drill="0.35"/>
+<hole x="25.4" y="81.28" drill="0.35"/>
+<hole x="26.035" y="81.28" drill="0.35"/>
+<hole x="26.67" y="81.28" drill="0.35"/>
+<hole x="26.67" y="61.595" drill="0.35"/>
+<hole x="26.67" y="62.23" drill="0.35"/>
+<hole x="26.67" y="62.865" drill="0.35"/>
+<hole x="26.67" y="63.5" drill="0.35"/>
+<hole x="26.67" y="64.135" drill="0.35"/>
+<hole x="26.67" y="64.77" drill="0.35"/>
+<hole x="26.67" y="65.405" drill="0.35"/>
+<hole x="26.67" y="66.04" drill="0.35"/>
+<hole x="26.67" y="66.675" drill="0.35"/>
+<hole x="26.67" y="67.31" drill="0.35"/>
+<hole x="26.67" y="67.945" drill="0.35"/>
+<hole x="26.67" y="68.58" drill="0.35"/>
+<hole x="26.67" y="69.215" drill="0.35"/>
+<hole x="26.67" y="69.85" drill="0.35"/>
+<hole x="26.67" y="70.485" drill="0.35"/>
+<hole x="26.67" y="71.12" drill="0.35"/>
+<hole x="26.67" y="71.755" drill="0.35"/>
+<hole x="26.67" y="72.39" drill="0.35"/>
+<hole x="26.67" y="73.025" drill="0.35"/>
+<hole x="26.67" y="73.66" drill="0.35"/>
+<hole x="26.67" y="74.295" drill="0.35"/>
+<hole x="26.67" y="74.93" drill="0.35"/>
+<hole x="26.67" y="75.565" drill="0.35"/>
+<hole x="26.67" y="76.2" drill="0.35"/>
+<hole x="26.67" y="76.835" drill="0.35"/>
+<hole x="26.67" y="77.47" drill="0.35"/>
+<hole x="26.67" y="78.105" drill="0.35"/>
+<hole x="26.67" y="78.74" drill="0.35"/>
+<hole x="26.67" y="79.375" drill="0.35"/>
+<hole x="26.67" y="80.01" drill="0.35"/>
+<hole x="26.67" y="80.645" drill="0.35"/>
+<hole x="27.305" y="81.28" drill="0.35"/>
+<hole x="27.94" y="81.28" drill="0.35"/>
+<hole x="28.575" y="81.28" drill="0.35"/>
+<hole x="29.21" y="81.28" drill="0.35"/>
+<hole x="29.845" y="81.28" drill="0.35"/>
+<hole x="30.48" y="81.28" drill="0.35"/>
+<hole x="31.115" y="81.28" drill="0.35"/>
+<hole x="31.75" y="81.28" drill="0.35"/>
+<hole x="32.385" y="81.28" drill="0.35"/>
+<hole x="33.02" y="81.28" drill="0.35"/>
+<hole x="33.655" y="81.28" drill="0.35"/>
+<hole x="34.29" y="81.28" drill="0.35"/>
+<hole x="34.29" y="61.595" drill="0.35"/>
+<hole x="34.29" y="62.23" drill="0.35"/>
+<hole x="34.29" y="62.865" drill="0.35"/>
+<hole x="34.29" y="63.5" drill="0.35"/>
+<hole x="34.29" y="64.135" drill="0.35"/>
+<hole x="34.29" y="64.77" drill="0.35"/>
+<hole x="34.29" y="65.405" drill="0.35"/>
+<hole x="34.29" y="66.04" drill="0.35"/>
+<hole x="34.29" y="66.675" drill="0.35"/>
+<hole x="34.29" y="67.31" drill="0.35"/>
+<hole x="34.29" y="67.945" drill="0.35"/>
+<hole x="34.29" y="68.58" drill="0.35"/>
+<hole x="34.29" y="69.215" drill="0.35"/>
+<hole x="34.29" y="69.85" drill="0.35"/>
+<hole x="34.29" y="70.485" drill="0.35"/>
+<hole x="34.29" y="71.12" drill="0.35"/>
+<hole x="34.29" y="71.755" drill="0.35"/>
+<hole x="34.29" y="72.39" drill="0.35"/>
+<hole x="34.29" y="73.025" drill="0.35"/>
+<hole x="34.29" y="73.66" drill="0.35"/>
+<hole x="34.29" y="74.295" drill="0.35"/>
+<hole x="34.29" y="74.93" drill="0.35"/>
+<hole x="34.29" y="75.565" drill="0.35"/>
+<hole x="34.29" y="76.2" drill="0.35"/>
+<hole x="34.29" y="76.835" drill="0.35"/>
+<hole x="34.29" y="77.47" drill="0.35"/>
+<hole x="34.29" y="78.105" drill="0.35"/>
+<hole x="34.29" y="78.74" drill="0.35"/>
+<hole x="34.29" y="79.375" drill="0.35"/>
+<hole x="34.29" y="80.01" drill="0.35"/>
+<hole x="34.29" y="80.645" drill="0.35"/>
+<hole x="3.81" y="81.915" drill="0.35"/>
+<hole x="3.81" y="82.55" drill="0.35"/>
+<hole x="3.81" y="83.185" drill="0.35"/>
+<hole x="3.81" y="83.82" drill="0.35"/>
+<hole x="3.81" y="84.455" drill="0.35"/>
+<hole x="3.81" y="85.09" drill="0.35"/>
+<hole x="3.81" y="85.725" drill="0.35"/>
+<hole x="3.81" y="86.36" drill="0.35"/>
+<hole x="3.81" y="86.995" drill="0.35"/>
+<hole x="3.81" y="87.63" drill="0.35"/>
+<hole x="3.81" y="88.265" drill="0.35"/>
+<hole x="3.81" y="88.9" drill="0.35"/>
+<hole x="3.81" y="89.535" drill="0.35"/>
+<hole x="3.81" y="90.17" drill="0.35"/>
+<hole x="3.81" y="90.805" drill="0.35"/>
+<hole x="3.81" y="91.44" drill="0.35"/>
+<hole x="3.81" y="92.075" drill="0.35"/>
+<hole x="3.81" y="92.71" drill="0.35"/>
+<hole x="3.81" y="93.345" drill="0.35"/>
+<hole x="3.81" y="93.98" drill="0.35"/>
+<hole x="3.81" y="94.615" drill="0.35"/>
+<hole x="3.81" y="95.25" drill="0.35"/>
+<hole x="3.81" y="95.885" drill="0.35"/>
+<hole x="3.81" y="96.52" drill="0.35"/>
+<hole x="3.81" y="97.155" drill="0.35"/>
+<hole x="3.81" y="97.79" drill="0.35"/>
+<hole x="3.81" y="98.425" drill="0.35"/>
+<hole x="3.81" y="99.06" drill="0.35"/>
+<hole x="3.81" y="99.695" drill="0.35"/>
+<hole x="3.81" y="100.33" drill="0.35"/>
+<hole x="3.81" y="100.965" drill="0.35"/>
+<hole x="11.43" y="81.915" drill="0.35"/>
+<hole x="11.43" y="82.55" drill="0.35"/>
+<hole x="11.43" y="83.185" drill="0.35"/>
+<hole x="11.43" y="83.82" drill="0.35"/>
+<hole x="11.43" y="84.455" drill="0.35"/>
+<hole x="11.43" y="85.09" drill="0.35"/>
+<hole x="11.43" y="85.725" drill="0.35"/>
+<hole x="11.43" y="86.36" drill="0.35"/>
+<hole x="11.43" y="86.995" drill="0.35"/>
+<hole x="11.43" y="87.63" drill="0.35"/>
+<hole x="11.43" y="88.265" drill="0.35"/>
+<hole x="11.43" y="88.9" drill="0.35"/>
+<hole x="11.43" y="89.535" drill="0.35"/>
+<hole x="11.43" y="90.17" drill="0.35"/>
+<hole x="11.43" y="90.805" drill="0.35"/>
+<hole x="11.43" y="91.44" drill="0.35"/>
+<hole x="11.43" y="92.075" drill="0.35"/>
+<hole x="11.43" y="92.71" drill="0.35"/>
+<hole x="11.43" y="93.345" drill="0.35"/>
+<hole x="11.43" y="93.98" drill="0.35"/>
+<hole x="11.43" y="94.615" drill="0.35"/>
+<hole x="11.43" y="95.25" drill="0.35"/>
+<hole x="11.43" y="95.885" drill="0.35"/>
+<hole x="11.43" y="96.52" drill="0.35"/>
+<hole x="11.43" y="97.155" drill="0.35"/>
+<hole x="11.43" y="97.79" drill="0.35"/>
+<hole x="11.43" y="98.425" drill="0.35"/>
+<hole x="11.43" y="99.06" drill="0.35"/>
+<hole x="11.43" y="99.695" drill="0.35"/>
+<hole x="11.43" y="100.33" drill="0.35"/>
+<hole x="11.43" y="100.965" drill="0.35"/>
+<hole x="19.05" y="81.915" drill="0.35"/>
+<hole x="19.05" y="82.55" drill="0.35"/>
+<hole x="19.05" y="83.185" drill="0.35"/>
+<hole x="19.05" y="83.82" drill="0.35"/>
+<hole x="19.05" y="84.455" drill="0.35"/>
+<hole x="19.05" y="85.09" drill="0.35"/>
+<hole x="19.05" y="85.725" drill="0.35"/>
+<hole x="19.05" y="86.36" drill="0.35"/>
+<hole x="19.05" y="86.995" drill="0.35"/>
+<hole x="19.05" y="87.63" drill="0.35"/>
+<hole x="19.05" y="88.265" drill="0.35"/>
+<hole x="19.05" y="88.9" drill="0.35"/>
+<hole x="19.05" y="89.535" drill="0.35"/>
+<hole x="19.05" y="90.17" drill="0.35"/>
+<hole x="19.05" y="90.805" drill="0.35"/>
+<hole x="19.05" y="91.44" drill="0.35"/>
+<hole x="19.05" y="92.075" drill="0.35"/>
+<hole x="19.05" y="92.71" drill="0.35"/>
+<hole x="19.05" y="93.345" drill="0.35"/>
+<hole x="19.05" y="93.98" drill="0.35"/>
+<hole x="19.05" y="94.615" drill="0.35"/>
+<hole x="19.05" y="95.25" drill="0.35"/>
+<hole x="19.05" y="95.885" drill="0.35"/>
+<hole x="19.05" y="96.52" drill="0.35"/>
+<hole x="19.05" y="97.155" drill="0.35"/>
+<hole x="19.05" y="97.79" drill="0.35"/>
+<hole x="19.05" y="98.425" drill="0.35"/>
+<hole x="19.05" y="99.06" drill="0.35"/>
+<hole x="19.05" y="99.695" drill="0.35"/>
+<hole x="19.05" y="100.33" drill="0.35"/>
+<hole x="19.05" y="100.965" drill="0.35"/>
+<hole x="26.67" y="81.915" drill="0.35"/>
+<hole x="26.67" y="82.55" drill="0.35"/>
+<hole x="26.67" y="83.185" drill="0.35"/>
+<hole x="26.67" y="83.82" drill="0.35"/>
+<hole x="26.67" y="84.455" drill="0.35"/>
+<hole x="26.67" y="85.09" drill="0.35"/>
+<hole x="26.67" y="85.725" drill="0.35"/>
+<hole x="26.67" y="86.36" drill="0.35"/>
+<hole x="26.67" y="86.995" drill="0.35"/>
+<hole x="26.67" y="87.63" drill="0.35"/>
+<hole x="26.67" y="88.265" drill="0.35"/>
+<hole x="26.67" y="88.9" drill="0.35"/>
+<hole x="26.67" y="89.535" drill="0.35"/>
+<hole x="26.67" y="90.17" drill="0.35"/>
+<hole x="26.67" y="90.805" drill="0.35"/>
+<hole x="26.67" y="91.44" drill="0.35"/>
+<hole x="26.67" y="92.075" drill="0.35"/>
+<hole x="26.67" y="92.71" drill="0.35"/>
+<hole x="26.67" y="93.345" drill="0.35"/>
+<hole x="26.67" y="93.98" drill="0.35"/>
+<hole x="26.67" y="94.615" drill="0.35"/>
+<hole x="26.67" y="95.25" drill="0.35"/>
+<hole x="26.67" y="95.885" drill="0.35"/>
+<hole x="26.67" y="96.52" drill="0.35"/>
+<hole x="26.67" y="97.155" drill="0.35"/>
+<hole x="26.67" y="97.79" drill="0.35"/>
+<hole x="26.67" y="98.425" drill="0.35"/>
+<hole x="26.67" y="99.06" drill="0.35"/>
+<hole x="26.67" y="99.695" drill="0.35"/>
+<hole x="26.67" y="100.33" drill="0.35"/>
+<hole x="26.67" y="100.965" drill="0.35"/>
+<hole x="34.29" y="81.915" drill="0.35"/>
+<hole x="34.29" y="82.55" drill="0.35"/>
+<hole x="34.29" y="83.185" drill="0.35"/>
+<hole x="34.29" y="83.82" drill="0.35"/>
+<hole x="34.29" y="84.455" drill="0.35"/>
+<hole x="34.29" y="85.09" drill="0.35"/>
+<hole x="34.29" y="85.725" drill="0.35"/>
+<hole x="34.29" y="86.36" drill="0.35"/>
+<hole x="34.29" y="86.995" drill="0.35"/>
+<hole x="34.29" y="87.63" drill="0.35"/>
+<hole x="34.29" y="88.265" drill="0.35"/>
+<hole x="34.29" y="88.9" drill="0.35"/>
+<hole x="34.29" y="89.535" drill="0.35"/>
+<hole x="34.29" y="90.17" drill="0.35"/>
+<hole x="34.29" y="90.805" drill="0.35"/>
+<hole x="34.29" y="91.44" drill="0.35"/>
+<hole x="34.29" y="92.075" drill="0.35"/>
+<hole x="34.29" y="92.71" drill="0.35"/>
+<hole x="34.29" y="93.345" drill="0.35"/>
+<hole x="34.29" y="93.98" drill="0.35"/>
+<hole x="34.29" y="94.615" drill="0.35"/>
+<hole x="34.29" y="95.25" drill="0.35"/>
+<hole x="34.29" y="95.885" drill="0.35"/>
+<hole x="34.29" y="96.52" drill="0.35"/>
+<hole x="34.29" y="97.155" drill="0.35"/>
+<hole x="34.29" y="97.79" drill="0.35"/>
+<hole x="34.29" y="98.425" drill="0.35"/>
+<hole x="34.29" y="99.06" drill="0.35"/>
+<hole x="34.29" y="99.695" drill="0.35"/>
+<hole x="34.29" y="100.33" drill="0.35"/>
+<hole x="34.29" y="100.965" drill="0.35"/>
+<hole x="0.508" y="10.16" drill="0.35"/>
+<hole x="1.143" y="10.16" drill="0.35"/>
+<hole x="1.778" y="10.16" drill="0.35"/>
+<hole x="2.413" y="10.16" drill="0.35"/>
+<hole x="3.175" y="10.16" drill="0.35"/>
+<hole x="0.508" y="20.32" drill="0.35"/>
+<hole x="1.143" y="20.32" drill="0.35"/>
+<hole x="1.778" y="20.32" drill="0.35"/>
+<hole x="2.413" y="20.32" drill="0.35"/>
+<hole x="3.175" y="20.32" drill="0.35"/>
+<hole x="0.508" y="30.48" drill="0.35"/>
+<hole x="1.143" y="30.48" drill="0.35"/>
+<hole x="1.778" y="30.48" drill="0.35"/>
+<hole x="2.413" y="30.48" drill="0.35"/>
+<hole x="3.175" y="30.48" drill="0.35"/>
+<hole x="0.508" y="40.64" drill="0.35"/>
+<hole x="1.143" y="40.64" drill="0.35"/>
+<hole x="1.778" y="40.64" drill="0.35"/>
+<hole x="2.413" y="40.64" drill="0.35"/>
+<hole x="3.175" y="40.64" drill="0.35"/>
+<hole x="0.508" y="50.8" drill="0.35"/>
+<hole x="1.143" y="50.8" drill="0.35"/>
+<hole x="1.778" y="50.8" drill="0.35"/>
+<hole x="2.413" y="50.8" drill="0.35"/>
+<hole x="3.175" y="50.8" drill="0.35"/>
+<hole x="0.508" y="60.96" drill="0.35"/>
+<hole x="1.143" y="60.96" drill="0.35"/>
+<hole x="1.778" y="60.96" drill="0.35"/>
+<hole x="2.413" y="60.96" drill="0.35"/>
+<hole x="3.175" y="60.96" drill="0.35"/>
+<hole x="0.508" y="71.12" drill="0.35"/>
+<hole x="1.143" y="71.12" drill="0.35"/>
+<hole x="1.778" y="71.12" drill="0.35"/>
+<hole x="2.413" y="71.12" drill="0.35"/>
+<hole x="3.175" y="71.12" drill="0.35"/>
+<hole x="0.508" y="81.28" drill="0.35"/>
+<hole x="1.143" y="81.28" drill="0.35"/>
+<hole x="1.778" y="81.28" drill="0.35"/>
+<hole x="2.413" y="81.28" drill="0.35"/>
+<hole x="3.175" y="81.28" drill="0.35"/>
+<hole x="0.508" y="91.44" drill="0.35"/>
+<hole x="1.143" y="91.44" drill="0.35"/>
+<hole x="1.778" y="91.44" drill="0.35"/>
+<hole x="2.413" y="91.44" drill="0.35"/>
+<hole x="3.175" y="91.44" drill="0.35"/>
+<hole x="35.052" y="91.44" drill="0.35"/>
+<hole x="35.687" y="91.44" drill="0.35"/>
+<hole x="36.322" y="91.44" drill="0.35"/>
+<hole x="36.957" y="91.44" drill="0.35"/>
+<hole x="37.719" y="91.44" drill="0.35"/>
+<hole x="35.052" y="81.28" drill="0.35"/>
+<hole x="35.687" y="81.28" drill="0.35"/>
+<hole x="36.322" y="81.28" drill="0.35"/>
+<hole x="36.957" y="81.28" drill="0.35"/>
+<hole x="37.719" y="81.28" drill="0.35"/>
+<hole x="35.052" y="71.12" drill="0.35"/>
+<hole x="35.687" y="71.12" drill="0.35"/>
+<hole x="36.322" y="71.12" drill="0.35"/>
+<hole x="36.957" y="71.12" drill="0.35"/>
+<hole x="37.719" y="71.12" drill="0.35"/>
+<hole x="35.052" y="60.96" drill="0.35"/>
+<hole x="35.687" y="60.96" drill="0.35"/>
+<hole x="36.322" y="60.96" drill="0.35"/>
+<hole x="36.957" y="60.96" drill="0.35"/>
+<hole x="37.719" y="60.96" drill="0.35"/>
+<hole x="35.052" y="50.8" drill="0.35"/>
+<hole x="35.687" y="50.8" drill="0.35"/>
+<hole x="36.322" y="50.8" drill="0.35"/>
+<hole x="36.957" y="50.8" drill="0.35"/>
+<hole x="37.719" y="50.8" drill="0.35"/>
+<hole x="35.052" y="40.64" drill="0.35"/>
+<hole x="35.687" y="40.64" drill="0.35"/>
+<hole x="36.322" y="40.64" drill="0.35"/>
+<hole x="36.957" y="40.64" drill="0.35"/>
+<hole x="37.719" y="40.64" drill="0.35"/>
+<hole x="35.052" y="30.48" drill="0.35"/>
+<hole x="35.687" y="30.48" drill="0.35"/>
+<hole x="36.322" y="30.48" drill="0.35"/>
+<hole x="36.957" y="30.48" drill="0.35"/>
+<hole x="37.719" y="30.48" drill="0.35"/>
+<hole x="35.052" y="20.32" drill="0.35"/>
+<hole x="35.687" y="20.32" drill="0.35"/>
+<hole x="36.322" y="20.32" drill="0.35"/>
+<hole x="36.957" y="20.32" drill="0.35"/>
+<hole x="37.719" y="20.32" drill="0.35"/>
+<hole x="35.052" y="10.16" drill="0.35"/>
+<hole x="35.687" y="10.16" drill="0.35"/>
+<hole x="36.322" y="10.16" drill="0.35"/>
+<hole x="36.957" y="10.16" drill="0.35"/>
+<hole x="37.719" y="10.16" drill="0.35"/>
+<text x="5.08" y="87.63" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="12.7" y="87.63" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="20.32" y="87.63" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="27.94" y="87.63" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="5.08" y="67.31" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="12.7" y="67.31" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="20.32" y="67.31" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="27.94" y="67.31" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="5.08" y="46.99" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="12.7" y="46.99" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="20.32" y="46.99" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="27.94" y="46.99" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="5.08" y="26.67" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="12.7" y="26.67" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="20.32" y="26.67" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="27.94" y="26.67" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="5.08" y="6.35" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="12.7" y="6.35" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="20.32" y="6.35" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="27.94" y="6.35" size="1.778" layer="22" rot="MR90">MUSSEL
+HEATER</text>
+<text x="1.143" y="24.384" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="14.224" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="3.937" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="34.798" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="44.704" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="54.864" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.27" y="65.024" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.27" y="75.057" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.27" y="85.344" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="1.143" y="95.504" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="37.973" y="95.758" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="37.973" y="85.344" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="37.846" y="75.184" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="37.846" y="64.897" size="1.016" layer="21" font="vector" ratio="12" rot="R90">NTC</text>
+<text x="37.846" y="55.88" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="37.846" y="45.847" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="37.846" y="35.687" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="37.973" y="25.527" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="37.846" y="15.494" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="37.846" y="5.207" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="bottom-center">NTC</text>
+<text x="5.842" y="91.567" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="13.462" y="91.821" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="21.082" y="91.948" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="28.829" y="91.948" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="5.842" y="71.374" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="13.462" y="71.374" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="21.082" y="71.501" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="28.702" y="71.374" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="5.842" y="50.673" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="13.462" y="50.8" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="21.082" y="50.8" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="28.575" y="50.8" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="5.842" y="30.48" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="13.462" y="30.48" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="21.082" y="30.48" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="28.448" y="30.353" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="28.575" y="10.16" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="20.828" y="10.287" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="13.335" y="10.16" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="5.842" y="10.16" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center">LP MILLER
+2020</text>
+<text x="8.89" y="19.05" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="16.51" y="19.05" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="24.13" y="19.05" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="31.75" y="19.05" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="31.75" y="39.37" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="24.13" y="39.37" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="16.51" y="39.37" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="8.89" y="39.37" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="8.89" y="59.69" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="16.51" y="59.69" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="24.13" y="59.69" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="31.75" y="59.69" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="8.89" y="100.33" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="16.51" y="100.33" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="24.13" y="100.33" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="31.75" y="100.33" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="8.89" y="80.01" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="16.51" y="80.01" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="24.13" y="80.01" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+<text x="31.75" y="80.01" size="1.016" layer="21" font="vector" ratio="12" rot="R180" align="center">RevA</text>
+</plain>
+<libraries>
+<library name="miller">
+<packages>
+<package name="1X01_SMALL_0.7">
+<description>Very small 1-pin terminal&lt;br&gt;
+0.7mm (0.0279") drill diameter&lt;br&gt;
+1.0566mm (0. 0416") terminal diameter</description>
+<pad name="P$1" x="0" y="0" drill="0.7" diameter="1.056640625" shape="octagon"/>
+<wire x1="0" y1="0.05" x2="0" y2="0" width="0.127" layer="51"/>
+</package>
+<package name="1X01_SMALL">
+<description>0.035" (0.89 mm) diameter drill, 0.055" (1.397mm) copper diameter&lt;br&gt;
+This hole should be barely large enough for standard 0.1" pitch header pins.</description>
+<wire x1="-0.381" y1="0.889" x2="0.381" y2="0.889" width="0.1524" layer="21"/>
+<wire x1="0.381" y1="0.889" x2="0.889" y2="0.381" width="0.1524" layer="21"/>
+<wire x1="0.889" y1="0.381" x2="0.889" y2="-0.381" width="0.1524" layer="21"/>
+<wire x1="0.889" y1="-0.381" x2="0.381" y2="-0.889" width="0.1524" layer="21"/>
+<wire x1="-0.889" y1="0.381" x2="-0.889" y2="-0.381" width="0.1524" layer="21"/>
+<wire x1="-0.381" y1="0.889" x2="-0.889" y2="0.381" width="0.1524" layer="21"/>
+<wire x1="-0.889" y1="-0.381" x2="-0.381" y2="-0.889" width="0.1524" layer="21"/>
+<wire x1="0.381" y1="-0.889" x2="-0.381" y2="-0.889" width="0.1524" layer="21"/>
+<pad name="1" x="0" y="0" drill="0.9" diameter="1.397" shape="octagon"/>
+<text x="-1.3162" y="1.2688" size="0.6096" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.26" y="-1.915" size="0.6096" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+</package>
+<package name="R0603_THERMISTOR">
+<wire x1="-0.432" y1="-0.356" x2="0.432" y2="-0.356" width="0.1524" layer="51"/>
+<wire x1="0.432" y1="0.356" x2="-0.432" y2="0.356" width="0.1524" layer="51"/>
+<smd name="1" x="-0.85" y="0" dx="1" dy="1.1" layer="1"/>
+<smd name="2" x="0.85" y="0" dx="1" dy="1.1" layer="1"/>
+<text x="-0.635" y="0.635" size="1.27" layer="25">&gt;NAME</text>
+<text x="-0.635" y="-1.905" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="0.4318" y1="-0.4318" x2="0.8382" y2="0.4318" layer="51"/>
+<rectangle x1="-0.8382" y1="-0.4318" x2="-0.4318" y2="0.4318" layer="51"/>
+</package>
+</packages>
+</library>
+</libraries>
+<attributes>
+</attributes>
+<variantdefs>
+</variantdefs>
+<classes>
+<class number="0" name="default" width="0" drill="0">
+</class>
+</classes>
+<designrules name="oshpark-2layer">
+<description language="en">&lt;b&gt;OSH Park Design Rules&lt;/b&gt;
+&lt;p&gt;
+Please make sure your boards conform to these design rules.
+&lt;/p&gt;
+&lt;p&gt;
+Note, that not all DRC settings must be set by the manufacturer. Several can be adjusted for the design, including those listed on our docs page here. 
+&lt;a href=&quot;http://docs.oshpark.com/design-tools/eagle/design-rules-files/&quot;&gt;Adjustable Settings&lt;/a&gt;
+&lt;/p&gt;</description>
+<param name="layerSetup" value="(1*16)"/>
+<param name="mtCopper" value="0.035559375mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.035559375mm"/>
+<param name="mtIsolate" value="1.6mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm"/>
+<param name="mdWireWire" value="6mil"/>
+<param name="mdWirePad" value="6mil"/>
+<param name="mdWireVia" value="6mil"/>
+<param name="mdPadPad" value="6mil"/>
+<param name="mdPadVia" value="6mil"/>
+<param name="mdViaVia" value="6mil"/>
+<param name="mdSmdPad" value="6mil"/>
+<param name="mdSmdVia" value="6mil"/>
+<param name="mdSmdSmd" value="6mil"/>
+<param name="mdViaViaSameLayer" value="8mil"/>
+<param name="mnLayersViaInSmd" value="2"/>
+<param name="mdCopperDimension" value="15mil"/>
+<param name="mdDrill" value="6mil"/>
+<param name="mdSmdStop" value="0mil"/>
+<param name="msWidth" value="6mil"/>
+<param name="msDrill" value="10mil"/>
+<param name="msMicroVia" value="10mil"/>
+<param name="msBlindViaRatio" value="0.5"/>
+<param name="rvPadTop" value="0.25"/>
+<param name="rvPadInner" value="0.25"/>
+<param name="rvPadBottom" value="0.25"/>
+<param name="rvViaOuter" value="0.25"/>
+<param name="rvViaInner" value="0.25"/>
+<param name="rvMicroViaOuter" value="0.25"/>
+<param name="rvMicroViaInner" value="0.25"/>
+<param name="rlMinPadTop" value="5mil"/>
+<param name="rlMaxPadTop" value="20mil"/>
+<param name="rlMinPadInner" value="5mil"/>
+<param name="rlMaxPadInner" value="20mil"/>
+<param name="rlMinPadBottom" value="5mil"/>
+<param name="rlMaxPadBottom" value="20mil"/>
+<param name="rlMinViaOuter" value="5mil"/>
+<param name="rlMaxViaOuter" value="20mil"/>
+<param name="rlMinViaInner" value="5mil"/>
+<param name="rlMaxViaInner" value="20mil"/>
+<param name="rlMinMicroViaOuter" value="5mil"/>
+<param name="rlMaxMicroViaOuter" value="20mil"/>
+<param name="rlMinMicroViaInner" value="5mil"/>
+<param name="rlMaxMicroViaInner" value="20mil"/>
+<param name="psTop" value="-1"/>
+<param name="psBottom" value="-1"/>
+<param name="psFirst" value="-1"/>
+<param name="psElongationLong" value="100"/>
+<param name="psElongationOffset" value="100"/>
+<param name="mvStopFrame" value="1"/>
+<param name="mvCreamFrame" value="0"/>
+<param name="mlMinStopFrame" value="2.5mil"/>
+<param name="mlMaxStopFrame" value="2.5mil"/>
+<param name="mlMinCreamFrame" value="0mil"/>
+<param name="mlMaxCreamFrame" value="0mil"/>
+<param name="mlViaStopLimit" value="0mil"/>
+<param name="srRoundness" value="0"/>
+<param name="srMinRoundness" value="0mil"/>
+<param name="srMaxRoundness" value="0mil"/>
+<param name="slThermalIsolate" value="10mil"/>
+<param name="slThermalsForVias" value="0"/>
+<param name="dpMaxLengthDifference" value="10mm"/>
+<param name="dpGapFactor" value="2.5"/>
+<param name="checkAngle" value="0"/>
+<param name="checkFont" value="1"/>
+<param name="checkRestrict" value="1"/>
+<param name="checkStop" value="0"/>
+<param name="checkValues" value="0"/>
+<param name="checkNames" value="1"/>
+<param name="checkWireStubs" value="1"/>
+<param name="checkPolygonWidth" value="0"/>
+<param name="useDiameter" value="13"/>
+<param name="maxErrors" value="50"/>
+</designrules>
+<autorouter>
+<pass name="Default">
+<param name="RoutingGrid" value="50mil"/>
+<param name="AutoGrid" value="1"/>
+<param name="Efforts" value="0"/>
+<param name="TopRouterVariant" value="1"/>
+<param name="tpViaShape" value="round"/>
+<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.2" value="0"/>
+<param name="PrefDir.3" value="0"/>
+<param name="PrefDir.4" value="0"/>
+<param name="PrefDir.5" value="0"/>
+<param name="PrefDir.6" value="0"/>
+<param name="PrefDir.7" value="0"/>
+<param name="PrefDir.8" value="0"/>
+<param name="PrefDir.9" value="0"/>
+<param name="PrefDir.10" value="0"/>
+<param name="PrefDir.11" value="0"/>
+<param name="PrefDir.12" value="0"/>
+<param name="PrefDir.13" value="0"/>
+<param name="PrefDir.14" value="0"/>
+<param name="PrefDir.15" value="0"/>
+<param name="PrefDir.16" value="a"/>
+<param name="cfVia" value="8"/>
+<param name="cfNonPref" value="5"/>
+<param name="cfChangeDir" value="2"/>
+<param name="cfOrthStep" value="2"/>
+<param name="cfDiagStep" value="3"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="1"/>
+<param name="cfMalusStep" value="1"/>
+<param name="cfPadImpact" value="4"/>
+<param name="cfSmdImpact" value="4"/>
+<param name="cfBusImpact" value="0"/>
+<param name="cfHugging" value="3"/>
+<param name="cfAvoid" value="4"/>
+<param name="cfPolygon" value="10"/>
+<param name="cfBase.1" value="0"/>
+<param name="cfBase.2" value="1"/>
+<param name="cfBase.3" value="1"/>
+<param name="cfBase.4" value="1"/>
+<param name="cfBase.5" value="1"/>
+<param name="cfBase.6" value="1"/>
+<param name="cfBase.7" value="1"/>
+<param name="cfBase.8" value="1"/>
+<param name="cfBase.9" value="1"/>
+<param name="cfBase.10" value="1"/>
+<param name="cfBase.11" value="1"/>
+<param name="cfBase.12" value="1"/>
+<param name="cfBase.13" value="1"/>
+<param name="cfBase.14" value="1"/>
+<param name="cfBase.15" value="1"/>
+<param name="cfBase.16" value="0"/>
+<param name="mnVias" value="20"/>
+<param name="mnSegments" value="9999"/>
+<param name="mnExtdSteps" value="9999"/>
+<param name="mnRipupLevel" value="10"/>
+<param name="mnRipupSteps" value="100"/>
+<param name="mnRipupTotal" value="100"/>
+</pass>
+<pass name="Follow-me" refer="Default" active="yes">
+</pass>
+<pass name="Busses" refer="Default" active="yes">
+<param name="cfNonPref" value="4"/>
+<param name="cfBusImpact" value="4"/>
+<param name="cfHugging" value="0"/>
+<param name="mnVias" value="0"/>
+</pass>
+<pass name="Route" refer="Default" active="yes">
+</pass>
+<pass name="Optimize1" refer="Default" active="yes">
+<param name="cfVia" value="99"/>
+<param name="cfExtdStep" value="10"/>
+<param name="cfHugging" value="1"/>
+<param name="mnExtdSteps" value="1"/>
+<param name="mnRipupLevel" value="0"/>
+</pass>
+<pass name="Optimize2" refer="Optimize1" active="yes">
+<param name="cfNonPref" value="0"/>
+<param name="cfChangeDir" value="6"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="2"/>
+<param name="cfMalusStep" value="2"/>
+<param name="cfPadImpact" value="2"/>
+<param name="cfSmdImpact" value="2"/>
+<param name="cfHugging" value="0"/>
+</pass>
+<pass name="Optimize3" refer="Optimize2" active="yes">
+<param name="cfChangeDir" value="8"/>
+<param name="cfPadImpact" value="0"/>
+<param name="cfSmdImpact" value="0"/>
+</pass>
+<pass name="Optimize4" refer="Optimize3" active="yes">
+<param name="cfChangeDir" value="25"/>
+</pass>
+</autorouter>
+<elements>
+<element name="GND_HEAT1" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="8.89" y="1.27" smashed="yes">
+<attribute name="VALUE" x="7.63" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT1" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="6.35" y="1.27" smashed="yes">
+<attribute name="VALUE" x="5.09" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM1" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="1.778" smashed="yes">
+<attribute name="VALUE" x="0.645" y="-0.137" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM1" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="8.128" smashed="yes">
+<attribute name="VALUE" x="0.645" y="6.213" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME1" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="2.54" smashed="yes">
+<attribute name="VALUE" x="3.82" y="0.625" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_NICHROME1" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="19.05" smashed="yes">
+<attribute name="VALUE" x="3.82" y="17.135" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="THERM1" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="5.08" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="4.445" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT2" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="16.51" y="1.27" smashed="yes">
+<attribute name="VALUE" x="15.25" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT2" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="13.97" y="1.27" smashed="yes">
+<attribute name="VALUE" x="12.71" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM2" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="12.192" smashed="yes">
+<attribute name="VALUE" x="0.645" y="10.277" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM2" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="18.288" smashed="yes">
+<attribute name="VALUE" x="0.645" y="16.373" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME2" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="2.54" smashed="yes"/>
+<element name="GND_NICHROME2" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="19.05" smashed="yes"/>
+<element name="THERM2" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="15.367" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="14.732" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT3" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="8.89" y="21.59" smashed="yes">
+<attribute name="VALUE" x="7.63" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT3" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="6.35" y="21.59" smashed="yes">
+<attribute name="VALUE" x="5.09" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM3" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="22.352" smashed="yes">
+<attribute name="VALUE" x="0.645" y="20.437" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM3" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="28.448" smashed="yes">
+<attribute name="VALUE" x="0.645" y="26.533" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME3" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="22.86" smashed="yes"/>
+<element name="GND_NICHROME3" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="39.37" smashed="yes"/>
+<element name="THERM3" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="25.4" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="24.765" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT4" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="6.223" y="42.037" smashed="yes">
+<attribute name="VALUE" x="4.963" y="40.122" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT4" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="8.89" y="41.91" smashed="yes">
+<attribute name="VALUE" x="7.63" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM4" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="32.639" smashed="yes">
+<attribute name="VALUE" x="0.645" y="30.724" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM4" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="38.608" smashed="yes">
+<attribute name="VALUE" x="0.645" y="36.693" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME4" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="59.69" smashed="yes"/>
+<element name="GND_NICHROME4" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="43.18" smashed="yes"/>
+<element name="THERM4" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="35.814" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="35.179" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT5" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="6.35" y="62.23" smashed="yes">
+<attribute name="VALUE" x="5.09" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT5" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="8.89" y="62.23" smashed="yes">
+<attribute name="VALUE" x="7.63" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM5" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="42.672" smashed="yes">
+<attribute name="VALUE" x="0.645" y="40.757" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM5" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="48.768" smashed="yes">
+<attribute name="VALUE" x="0.645" y="46.853" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME5" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="80.01" smashed="yes"/>
+<element name="GND_NICHROME5" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="63.5" smashed="yes"/>
+<element name="THERM5" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="45.847" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="45.212" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT6" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="13.97" y="21.59" smashed="yes">
+<attribute name="VALUE" x="12.71" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT6" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="16.51" y="21.59" smashed="yes">
+<attribute name="VALUE" x="15.25" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM6" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="52.832" smashed="yes">
+<attribute name="VALUE" x="0.645" y="50.917" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM6" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="58.928" smashed="yes">
+<attribute name="VALUE" x="0.645" y="57.013" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME6" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="39.37" smashed="yes"/>
+<element name="GND_NICHROME6" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="22.86" smashed="yes"/>
+<element name="THERM6" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="56.007" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="55.372" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT7" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="13.97" y="41.91" smashed="yes">
+<attribute name="VALUE" x="12.71" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT7" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="16.51" y="41.91" smashed="yes">
+<attribute name="VALUE" x="15.25" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM7" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="62.992" smashed="yes">
+<attribute name="VALUE" x="0.645" y="61.077" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM7" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="69.088" smashed="yes">
+<attribute name="VALUE" x="0.645" y="67.173" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME7" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="59.69" smashed="yes"/>
+<element name="GND_NICHROME7" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="43.18" smashed="yes"/>
+<element name="THERM7" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="66.167" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="65.532" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT8" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="13.97" y="62.23" smashed="yes">
+<attribute name="VALUE" x="12.71" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT8" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="16.51" y="62.23" smashed="yes">
+<attribute name="VALUE" x="15.25" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM8" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="73.152" smashed="yes">
+<attribute name="VALUE" x="0.645" y="71.237" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM8" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="79.248" smashed="yes">
+<attribute name="VALUE" x="0.645" y="77.333" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME8" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="80.01" smashed="yes"/>
+<element name="GND_NICHROME8" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="63.5" smashed="yes"/>
+<element name="THERM8" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="76.2" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="75.565" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT9" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="21.59" y="1.27" smashed="yes">
+<attribute name="VALUE" x="20.33" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT9" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="24.13" y="1.27" smashed="yes">
+<attribute name="VALUE" x="22.87" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM9" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="1.905" smashed="yes">
+<attribute name="VALUE" x="34.935" y="-0.01" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM9" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="8.128" smashed="yes">
+<attribute name="VALUE" x="34.935" y="6.213" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME9" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="19.05" smashed="yes"/>
+<element name="GND_NICHROME9" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="2.54" smashed="yes"/>
+<element name="THERM9" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="5.08" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="4.445" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT10" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="21.59" y="21.59" smashed="yes">
+<attribute name="VALUE" x="20.33" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT10" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="24.13" y="21.59" smashed="yes">
+<attribute name="VALUE" x="22.87" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM10" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="12.192" smashed="yes">
+<attribute name="VALUE" x="34.935" y="10.277" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM10" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="18.288" smashed="yes">
+<attribute name="VALUE" x="34.935" y="16.373" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME10" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="39.37" smashed="yes"/>
+<element name="GND_NICHROME10" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="22.86" smashed="yes"/>
+<element name="THERM10" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="15.494" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="14.859" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT11" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="21.59" y="41.91" smashed="yes">
+<attribute name="VALUE" x="20.33" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT11" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="24.13" y="41.91" smashed="yes">
+<attribute name="VALUE" x="22.87" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM11" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.322" y="22.352" smashed="yes">
+<attribute name="VALUE" x="35.062" y="20.437" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM11" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.322" y="28.321" smashed="yes">
+<attribute name="VALUE" x="35.062" y="26.406" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME11" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="59.69" smashed="yes"/>
+<element name="GND_NICHROME11" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="43.18" smashed="yes"/>
+<element name="THERM11" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.322" y="25.527" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.227" y="24.892" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT12" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="21.59" y="62.23" smashed="yes">
+<attribute name="VALUE" x="20.33" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT12" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="24.13" y="62.23" smashed="yes">
+<attribute name="VALUE" x="22.87" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM12" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="32.512" smashed="yes">
+<attribute name="VALUE" x="34.935" y="30.597" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM12" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="38.608" smashed="yes">
+<attribute name="VALUE" x="34.935" y="36.693" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME12" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="80.01" smashed="yes"/>
+<element name="GND_NICHROME12" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="63.5" smashed="yes"/>
+<element name="THERM12" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="35.687" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="35.052" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT13" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="29.21" y="1.27" smashed="yes">
+<attribute name="VALUE" x="27.95" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT13" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="31.75" y="1.27" smashed="yes">
+<attribute name="VALUE" x="30.49" y="-0.645" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM13" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="42.672" smashed="yes">
+<attribute name="VALUE" x="34.935" y="40.757" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM13" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="48.768" smashed="yes">
+<attribute name="VALUE" x="34.935" y="46.853" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME13" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="19.05" smashed="yes"/>
+<element name="GND_NICHROME13" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="2.54" smashed="yes"/>
+<element name="THERM13" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="45.847" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="45.212" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT14" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="29.21" y="21.59" smashed="yes">
+<attribute name="VALUE" x="27.95" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT14" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="31.75" y="21.59" smashed="yes">
+<attribute name="VALUE" x="30.49" y="19.675" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM14" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="52.832" smashed="yes">
+<attribute name="VALUE" x="34.935" y="50.917" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM14" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="58.928" smashed="yes">
+<attribute name="VALUE" x="34.935" y="57.013" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME14" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="39.37" smashed="yes"/>
+<element name="GND_NICHROME14" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="22.86" smashed="yes"/>
+<element name="THERM14" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="55.88" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="55.245" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT15" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="29.21" y="41.91" smashed="yes">
+<attribute name="VALUE" x="27.95" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT15" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="31.75" y="41.91" smashed="yes">
+<attribute name="VALUE" x="30.49" y="39.995" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="U$30" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="62.992" smashed="yes">
+<attribute name="VALUE" x="34.935" y="61.077" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM15" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="69.088" smashed="yes">
+<attribute name="VALUE" x="34.935" y="67.173" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME15" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="59.69" smashed="yes"/>
+<element name="GND_NICHROME15" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="43.18" smashed="yes"/>
+<element name="THERM15" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="65.913" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="65.278" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT16" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="29.21" y="62.23" smashed="yes">
+<attribute name="VALUE" x="27.95" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT16" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="31.75" y="62.23" smashed="yes">
+<attribute name="VALUE" x="30.49" y="60.315" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM16" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="73.152" smashed="yes">
+<attribute name="VALUE" x="34.935" y="71.237" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM16" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="79.248" smashed="yes">
+<attribute name="VALUE" x="34.935" y="77.333" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME16" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="80.01" smashed="yes"/>
+<element name="GND_NICHROME16" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="63.5" smashed="yes"/>
+<element name="THERM16" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="76.327" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="75.692" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT17" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="13.97" y="82.55" smashed="yes">
+<attribute name="VALUE" x="12.71" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT17" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="16.51" y="82.55" smashed="yes">
+<attribute name="VALUE" x="15.25" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM17" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="83.312" smashed="yes">
+<attribute name="VALUE" x="0.645" y="81.397" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM17" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="89.408" smashed="yes">
+<attribute name="VALUE" x="0.645" y="87.493" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME17" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="100.33" smashed="yes"/>
+<element name="GND_NICHROME17" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="12.7" y="83.82" smashed="yes"/>
+<element name="THERM17" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="86.487" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="85.852" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT18" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="6.35" y="82.55" smashed="yes">
+<attribute name="VALUE" x="5.09" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT18" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="8.89" y="82.55" smashed="yes">
+<attribute name="VALUE" x="7.63" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM18" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="93.472" smashed="yes">
+<attribute name="VALUE" x="0.645" y="91.557" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM18" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="1.905" y="99.695" smashed="yes">
+<attribute name="VALUE" x="0.645" y="97.78" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME18" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="100.33" smashed="yes"/>
+<element name="GND_NICHROME18" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="5.08" y="83.82" smashed="yes"/>
+<element name="THERM18" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="1.905" y="96.647" smashed="yes" rot="R90">
+<attribute name="VALUE" x="3.81" y="96.012" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT19" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="21.59" y="82.55" smashed="yes">
+<attribute name="VALUE" x="20.33" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT19" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="24.13" y="82.55" smashed="yes">
+<attribute name="VALUE" x="22.87" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM19" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="83.312" smashed="yes">
+<attribute name="VALUE" x="34.935" y="81.397" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM19" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="89.408" smashed="yes">
+<attribute name="VALUE" x="34.935" y="87.493" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME19" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="100.33" smashed="yes"/>
+<element name="GND_NICHROME19" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="20.32" y="83.82" smashed="yes"/>
+<element name="THERM19" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="86.36" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="85.725" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="GND_HEAT20" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="29.21" y="82.55" smashed="yes">
+<attribute name="VALUE" x="27.95" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_HEAT20" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="31.75" y="82.55" smashed="yes">
+<attribute name="VALUE" x="30.49" y="80.635" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="GND_THERM20" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="93.345" smashed="yes">
+<attribute name="VALUE" x="34.935" y="91.43" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VCC_THERM20" library="miller" package="1X01_SMALL" value="PINHD-1X1SMALL" x="36.195" y="99.695" smashed="yes">
+<attribute name="VALUE" x="34.935" y="97.78" size="0.6096" layer="27" font="vector" ratio="10"/>
+</element>
+<element name="VRAW_NICHROME20" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="100.33" smashed="yes"/>
+<element name="GND_NICHROME20" library="miller" package="1X01_SMALL_0.7" value="PINHD-1X10.7MM_DRILL" x="27.94" y="83.82" smashed="yes"/>
+<element name="THERM20" library="miller" package="R0603_THERMISTOR" value="10K_NTC" x="36.195" y="96.774" smashed="yes" rot="R90">
+<attribute name="VALUE" x="38.1" y="96.139" size="1.27" layer="27" rot="R90"/>
+</element>
+</elements>
+<signals>
+<signal name="VCC_THERM1">
+<contactref element="VCC_THERM1" pad="1"/>
+<contactref element="THERM1" pad="2"/>
+<wire x1="1.905" y1="8.128" x2="1.905" y2="5.93" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM1">
+<contactref element="GND_THERM1" pad="1"/>
+<contactref element="THERM1" pad="1"/>
+<wire x1="1.905" y1="1.778" x2="1.905" y2="4.23" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM2">
+<contactref element="GND_THERM2" pad="1"/>
+<contactref element="THERM2" pad="1"/>
+<wire x1="1.905" y1="12.192" x2="1.905" y2="14.517" width="0.1524" layer="1"/>
+</signal>
+<signal name="VCC_THERM2">
+<contactref element="VCC_THERM2" pad="1"/>
+<contactref element="THERM2" pad="2"/>
+<wire x1="1.905" y1="18.288" x2="1.905" y2="16.217" width="0.1524" layer="1"/>
+</signal>
+<signal name="GND_HEAT3">
+<contactref element="GND_NICHROME3" pad="P$1"/>
+<contactref element="GND_HEAT3" pad="1"/>
+<wire x1="5.08" y1="39.37" x2="7.62" y2="36.83" width="0.508" layer="1"/>
+<wire x1="7.62" y1="36.83" x2="7.62" y2="22.86" width="0.508" layer="1"/>
+<wire x1="7.62" y1="22.86" x2="8.89" y2="21.59" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT3">
+<contactref element="VRAW_NICHROME3" pad="P$1"/>
+<contactref element="VRAW_HEAT3" pad="1"/>
+<wire x1="5.08" y1="22.86" x2="6.35" y2="21.59" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM3">
+<contactref element="GND_THERM3" pad="1"/>
+<contactref element="THERM3" pad="1"/>
+<wire x1="1.905" y1="22.352" x2="1.905" y2="24.55" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM3">
+<contactref element="VCC_THERM3" pad="1"/>
+<contactref element="THERM3" pad="2"/>
+<wire x1="1.905" y1="28.448" x2="1.905" y2="26.25" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_HEAT2">
+<contactref element="GND_NICHROME2" pad="P$1"/>
+<contactref element="GND_HEAT2" pad="1"/>
+<wire x1="15.24" y1="2.413" x2="15.24" y2="16.51" width="0.508" layer="1"/>
+<wire x1="15.24" y1="2.413" x2="16.383" y2="1.27" width="0.508" layer="1"/>
+<wire x1="16.383" y1="1.27" x2="16.51" y2="1.27" width="0.508" layer="1"/>
+<wire x1="15.24" y1="16.51" x2="12.7" y2="19.05" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT2">
+<contactref element="VRAW_NICHROME2" pad="P$1"/>
+<contactref element="VRAW_HEAT2" pad="1"/>
+<wire x1="13.97" y1="1.27" x2="12.7" y2="2.54" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT1">
+<contactref element="GND_NICHROME1" pad="P$1"/>
+<contactref element="GND_HEAT1" pad="1"/>
+<wire x1="7.62" y1="2.54" x2="7.62" y2="16.51" width="0.508" layer="1"/>
+<wire x1="7.62" y1="2.54" x2="8.89" y2="1.27" width="0.508" layer="1"/>
+<wire x1="7.62" y1="16.51" x2="5.08" y2="19.05" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT1">
+<contactref element="VRAW_NICHROME1" pad="P$1"/>
+<contactref element="VRAW_HEAT1" pad="1"/>
+<wire x1="6.35" y1="1.27" x2="5.08" y2="2.54" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT4">
+<contactref element="VRAW_HEAT4" pad="1"/>
+<contactref element="VRAW_NICHROME4" pad="P$1"/>
+<wire x1="5.08" y1="59.69" x2="7.62" y2="57.15" width="0.508" layer="1"/>
+<wire x1="7.62" y1="57.15" x2="7.62" y2="43.18" width="0.508" layer="1"/>
+<wire x1="7.62" y1="43.18" x2="8.89" y2="41.91" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT4">
+<contactref element="GND_HEAT4" pad="1"/>
+<contactref element="GND_NICHROME4" pad="P$1"/>
+<wire x1="6.223" y1="42.037" x2="5.08" y2="43.18" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM4">
+<contactref element="GND_THERM4" pad="1"/>
+<contactref element="THERM4" pad="1"/>
+<wire x1="1.905" y1="32.639" x2="1.905" y2="34.964" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM4">
+<contactref element="VCC_THERM4" pad="1"/>
+<contactref element="THERM4" pad="2"/>
+<wire x1="1.905" y1="38.608" x2="1.905" y2="36.664" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT5">
+<contactref element="VRAW_HEAT5" pad="1"/>
+<contactref element="VRAW_NICHROME5" pad="P$1"/>
+<wire x1="5.08" y1="80.01" x2="7.62" y2="77.47" width="0.508" layer="1"/>
+<wire x1="7.62" y1="77.47" x2="7.62" y2="63.5" width="0.508" layer="1"/>
+<wire x1="7.62" y1="63.5" x2="8.89" y2="62.23" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT5">
+<contactref element="GND_HEAT5" pad="1"/>
+<contactref element="GND_NICHROME5" pad="P$1"/>
+<wire x1="6.35" y1="62.23" x2="5.08" y2="63.5" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM5">
+<contactref element="GND_THERM5" pad="1"/>
+<contactref element="THERM5" pad="1"/>
+<wire x1="1.905" y1="42.672" x2="1.905" y2="44.997" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM5">
+<contactref element="VCC_THERM5" pad="1"/>
+<contactref element="THERM5" pad="2"/>
+<wire x1="1.905" y1="48.768" x2="1.905" y2="46.697" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT6">
+<contactref element="VRAW_HEAT6" pad="1"/>
+<contactref element="VRAW_NICHROME6" pad="P$1"/>
+<wire x1="12.7" y1="39.37" x2="15.24" y2="36.83" width="0.508" layer="1"/>
+<wire x1="15.24" y1="36.83" x2="15.24" y2="22.86" width="0.508" layer="1"/>
+<wire x1="15.24" y1="22.86" x2="16.51" y2="21.59" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT6">
+<contactref element="GND_HEAT6" pad="1"/>
+<contactref element="GND_NICHROME6" pad="P$1"/>
+<wire x1="13.97" y1="21.59" x2="12.7" y2="22.86" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT7">
+<contactref element="VRAW_HEAT7" pad="1"/>
+<contactref element="VRAW_NICHROME7" pad="P$1"/>
+<wire x1="12.7" y1="59.69" x2="15.24" y2="57.15" width="0.508" layer="1"/>
+<wire x1="15.24" y1="57.15" x2="15.24" y2="43.18" width="0.508" layer="1"/>
+<wire x1="15.24" y1="43.18" x2="16.51" y2="41.91" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT7">
+<contactref element="GND_HEAT7" pad="1"/>
+<contactref element="GND_NICHROME7" pad="P$1"/>
+<wire x1="13.97" y1="41.91" x2="12.7" y2="43.18" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM7">
+<contactref element="GND_THERM7" pad="1"/>
+<contactref element="THERM7" pad="1"/>
+<wire x1="1.905" y1="62.992" x2="1.905" y2="65.317" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM7">
+<contactref element="VCC_THERM7" pad="1"/>
+<contactref element="THERM7" pad="2"/>
+<wire x1="1.905" y1="69.088" x2="1.905" y2="67.017" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT8">
+<contactref element="VRAW_HEAT8" pad="1"/>
+<contactref element="VRAW_NICHROME8" pad="P$1"/>
+<wire x1="12.7" y1="80.01" x2="15.24" y2="77.47" width="0.508" layer="1"/>
+<wire x1="15.24" y1="77.47" x2="15.24" y2="63.5" width="0.508" layer="1"/>
+<wire x1="15.24" y1="63.5" x2="16.51" y2="62.23" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT8">
+<contactref element="GND_HEAT8" pad="1"/>
+<contactref element="GND_NICHROME8" pad="P$1"/>
+<wire x1="13.97" y1="62.23" x2="12.7" y2="63.5" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM8">
+<contactref element="GND_THERM8" pad="1"/>
+<contactref element="THERM8" pad="1"/>
+<wire x1="1.905" y1="73.152" x2="1.905" y2="75.35" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM8">
+<contactref element="VCC_THERM8" pad="1"/>
+<contactref element="THERM8" pad="2"/>
+<wire x1="1.905" y1="79.248" x2="1.905" y2="77.05" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM6">
+<contactref element="VCC_THERM6" pad="1"/>
+<contactref element="THERM6" pad="2"/>
+<wire x1="1.905" y1="58.928" x2="1.905" y2="56.857" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM6">
+<contactref element="GND_THERM6" pad="1"/>
+<contactref element="THERM6" pad="1"/>
+<wire x1="1.905" y1="52.832" x2="1.905" y2="55.157" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM12">
+<contactref element="GND_THERM12" pad="1"/>
+<contactref element="THERM12" pad="1"/>
+<wire x1="36.195" y1="32.512" x2="36.195" y2="34.837" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM12">
+<contactref element="VCC_THERM12" pad="1"/>
+<contactref element="THERM12" pad="2"/>
+<wire x1="36.195" y1="38.608" x2="36.195" y2="36.537" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_HEAT12">
+<contactref element="GND_NICHROME12" pad="P$1"/>
+<contactref element="GND_HEAT12" pad="1"/>
+<wire x1="21.59" y1="62.23" x2="20.32" y2="63.5" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT12">
+<contactref element="VRAW_NICHROME12" pad="P$1"/>
+<contactref element="VRAW_HEAT12" pad="1"/>
+<wire x1="20.32" y1="80.01" x2="22.86" y2="77.47" width="0.508" layer="1"/>
+<wire x1="22.86" y1="77.47" x2="22.86" y2="63.5" width="0.508" layer="1"/>
+<wire x1="22.86" y1="63.5" x2="24.13" y2="62.23" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM11">
+<contactref element="GND_THERM11" pad="1"/>
+<contactref element="THERM11" pad="1"/>
+<wire x1="36.322" y1="22.352" x2="36.322" y2="24.677" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM11">
+<contactref element="VCC_THERM11" pad="1"/>
+<contactref element="THERM11" pad="2"/>
+<wire x1="36.322" y1="28.321" x2="36.322" y2="26.377" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_HEAT11">
+<contactref element="GND_NICHROME11" pad="P$1"/>
+<contactref element="GND_HEAT11" pad="1"/>
+<wire x1="21.59" y1="41.91" x2="20.32" y2="43.18" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT11">
+<contactref element="VRAW_NICHROME11" pad="P$1"/>
+<contactref element="VRAW_HEAT11" pad="1"/>
+<wire x1="20.32" y1="59.69" x2="22.86" y2="57.15" width="0.508" layer="1"/>
+<wire x1="22.86" y1="57.15" x2="22.86" y2="43.18" width="0.508" layer="1"/>
+<wire x1="22.86" y1="43.18" x2="24.13" y2="41.91" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM10">
+<contactref element="GND_THERM10" pad="1"/>
+<contactref element="THERM10" pad="1"/>
+<wire x1="36.195" y1="12.192" x2="36.195" y2="14.644" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM10">
+<contactref element="VCC_THERM10" pad="1"/>
+<contactref element="THERM10" pad="2"/>
+<wire x1="36.195" y1="18.288" x2="36.195" y2="16.344" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_HEAT10">
+<contactref element="GND_NICHROME10" pad="P$1"/>
+<contactref element="GND_HEAT10" pad="1"/>
+<wire x1="21.59" y1="21.59" x2="20.32" y2="22.86" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT10">
+<contactref element="VRAW_NICHROME10" pad="P$1"/>
+<contactref element="VRAW_HEAT10" pad="1"/>
+<wire x1="20.32" y1="39.37" x2="22.86" y2="36.83" width="0.508" layer="1"/>
+<wire x1="22.86" y1="36.83" x2="22.86" y2="22.86" width="0.508" layer="1"/>
+<wire x1="22.86" y1="22.86" x2="24.13" y2="21.59" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM9">
+<contactref element="GND_THERM9" pad="1"/>
+<contactref element="THERM9" pad="1"/>
+<wire x1="36.195" y1="1.905" x2="36.195" y2="4.23" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM9">
+<contactref element="VCC_THERM9" pad="1"/>
+<contactref element="THERM9" pad="2"/>
+<wire x1="36.195" y1="8.128" x2="36.195" y2="5.93" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_HEAT9">
+<contactref element="GND_NICHROME9" pad="P$1"/>
+<contactref element="GND_HEAT9" pad="1"/>
+<wire x1="21.59" y1="1.27" x2="20.32" y2="2.54" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT9">
+<contactref element="VRAW_NICHROME9" pad="P$1"/>
+<contactref element="VRAW_HEAT9" pad="1"/>
+<wire x1="20.32" y1="19.05" x2="22.86" y2="16.51" width="0.508" layer="1"/>
+<wire x1="22.86" y1="16.51" x2="22.86" y2="2.54" width="0.508" layer="1"/>
+<wire x1="22.86" y1="2.54" x2="24.13" y2="1.27" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT13">
+<contactref element="VRAW_HEAT13" pad="1"/>
+<contactref element="VRAW_NICHROME13" pad="P$1"/>
+<wire x1="27.94" y1="19.05" x2="30.48" y2="16.51" width="0.508" layer="1"/>
+<wire x1="30.48" y1="16.51" x2="30.48" y2="2.54" width="0.508" layer="1"/>
+<wire x1="30.48" y1="2.54" x2="31.75" y2="1.27" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT13">
+<contactref element="GND_HEAT13" pad="1"/>
+<contactref element="GND_NICHROME13" pad="P$1"/>
+<wire x1="29.21" y1="1.27" x2="27.94" y2="2.54" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM13">
+<contactref element="GND_THERM13" pad="1"/>
+<contactref element="THERM13" pad="1"/>
+<wire x1="36.195" y1="42.672" x2="36.195" y2="44.997" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM13">
+<contactref element="VCC_THERM13" pad="1"/>
+<contactref element="THERM13" pad="2"/>
+<wire x1="36.195" y1="48.768" x2="36.195" y2="46.697" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT14">
+<contactref element="VRAW_HEAT14" pad="1"/>
+<contactref element="VRAW_NICHROME14" pad="P$1"/>
+<wire x1="27.94" y1="39.37" x2="30.48" y2="36.83" width="0.508" layer="1"/>
+<wire x1="30.48" y1="36.83" x2="30.48" y2="22.86" width="0.508" layer="1"/>
+<wire x1="30.48" y1="22.86" x2="31.75" y2="21.59" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT14">
+<contactref element="GND_HEAT14" pad="1"/>
+<contactref element="GND_NICHROME14" pad="P$1"/>
+<wire x1="29.21" y1="21.59" x2="27.94" y2="22.86" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM14">
+<contactref element="GND_THERM14" pad="1"/>
+<contactref element="THERM14" pad="1"/>
+<wire x1="36.195" y1="52.832" x2="36.195" y2="55.03" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM14">
+<contactref element="VCC_THERM14" pad="1"/>
+<contactref element="THERM14" pad="2"/>
+<wire x1="36.195" y1="58.928" x2="36.195" y2="56.73" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT15">
+<contactref element="VRAW_HEAT15" pad="1"/>
+<contactref element="VRAW_NICHROME15" pad="P$1"/>
+<wire x1="27.94" y1="59.69" x2="30.48" y2="57.15" width="0.508" layer="1"/>
+<wire x1="30.48" y1="57.15" x2="30.48" y2="43.18" width="0.508" layer="1"/>
+<wire x1="30.48" y1="43.18" x2="31.75" y2="41.91" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT15">
+<contactref element="GND_HEAT15" pad="1"/>
+<contactref element="GND_NICHROME15" pad="P$1"/>
+<wire x1="29.21" y1="41.91" x2="27.94" y2="43.18" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT16">
+<contactref element="VRAW_HEAT16" pad="1"/>
+<contactref element="VRAW_NICHROME16" pad="P$1"/>
+<wire x1="27.94" y1="80.01" x2="30.48" y2="77.47" width="0.508" layer="1"/>
+<wire x1="30.48" y1="77.47" x2="30.48" y2="63.5" width="0.508" layer="1"/>
+<wire x1="30.48" y1="63.5" x2="31.75" y2="62.23" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT16">
+<contactref element="GND_HEAT16" pad="1"/>
+<contactref element="GND_NICHROME16" pad="P$1"/>
+<wire x1="29.21" y1="62.23" x2="27.94" y2="63.5" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM16">
+<contactref element="GND_THERM16" pad="1"/>
+<contactref element="THERM16" pad="1"/>
+<wire x1="36.195" y1="73.152" x2="36.195" y2="75.477" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM16">
+<contactref element="VCC_THERM16" pad="1"/>
+<contactref element="THERM16" pad="2"/>
+<wire x1="36.195" y1="79.248" x2="36.195" y2="77.177" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM15">
+<contactref element="VCC_THERM15" pad="1"/>
+<contactref element="THERM15" pad="2"/>
+<wire x1="36.195" y1="69.088" x2="36.195" y2="66.763" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM15">
+<contactref element="U$30" pad="1"/>
+<contactref element="THERM15" pad="1"/>
+<wire x1="36.195" y1="62.992" x2="36.195" y2="65.063" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT17">
+<contactref element="VRAW_HEAT17" pad="1"/>
+<contactref element="VRAW_NICHROME17" pad="P$1"/>
+<wire x1="12.7" y1="100.33" x2="15.24" y2="97.79" width="0.508" layer="1"/>
+<wire x1="15.24" y1="97.79" x2="15.24" y2="83.82" width="0.508" layer="1"/>
+<wire x1="15.24" y1="83.82" x2="16.51" y2="82.55" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT17">
+<contactref element="GND_HEAT17" pad="1"/>
+<contactref element="GND_NICHROME17" pad="P$1"/>
+<wire x1="13.97" y1="82.55" x2="12.7" y2="83.82" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM17">
+<contactref element="GND_THERM17" pad="1"/>
+<contactref element="THERM17" pad="1"/>
+<wire x1="1.905" y1="83.312" x2="1.905" y2="85.637" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM17">
+<contactref element="VCC_THERM17" pad="1"/>
+<contactref element="THERM17" pad="2"/>
+<wire x1="1.905" y1="89.408" x2="1.905" y2="87.337" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT18">
+<contactref element="VRAW_HEAT18" pad="1"/>
+<contactref element="VRAW_NICHROME18" pad="P$1"/>
+<wire x1="5.08" y1="100.33" x2="7.62" y2="97.79" width="0.508" layer="1"/>
+<wire x1="7.62" y1="97.79" x2="7.62" y2="83.82" width="0.508" layer="1"/>
+<wire x1="7.62" y1="83.82" x2="8.89" y2="82.55" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT18">
+<contactref element="GND_HEAT18" pad="1"/>
+<contactref element="GND_NICHROME18" pad="P$1"/>
+<wire x1="6.35" y1="82.55" x2="5.08" y2="83.82" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT19">
+<contactref element="GND_HEAT19" pad="1"/>
+<contactref element="GND_NICHROME19" pad="P$1"/>
+<wire x1="21.59" y1="82.55" x2="20.32" y2="83.82" width="0.508" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT19">
+<contactref element="VRAW_HEAT19" pad="1"/>
+<contactref element="VRAW_NICHROME19" pad="P$1"/>
+<wire x1="20.32" y1="100.33" x2="22.86" y2="97.79" width="0.508" layer="1"/>
+<wire x1="22.86" y1="97.79" x2="22.86" y2="83.82" width="0.508" layer="1"/>
+<wire x1="22.86" y1="83.82" x2="24.13" y2="82.55" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM18">
+<contactref element="GND_THERM18" pad="1"/>
+<contactref element="THERM18" pad="1"/>
+<wire x1="1.905" y1="93.472" x2="1.905" y2="95.797" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM18">
+<contactref element="VCC_THERM18" pad="1"/>
+<contactref element="THERM18" pad="2"/>
+<wire x1="1.905" y1="99.695" x2="1.905" y2="97.497" width="0.2" layer="1"/>
+</signal>
+<signal name="GND_THERM19">
+<contactref element="GND_THERM19" pad="1"/>
+<contactref element="THERM19" pad="1"/>
+<wire x1="36.195" y1="83.312" x2="36.195" y2="85.51" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM19">
+<contactref element="VCC_THERM19" pad="1"/>
+<contactref element="THERM19" pad="2"/>
+<wire x1="36.195" y1="89.408" x2="36.195" y2="87.21" width="0.2" layer="1"/>
+</signal>
+<signal name="VRAW_HEAT20">
+<contactref element="VRAW_HEAT20" pad="1"/>
+<contactref element="VRAW_NICHROME20" pad="P$1"/>
+<wire x1="27.94" y1="100.33" x2="30.48" y2="97.79" width="0.508" layer="1"/>
+<wire x1="30.48" y1="97.79" x2="30.48" y2="83.82" width="0.508" layer="1"/>
+<wire x1="30.48" y1="83.82" x2="31.75" y2="82.55" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_HEAT20">
+<contactref element="GND_HEAT20" pad="1"/>
+<contactref element="GND_NICHROME20" pad="P$1"/>
+<wire x1="29.21" y1="82.55" x2="27.94" y2="83.82" width="0.508" layer="1"/>
+</signal>
+<signal name="GND_THERM20">
+<contactref element="GND_THERM20" pad="1"/>
+<contactref element="THERM20" pad="1"/>
+<wire x1="36.195" y1="93.345" x2="36.195" y2="95.924" width="0.2" layer="1"/>
+</signal>
+<signal name="VCC_THERM20">
+<contactref element="VCC_THERM20" pad="1"/>
+<contactref element="THERM20" pad="2"/>
+<wire x1="36.195" y1="99.695" x2="36.195" y2="97.624" width="0.2" layer="1"/>
+</signal>
+</signals>
+<mfgpreviewcolors>
+<mfgpreviewcolor name="soldermaskcolor" color="0xC8008000"/>
+<mfgpreviewcolor name="silkscreencolor" color="0xFFFEFEFE"/>
+<mfgpreviewcolor name="backgroundcolor" color="0xFF282828"/>
+<mfgpreviewcolor name="coppercolor" color="0xFFFFBF00"/>
+<mfgpreviewcolor name="substratecolor" color="0xFF786E46"/>
+</mfgpreviewcolors>
+</board>
+</drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
+</eagle>
