@@ -1,7 +1,7 @@
 # MusselBedHeater_firmware
 Luke Miller, 2020
  Firmware and hardware for Mussel Bed Heater project that Claire Windecker carried out 
- for her Masters thesis at Cal Poly Humboldt. The project here consists of a circuit board 
+ for her Masters thesis at Cal Poly Humboldt. The project consists of a circuit board 
  design that uses Arduino software to control an ATmega328P microcontroller to carry out 
  temperature monitoring and control heated artificial mussel beds. 
  
@@ -31,7 +31,10 @@ Utility Arduino programs used to set up the boards initially are in:
 ## Heating assembly 
 
 The heated artificial mussels were built using 38 Gauge Nichrome 80 wire (14 ohm per meter) in a 
-length of 300 mm (~12 inches) wrapped around the Heater_subassembly_revA circuit board. 
+length of 300 mm (~12 inches) wrapped around the Heater_subassembly_revA circuit board. This arrangement
+should consume a maximum of about 3 Watts at 13V supply, but the circuit board is designed to pulse width
+modulate the supply voltage to the heater and provide a basic PID control algorithm to achieve a desired 
+target temperature above ambient. 
 
 ![Subassembly board](./Pictures/Heater_board_closeup_38Gauge_Nichrome80.jpg)
 
