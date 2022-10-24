@@ -27,6 +27,17 @@ Utility Arduino programs used to set up the boards initially are in:
 * serial_number_generator/
 * settime_Serial/
 
+### Reference mussels
+
+Part of the design included the need to have a reference temperature, which the heated mussels would then 
+be heated above by 2C or 6C. Reference mussels used a MAX31820 OneWire temperature sensor, which was 
+embedded in artificial epoxy mussels as well. One control board can monitor 4 reference temperature sensors. 
+The software averages the temperatures from the available reference mussels and uses that value to establish
+the 'ambient' mussel temperature. Heated mussels were then heated to a target temperature increase, 2 or 6 degrees
+Celsius above ambient. 
+
+A TO-92 package MAX31820 is shown wired into the cable that will lead back to the battery box and controller board.
+![MAX31820 sensor wiring](./Pictures/MAX31820_wiring.jpg)
 
 
 ## Heating assembly 
@@ -49,11 +60,3 @@ The thermistor and heater coil board were eventually cast into the middle of an 
 
 One control board can control up to 16 heated mussels, including measuring their thermistor temperatures.
 
-### Reference mussels
-
-Part of the design included the need to have a reference temperature, which the heated mussels would then 
-be heated above by 2C or 6C. Reference mussels used a MAX31820 OneWire temperature sensor, which was 
-embedded in artificial epoxy mussels as well. One control board can monitor 4 reference temperature sensors. 
-The software averages the temperatures from the available reference mussels and uses that value to establish
-the 'ambient' mussel temperature. Heated mussels were then heated to a target temperature increase, 2 or 6 degrees
-Celsius above ambient. 
