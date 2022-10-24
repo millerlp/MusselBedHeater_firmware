@@ -1,5 +1,6 @@
 # MusselBedHeater_firmware
 Luke Miller, 2020
+
  Firmware and hardware for Mussel Bed Heater project that Claire Windecker carried out 
  for her Masters thesis at Cal Poly Humboldt. The project consists of a circuit board 
  design that uses Arduino software to control an ATmega328P microcontroller to carry out 
@@ -38,16 +39,21 @@ target temperature above ambient.
 
 ![Subassembly board](./Pictures/Heater_board_closeup_38Gauge_Nichrome80.jpg)
 
-The cable supplying power to the heater coil also connected to a 6800 ohm 3% thermistor, which was
-used to estimate the temperature of the artificial mussel. The thermistor was wired in a half-bridge
-configured with the 4700 ohm precision resistors found on the main MusselBedHeater_RevG circuit board.
+The cable supplying power to the heater coil also connected to a 6800 ohm 3% NTC thermistor, which was
+used to measure the temperature of the artificial mussel. The thermistor was wired in a half-bridge
+configured with 4700 ohm precision resistors found on the main MusselBedHeater_RevG circuit board.
 
 ![Thermistor and heater coil board](./Pictures/Heater_prep.jpg)
 
 The thermistor and heater coil board were eventually cast into the middle of an epoxy artificial mussel. 
 
+One control board can control up to 16 heated mussels, including measuring their thermistor temperatures.
+
 ### Reference mussels
 
 Part of the design included the need to have a reference temperature, which the heated mussels would then 
 be heated above by 2C or 6C. Reference mussels used a MAX31820 OneWire temperature sensor, which was 
-embedded in artificial epoxy mussels as well. 
+embedded in artificial epoxy mussels as well. One control board can monitor 4 reference temperature sensors. 
+The software averages the temperatures from the available reference mussels and uses that value to establish
+the 'ambient' mussel temperature. Heated mussels were then heated to a target temperature increase, 2 or 6 degrees
+Celsius above ambient. 
