@@ -7,10 +7,14 @@ Luke Miller, 2020
  
 ![MusselBedHeater circuit board diagram](./Pictures/MusselBedHeater_board_diagram-01.png)
 
+## Hardware design files 
+
 Hardware_files/ contains parts lists, bill of materials, and Autocad Eagle design files. MusselBedHeater_RevG is the
 most recent version, and contains all of the modifications made to the Revision F boards that were used 
 in the field experiment. The heater sub-assembly board is in Heater_subassembly_revA.
 
+
+## Arduino software files 
 
 library_copies/ contains copies of the necessary Arduino libraries used to run the MusselBedHeater_firmware
 
@@ -42,5 +46,5 @@ The thermistor and heater coil board were eventually cast into the middle of an 
 ### Reference mussels
 
 Part of the design included the need to have a reference temperature, which the heated mussels would then 
-be heated above by 2C or 6C. Reference mussels used a MAX31820 OneWire temperature sensors, which were 
+be heated above by 2C or 6C. Reference mussels used a MAX31820 OneWire temperature sensor, which was 
 embedded in artificial epoxy mussels as well. 
