@@ -1,6 +1,8 @@
 # MusselBedHeater_firmware
 Luke Miller, 2020
 
+A permanent archive of this repository is stored in a Zenodo archive: https://doi.org/10.5281/zenodo.7246441 
+
  Firmware and hardware for Mussel Bed Heater project that Claire Windecker carried out 
  for her Masters thesis at Cal Poly Humboldt. The project consists of a circuit board 
  design that uses Arduino software to control an ATmega328P microcontroller to carry out 
