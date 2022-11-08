@@ -62,3 +62,7 @@ The thermistor and heater coil board were eventually cast into the middle of an 
 
 One control board can control up to 16 heated mussels, including measuring their thermistor temperatures.
 
+## Acknowledgements 
+Funding from the National Science Foundation grants OCE-1904184 and OCE-1904185 helped support Luke Miller 
+during the development of this hardware and software. 
+
